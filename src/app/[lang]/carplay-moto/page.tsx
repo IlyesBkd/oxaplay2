@@ -501,11 +501,9 @@ export default function CarPlayMotoPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
               </svg>
             </button>
-            
-                      </div>
+          </div>
         </div>
       </div>
-        </div>
       )}
 
       {/* Checkout Modal */}
