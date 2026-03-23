@@ -1,0 +1,101 @@
+{
+  "metadata": {
+    "title": "OxaPlay – Upgrade Your Drive",
+    "description": "Premium wireless CarPlay & Android Auto screens, plug & play. Compatible with 98% of vehicles."
+  },
+  "nav": {
+    "home": "Home",
+    "carplayVoiture": "CarPlay Car",
+    "carplayMoto": "CarPlay Motorcycle",
+    "reviews": "Reviews",
+    "faq": "FAQ",
+    "contact": "Contact"
+  },
+  "hero": {
+    "ratingText": "+2,000 satisfied customers",
+    "title1": "TRANSFORM",
+    "title2": "YOUR CAR WITH",
+    "title3": "OXAPLAY",
+    "subtitle": "Wireless CarPlay & Android Auto screen, plug-and-play. Compatible with 98% of vehicles. Install in 5 minutes.",
+    "editionVoiture": "Car Edition",
+    "editionMoto": "Motorcycle Edition"
+  },
+  "products": {
+    "badge": "Our Products",
+    "title": "Choose your CarPlay screen",
+    "subtitle": "Plug & play, wireless, compatible with 98% of vehicles.",
+    "voiture": {
+      "name": "CarPlay Car",
+      "desc": "10.26\" IPS HD panoramic screen",
+      "features": ["Wireless", "CarPlay + Android", "Plug & Play"],
+      "rating": "4.8 — 2,000+ reviews",
+      "discover": "Discover"
+    },
+    "moto": {
+      "name": "CarPlay Motorcycle",
+      "desc": "5\" compact & waterproof IP67 screen",
+      "features": ["Waterproof IP67", "Built-in GPS", "Sun readable"],
+      "rating": "4.7 — 800+ reviews",
+      "discover": "Discover"
+    },
+    "trust": {
+      "shipping": "Free 48h shipping",
+      "warranty": "2-year warranty",
+      "returns": "14-day returns",
+      "payment": "Secure payment"
+    }
+  },
+  "features": {
+    "badge": "Benefits",
+    "title": "WHY CHOOSE OXAPLAY?",
+    "subtitle": "Premium technology designed to transform your driving experience",
+    "items": [
+      { "title": "Plug & Play", "desc": "Install in 5 minutes, no complex wiring needed." },
+      { "title": "Apple CarPlay", "desc": "Wireless connection to your iPhone for GPS, music and calls." },
+      { "title": "Android Auto", "desc": "Compatible with all recent Android smartphones." },
+      { "title": "HD Touchscreen", "desc": "High definition resolution with responsive multi-touch." },
+      { "title": "Universal", "desc": "Compatible with 98% of cars and motorcycles on the market." },
+      { "title": "2-Year Warranty", "desc": "Responsive after-sales service and manufacturer warranty included." }
+    ]
+  },
+  "howItWorks": {
+    "badge": "Simplicity",
+    "title": "INSTALL IN 3 STEPS",
+    "subtitle": "No tools required. Even your grandma can do it.",
+    "steps": [
+      { "num": "1", "title": "Plug in", "desc": "Connect the screen to your vehicle's cigarette lighter." },
+      { "num": "2", "title": "Connect", "desc": "Pair your iPhone or Android via Wi-Fi/Bluetooth." },
+      { "num": "3", "title": "Enjoy", "desc": "CarPlay and Android Auto appear. Happy driving!" }
+    ]
+  },
+  "testimonials": {
+    "badge": "Social Proof",
+    "title": "CUSTOMER TESTIMONIALS",
+    "subtitle": "Discover what our customers think about their OxaPlay"
+  },
+  "faq": {
+    "title": "FREQUENTLY ASKED QUESTIONS",
+    "subtitle": "Everything you need to know before ordering"
+  },
+  "footer": {
+    "description": "The premium CarPlay & Android Auto screen for your vehicle.",
+    "navTitle": "Navigation",
+    "legalTitle": "Legal",
+    "contactTitle": "Contact",
+    "contactText": "Have a question? Our team responds within 24 hours.",
+    "copyright": "© 2025 OxaPlay. All rights reserved.",
+    "legal": {
+      "mentions": "Legal Notice",
+      "privacy": "Privacy Policy",
+      "cgv": "Terms & Conditions",
+      "returns": "Returns & Refunds"
+    }
+  },
+  "languageSwitcher": {
+    "fr": "Français",
+    "en": "English",
+    "de": "Deutsch",
+    "es": "Español",
+    "it": "Italiano"
+  }
+}

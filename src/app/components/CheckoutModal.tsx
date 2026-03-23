@@ -1,0 +1,512 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import {
+  Elements,
+  PaymentElement,
+  ExpressCheckoutElement,
+  useStripe,
+  useElements,
+} from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import Image from "next/image";
+import { usePostHog } from "posthog-js/react";
+
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
+);
+
+/* ─── Zod Schema ─── */
+const contactSchema = z.object({
+  email: z.string().email("Email invalide"),
+  firstName: z.string().min(1, "Prénom requis"),
+  lastName: z.string().min(1, "Nom requis"),
+  phone: z.string().optional(),
+  line1: z.string().min(1, "Adresse requise"),
+  line2: z.string().optional(),
+  city: z.string().min(1, "Ville requise"),
+  postalCode: z.string().min(1, "Code postal requis"),
+  country: z.string().min(1, "Pays requis"),
+});
+
+type ContactForm = z.infer<typeof contactSchema>;
+
+/* ─── Props ─── */
+interface CheckoutModalProps {
+  open: boolean;
+  onClose: () => void;
+  productSlug: string;
+  productName: string;
+  price: string;
+}
+
+/* ─── Step 2: Payment Form ─── */
+function PaymentStep({
+  onSuccess,
+}: {
+  onSuccess: () => void;
+}) {
+  const stripe = useStripe();
+  const elements = useElements();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!stripe || !elements) return;
+
+    setLoading(true);
+    setError(null);
+
+    const result = await stripe.confirmPayment({
+      elements,
+      confirmParams: {
+        return_url: `${window.location.origin}/success`,
+      },
+    });
+
+    if (result.error) {
+      setError(result.error.message || "Erreur de paiement");
+      setLoading(false);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <div>
+        <p className="text-xs font-bold text-purple-400 uppercase tracking-[0.15em] mb-4">
+          Paiement express
+        </p>
+        <ExpressCheckoutElement
+          onConfirm={async () => {
+            if (!stripe || !elements) return;
+            const { error } = await stripe.confirmPayment({
+              elements,
+              confirmParams: {
+                return_url: `${window.location.origin}/success`,
+              },
+            });
+            if (!error) onSuccess();
+          }}
+        />
+      </div>
+
+      <div className="relative">
+        <div className="absolute inset-0 flex items-center">
+          <div className="w-full border-t border-white/10" />
+        </div>
+        <div className="relative flex justify-center">
+          <span className="bg-zinc-900 px-3 text-xs text-gray-500">
+            ou payer par carte
+          </span>
+        </div>
+      </div>
+
+      <PaymentElement
+        options={{
+          layout: "tabs",
+        }}
+      />
+
+      {error && (
+        <p className="text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-4 py-2">
+          {error}
+        </p>
+      )}
+
+      <button
+        type="submit"
+        disabled={!stripe || loading}
+        className="w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-base transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_30px_-5px_rgba(168,85,247,0.4)]"
+      >
+        {loading ? (
+          <span className="flex items-center justify-center gap-2">
+            <svg
+              className="w-5 h-5 animate-spin"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+              />
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+              />
+            </svg>
+            Traitement...
+          </span>
+        ) : (
+          "Payer maintenant"
+        )}
+      </button>
+    </form>
+  );
+}
+
+/* ─── Main Modal ─── */
+export default function CheckoutModal({
+  open,
+  onClose,
+  productSlug,
+  productName,
+  price,
+}: CheckoutModalProps) {
+  const [step, setStep] = useState<1 | 2>(1);
+  const [clientSecret, setClientSecret] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const posthog = usePostHog();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ContactForm>({
+    resolver: zodResolver(contactSchema),
+    defaultValues: { country: "FR" },
+  });
+
+  // Reset on close
+  useEffect(() => {
+    if (!open) {
+      setStep(1);
+      setClientSecret(null);
+    }
+  }, [open]);
+
+  const detectCurrency = (): "eur" | "usd" => {
+    if (typeof navigator !== "undefined") {
+      const lang = navigator.language || "";
+      if (lang.includes("US") || lang.includes("en-US")) return "usd";
+    }
+    return "eur";
+  };
+
+  const onContactSubmit = async (data: ContactForm) => {
+    setLoading(true);
+    try {
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: data.email,
+          firstName: data.firstName,
+          lastName: data.lastName,
+          phone: data.phone,
+          productSlug,
+          currency: detectCurrency(),
+          shipping: {
+            line1: data.line1,
+            line2: data.line2,
+            city: data.city,
+            postalCode: data.postalCode,
+            country: data.country,
+          },
+        }),
+      });
+      const result = await res.json();
+      if (result.clientSecret) {
+        setClientSecret(result.clientSecret);
+        setStep(2);
+        
+        // Track Checkout_Step_Completed and identify user
+        if (posthog) {
+          try {
+            // Identify user with email
+            posthog.identify(data.email);
+            
+            // Track step completion
+            posthog.capture('Checkout_Step_Completed', {
+              step: 1,
+              product_name: productName,
+              email: data.email,
+            });
+          } catch (error) {
+            console.error('[PostHog] Error tracking step completion:', error);
+          }
+        }
+      } else {
+        console.error("Checkout error:", result.error);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+    setLoading(false);
+  };
+
+  const handleSuccess = () => {
+    window.location.href = "/success";
+  };
+
+  if (!open) return null;
+
+  return (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+      {/* Backdrop */}
+      <div
+        className="absolute inset-0 bg-black/80 backdrop-blur-md"
+        onClick={onClose}
+      />
+
+      {/* Modal: fullscreen mobile, centered popup desktop */}
+      <div className="relative w-full h-full md:h-auto md:max-w-2xl md:max-h-[90vh] bg-gradient-to-br from-zinc-900 via-zinc-900 to-black md:border md:border-white/10 md:rounded-3xl overflow-hidden shadow-[0_20px_80px_-20px_rgba(168,85,247,0.4)] flex flex-col">
+        {/* Close button - top right */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 sm:top-6 sm:right-6 z-20 w-11 h-11 min-h-[44px] min-w-[44px] rounded-full bg-white/5 backdrop-blur-sm border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 hover:border-purple-500/50 transition-all"
+        >
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+
+        {/* Header with gradient */}
+        <div className="relative px-8 pt-8 pb-6 border-b border-white/5">
+          <div className="absolute inset-0 bg-gradient-to-r from-purple-600/10 via-transparent to-transparent" />
+          <div className="relative">
+            <h2 className="text-2xl font-bold text-white mb-2">Finaliser votre commande</h2>
+            <div className="flex items-center gap-3">
+              <span className="text-gray-400 text-sm">{productName}</span>
+              <span className="w-1 h-1 rounded-full bg-purple-500" />
+              <span className="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                {price}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Progress Steps */}
+        <div className="px-8 py-5 bg-white/[0.02]">
+          <div className="flex items-center gap-3">
+            <div className={`flex items-center gap-2.5 transition-all ${step === 1 ? "opacity-100" : "opacity-50"}`}>
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-all ${
+                step > 1 
+                  ? "bg-green-500/20 text-green-400 border-2 border-green-500/40" 
+                  : "bg-purple-600/20 text-purple-400 border-2 border-purple-500/40"
+              }`}>
+                {step > 1 ? "✓" : "1"}
+              </div>
+              <span className="text-sm font-semibold text-white">Informations</span>
+            </div>
+            
+            <div className="flex-1 h-0.5 bg-white/10 rounded-full overflow-hidden">
+              <div className={`h-full bg-gradient-to-r from-purple-500 to-pink-500 transition-all duration-500 ${step === 2 ? "w-full" : "w-0"}`} />
+            </div>
+            
+            <div className={`flex items-center gap-2.5 transition-all ${step === 2 ? "opacity-100" : "opacity-50"}`}>
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-all ${
+                step === 2 
+                  ? "bg-purple-600/20 text-purple-400 border-2 border-purple-500/40" 
+                  : "bg-white/5 text-gray-500 border-2 border-white/10"
+              }`}>
+                2
+              </div>
+              <span className="text-sm font-semibold text-white">Paiement</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Content - scrollable */}
+        <div className="px-5 sm:px-8 pb-8 overflow-y-auto flex-1">
+          {step === 1 && (
+            <form onSubmit={handleSubmit(onContactSubmit)} className="space-y-5 pt-6">
+              {/* Contact Section */}
+              <div className="space-y-3.5">
+                <h3 className="text-sm font-bold text-purple-400 uppercase tracking-wider flex items-center gap-2">
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                  Contact
+                </h3>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <input
+                      {...register("firstName")}
+                      placeholder="Prénom *"
+                      className="w-full px-4 py-3.5 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:border-purple-500/60 focus:bg-black/60 transition-all"
+                    />
+                    {errors.firstName && (
+                      <p className="text-xs text-red-400 mt-1.5 flex items-center gap-1">
+                        <span>⚠</span> {errors.firstName.message}
+                      </p>
+                    )}
+                  </div>
+                  <div>
+                    <input
+                      {...register("lastName")}
+                      placeholder="Nom *"
+                      className="w-full px-4 py-3.5 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:border-purple-500/60 focus:bg-black/60 transition-all"
+                    />
+                    {errors.lastName && (
+                      <p className="text-xs text-red-400 mt-1.5 flex items-center gap-1">
+                        <span>⚠</span> {errors.lastName.message}
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                <div>
+                  <input
+                    {...register("email")}
+                    type="email"
+                    placeholder="Email *"
+                    className="w-full px-4 py-3.5 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:border-purple-500/60 focus:bg-black/60 transition-all"
+                  />
+                  {errors.email && (
+                    <p className="text-xs text-red-400 mt-1.5 flex items-center gap-1">
+                      <span>⚠</span> {errors.email.message}
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <input
+                    {...register("phone")}
+                    type="tel"
+                    placeholder="Téléphone (optionnel)"
+                    className="w-full px-4 py-3.5 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:border-purple-500/60 focus:bg-black/60 transition-all"
+                  />
+                </div>
+              </div>
+
+              {/* Shipping Section */}
+              <div className="space-y-3.5 pt-2">
+                <h3 className="text-sm font-bold text-purple-400 uppercase tracking-wider flex items-center gap-2">
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                  </svg>
+                  Livraison
+                </h3>
+
+                <div>
+                  <input
+                    {...register("line1")}
+                    placeholder="Adresse *"
+                    className="w-full px-4 py-3.5 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:border-purple-500/60 focus:bg-black/60 transition-all"
+                  />
+                  {errors.line1 && (
+                    <p className="text-xs text-red-400 mt-1.5 flex items-center gap-1">
+                      <span>⚠</span> {errors.line1.message}
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <input
+                    {...register("line2")}
+                    placeholder="Complément d'adresse (optionnel)"
+                    className="w-full px-4 py-3.5 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:border-purple-500/60 focus:bg-black/60 transition-all"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <input
+                      {...register("postalCode")}
+                      placeholder="Code postal *"
+                      className="w-full px-4 py-3.5 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:border-purple-500/60 focus:bg-black/60 transition-all"
+                    />
+                    {errors.postalCode && (
+                      <p className="text-xs text-red-400 mt-1.5 flex items-center gap-1">
+                        <span>⚠</span> {errors.postalCode.message}
+                      </p>
+                    )}
+                  </div>
+                  <div>
+                    <input
+                      {...register("city")}
+                      placeholder="Ville *"
+                      className="w-full px-4 py-3.5 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:border-purple-500/60 focus:bg-black/60 transition-all"
+                    />
+                    {errors.city && (
+                      <p className="text-xs text-red-400 mt-1.5 flex items-center gap-1">
+                        <span>⚠</span> {errors.city.message}
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                <div>
+                  <select
+                    {...register("country")}
+                    className="w-full px-4 py-3.5 rounded-xl bg-black/40 border border-white/10 text-white focus:outline-none focus:border-purple-500/60 focus:bg-black/60 transition-all cursor-pointer"
+                  >
+                    <option value="FR">🇫🇷 France</option>
+                    <option value="BE">🇧🇪 Belgique</option>
+                    <option value="CH">🇨🇭 Suisse</option>
+                    <option value="DE">🇩🇪 Allemagne</option>
+                    <option value="ES">🇪🇸 Espagne</option>
+                    <option value="IT">🇮🇹 Italie</option>
+                    <option value="GB">🇬🇧 Royaume-Uni</option>
+                    <option value="US">🇺🇸 États-Unis</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Submit Button */}
+              <div className="pt-4">
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-base transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_8px_30px_-8px_rgba(168,85,247,0.6)] hover:shadow-[0_8px_40px_-8px_rgba(168,85,247,0.8)] hover:scale-[1.02] active:scale-[0.98]"
+                >
+                  {loading ? (
+                    <span className="flex items-center justify-center gap-2">
+                      <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                      </svg>
+                      Chargement...
+                    </span>
+                  ) : (
+                    <span className="flex items-center justify-center gap-2">
+                      Continuer vers le paiement
+                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                      </svg>
+                    </span>
+                  )}
+                </button>
+                <div className="flex items-center justify-center mt-3">
+                  <Image src="/badges_paiement.png" alt="Paiement sécurisé" width={240} height={32} className="h-8 w-auto object-contain" />
+                </div>
+              </div>
+            </form>
+          )}
+
+          {step === 2 && clientSecret && (
+            <Elements
+              stripe={stripePromise}
+              options={{
+                clientSecret,
+                appearance: {
+                  theme: "night",
+                  variables: {
+                    colorPrimary: "#a855f7",
+                    colorBackground: "#18181b",
+                    colorText: "#ffffff",
+                    colorDanger: "#ef4444",
+                    borderRadius: "12px",
+                    fontFamily: "Poppins, sans-serif",
+                  },
+                },
+              }}
+            >
+              <PaymentStep onSuccess={handleSuccess} />
+            </Elements>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
