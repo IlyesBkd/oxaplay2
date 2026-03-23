@@ -180,7 +180,7 @@ export default function CarPlayMotoPage() {
         <div className="relative w-full lg:w-1/2 min-h-[50vh] lg:min-h-full">
           <Image
             src={GALLERY[activeImg]}
-            alt={`CarPlay Moto photo ${activeImg + 1}`}
+            alt="Écran CarPlay sans fil 5 pouces étanche IP67 pour moto - GPS et navigation"
             fill
             sizes="(max-width: 1024px) 100vw, 50vw"
             className="object-cover"
@@ -201,7 +201,7 @@ export default function CarPlayMotoPage() {
                     : "border-white/20 hover:border-white/50 opacity-70 hover:opacity-100"
                 }`}
               >
-                <Image src={src} alt={`Thumbnail ${i + 1}`} fill sizes="56px" className="object-cover" />
+                <Image src={src} alt={`Écran CarPlay moto vue ${i + 1}`} fill sizes="56px" className="object-cover" />
               </button>
             ))}
           </div>
@@ -222,7 +222,7 @@ export default function CarPlayMotoPage() {
                       : "border-white/10 hover:border-white/30"
                   }`}
                 >
-                  <Image src={src} alt={`Thumbnail ${i + 1}`} fill sizes="80px" className="object-cover" />
+                  <Image src={src} alt={`Écran CarPlay moto aperçu ${i + 1}`} fill sizes="80px" className="object-cover" />
                 </button>
               ))}
             </div>

@@ -193,7 +193,7 @@ export default function CarPlayVoiturePage() {
         <div className="relative w-full lg:w-1/2 min-h-[50vh] lg:min-h-full">
           <Image
             src={GALLERY[activeImg]}
-            alt={`CarPlay Voiture photo ${activeImg + 1}`}
+            alt="Écran CarPlay sans fil 10.26 pouces pour voiture - Installation facile"
             fill
             sizes="(max-width: 1024px) 100vw, 50vw"
             className="object-cover"
@@ -216,7 +216,7 @@ export default function CarPlayVoiturePage() {
                     : "border-white/20 hover:border-white/50 opacity-70 hover:opacity-100"
                 }`}
               >
-                <Image src={src} alt={`Thumbnail ${i + 1}`} fill sizes="56px" className="object-cover" />
+                <Image src={src} alt={`Écran CarPlay voiture vue ${i + 1}`} fill sizes="56px" className="object-cover" />
               </button>
             ))}
           </div>
@@ -237,7 +237,7 @@ export default function CarPlayVoiturePage() {
                       : "border-white/10 hover:border-white/30"
                   }`}
                 >
-                  <Image src={src} alt={`Thumbnail ${i + 1}`} fill sizes="80px" className="object-cover" />
+                  <Image src={src} alt={`Écran CarPlay voiture aperçu ${i + 1}`} fill sizes="80px" className="object-cover" />
                 </button>
               ))}
             </div>
