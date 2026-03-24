@@ -98,9 +98,13 @@ const GLOW_SM = "shadow-[0_0_20px_-5px_rgba(168,85,247,0.2)]";
    PAGE
    ═══════════════════════════════════════════════════════════ */
 export default function Home() {
-  const [prices, setPrices] = useState({
-    voiture: "149,99 €",
-    moto: "129,99 €",
+  const [loading, setLoading] = useState(true);
+  const [pricesData, setPricesData] = useState<{
+    voiture: { actual: number; original: number; discount: number } | null;
+    moto: { actual: number; original: number; discount: number } | null;
+  }>({
+    voiture: null,
+    moto: null,
   });
 
   useEffect(() => {
@@ -109,13 +113,24 @@ export default function Home() {
         const res = await fetch("/api/prices");
         if (res.ok) {
           const data = await res.json();
-          setPrices({
-            voiture: `${(data.carplayVoitureEur / 100).toFixed(2).replace(".", ",")} €`,
-            moto: `${(data.carplayMotoEur / 100).toFixed(2).replace(".", ",")} €`,
+          
+          setPricesData({
+            voiture: { 
+              actual: data.carplayVoitureEur,
+              original: data.carplayVoitureOriginalEur,
+              discount: data.carplayVoitureDiscount || 50
+            },
+            moto: { 
+              actual: data.carplayMotoEur,
+              original: data.carplayMotoOriginalEur,
+              discount: data.carplayMotoDiscount || 50
+            },
           });
         }
       } catch (err) {
         console.error("Failed to fetch prices:", err);
+      } finally {
+        setLoading(false);
       }
     }
     fetchPrices();
@@ -124,10 +139,10 @@ export default function Home() {
   return (
     <main className="w-full min-h-screen bg-black text-white overflow-x-hidden">
       <Header />
-      <Hero prices={prices} />
+      <Hero pricesData={pricesData} loading={loading} />
       <BrandStrip />
       <Testimonials />
-      <ProductsCTA prices={prices} />
+      <ProductsCTA pricesData={pricesData} loading={loading} />
       <FeaturesHighlight />
       <HowItWorks />
       <FAQ />
@@ -137,7 +152,8 @@ export default function Home() {
 }
 
 /* ─────────────────────────── HERO ─────────────────────────── */
-function Hero({ prices }: { prices: { voiture: string; moto: string } }) {
+type PriceData = { actual: number; original: number; discount: number } | null;
+function Hero({ pricesData, loading }: { pricesData: { voiture: PriceData; moto: PriceData }; loading: boolean }) {
   return (
     <section className="relative w-full min-h-[420px] sm:min-h-[600px] lg:min-h-[700px] flex items-center">
       {/* Full-width immersive background (hero-car is the main visual) */}
@@ -205,10 +221,19 @@ function Hero({ prices }: { prices: { voiture: string; moto: string } }) {
                   <p className="text-xs text-gray-500 uppercase tracking-wide">Écran 10.26" IPS</p>
                 </div>
                 <div className="text-right">
-                  <p className="text-2xl font-extrabold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                    {prices.voiture}
-                  </p>
-                  <p className="text-xs text-gray-600 line-through">299,99 €</p>
+                  {loading ? (
+                    <>
+                      <div className="h-8 w-24 bg-white/5 rounded animate-pulse mb-1" />
+                      <div className="h-3 w-16 bg-white/5 rounded animate-pulse ml-auto" />
+                    </>
+                  ) : pricesData.voiture ? (
+                    <>
+                      <p className="text-2xl font-extrabold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                        {(pricesData.voiture.actual / 100).toFixed(2).replace(".", ",")} €
+                      </p>
+                      <p className="text-xs text-gray-600 line-through">{(pricesData.voiture.original / 100).toFixed(2).replace(".", ",")} €</p>
+                    </>
+                  ) : null}
                 </div>
               </div>
 
@@ -263,10 +288,19 @@ function Hero({ prices }: { prices: { voiture: string; moto: string } }) {
                   <p className="text-xs text-gray-500 uppercase tracking-wide">Écran 5" Compact</p>
                 </div>
                 <div className="text-right">
-                  <p className="text-2xl font-extrabold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                    {prices.moto}
-                  </p>
-                  <p className="text-xs text-gray-600 line-through">259,99 €</p>
+                  {loading ? (
+                    <>
+                      <div className="h-8 w-24 bg-white/5 rounded animate-pulse mb-1" />
+                      <div className="h-3 w-16 bg-white/5 rounded animate-pulse ml-auto" />
+                    </>
+                  ) : pricesData.moto ? (
+                    <>
+                      <p className="text-2xl font-extrabold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                        {(pricesData.moto.actual / 100).toFixed(2).replace(".", ",")} €
+                      </p>
+                      <p className="text-xs text-gray-600 line-through">{(pricesData.moto.original / 100).toFixed(2).replace(".", ",")} €</p>
+                    </>
+                  ) : null}
                 </div>
               </div>
 
@@ -323,7 +357,7 @@ function BrandStrip() {
 }
 
 /* ─────────────────────────── PRODUCTS CTA ─────────────────────────── */
-function ProductsCTA({ prices }: { prices: { voiture: string; moto: string } }) {
+function ProductsCTA({ pricesData, loading }: { pricesData: { voiture: PriceData; moto: PriceData }; loading: boolean }) {
   return (
     <section id="products" className="w-full bg-black py-14 sm:py-20 relative overflow-hidden">
       {/* Background glow */}
@@ -363,8 +397,17 @@ function ProductsCTA({ prices }: { prices: { voiture: string; moto: string } }) 
                   <p className="text-sm text-gray-500">Écran 10.26&quot; IPS HD panoramique</p>
                 </div>
                 <div className="text-right shrink-0">
-                  <p className="text-2xl font-extrabold text-zinc-50">{prices.voiture}</p>
-                  <p className="text-xs text-gray-500 line-through">299,99 €</p>
+                  {loading ? (
+                    <>
+                      <div className="h-8 w-24 bg-white/5 rounded animate-pulse mb-1" />
+                      <div className="h-3 w-16 bg-white/5 rounded animate-pulse ml-auto" />
+                    </>
+                  ) : pricesData.voiture ? (
+                    <>
+                      <p className="text-2xl font-extrabold text-zinc-50">{(pricesData.voiture.actual / 100).toFixed(2).replace(".", ",")} €</p>
+                      <p className="text-xs text-gray-500 line-through">{(pricesData.voiture.original / 100).toFixed(2).replace(".", ",")} €</p>
+                    </>
+                  ) : null}
                 </div>
               </div>
 
@@ -415,8 +458,17 @@ function ProductsCTA({ prices }: { prices: { voiture: string; moto: string } }) 
                   <p className="text-sm text-gray-500">Écran 5&quot; compact & étanche IP67</p>
                 </div>
                 <div className="text-right shrink-0">
-                  <p className="text-2xl font-extrabold text-zinc-50">{prices.moto}</p>
-                  <p className="text-xs text-gray-500 line-through">259,99 €</p>
+                  {loading ? (
+                    <>
+                      <div className="h-8 w-24 bg-white/5 rounded animate-pulse mb-1" />
+                      <div className="h-3 w-16 bg-white/5 rounded animate-pulse ml-auto" />
+                    </>
+                  ) : pricesData.moto ? (
+                    <>
+                      <p className="text-2xl font-extrabold text-zinc-50">{(pricesData.moto.actual / 100).toFixed(2).replace(".", ",")} €</p>
+                      <p className="text-xs text-gray-500 line-through">{(pricesData.moto.original / 100).toFixed(2).replace(".", ",")} €</p>
+                    </>
+                  ) : null}
                 </div>
               </div>
 

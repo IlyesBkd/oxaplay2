@@ -112,16 +112,16 @@ export default function CarPlayVoiturePage() {
   const [activeImg, setActiveImg] = useState(0);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [showCheckout, setShowCheckout] = useState(false);
-  const [basePrice, setBasePrice] = useState<number | null>(null);
+  const [actualPrice, setActualPrice] = useState<number | null>(null);
+  const [originalPrice, setOriginalPrice] = useState<number | null>(null);
   const [discount, setDiscount] = useState(50);
   const [loading, setLoading] = useState(true);
   const [showSticky, setShowSticky] = useState(false);
   const posthog = usePostHog();
 
-  // Calculate discounted price
-  const finalPrice = basePrice ? basePrice - (basePrice * (discount / 100)) : null;
-  const formattedBasePrice = basePrice ? `${(basePrice / 100).toFixed(2).replace(".", ",")} €` : null;
-  const formattedFinalPrice = finalPrice ? `${(finalPrice / 100).toFixed(2).replace(".", ",")} €` : null;
+  // Format prices for display
+  const formattedActualPrice = actualPrice ? `${(actualPrice / 100).toFixed(2).replace(".", ",")} €` : null;
+  const formattedOriginalPrice = originalPrice ? `${(originalPrice / 100).toFixed(2).replace(".", ",")} €` : null;
 
   useEffect(() => {
     async function fetchPrice() {
@@ -129,7 +129,8 @@ export default function CarPlayVoiturePage() {
         const res = await fetch("/api/prices");
         if (res.ok) {
           const prices = await res.json();
-          setBasePrice(prices.carplayVoitureEur);
+          setActualPrice(prices.carplayVoitureEur);
+          setOriginalPrice(prices.carplayVoitureOriginalEur);
           setDiscount(prices.carplayVoitureDiscount || 50);
           
           // Track Product_Viewed event
@@ -172,11 +173,11 @@ export default function CarPlayVoiturePage() {
 
   // Handle checkout button click with tracking
   const handleCheckoutClick = () => {
-    if (posthog && finalPrice) {
+    if (posthog && actualPrice) {
       try {
         posthog.capture('Checkout_Started', {
           product_name: 'CarPlay Voiture',
-          price: finalPrice / 100,
+          price: actualPrice / 100,
           currency: 'EUR',
         });
       } catch (error) {
@@ -275,8 +276,8 @@ export default function CarPlayVoiturePage() {
               ) : (
                 <>
                   <div className="flex flex-col sm:flex-row sm:items-end gap-2">
-                    <span className="text-4xl sm:text-5xl font-extrabold text-zinc-50">{formattedFinalPrice}</span>
-                    <span className="text-lg sm:text-xl text-gray-500 line-through sm:mb-0 mb-1 sm:mb-0">{formattedBasePrice}</span>
+                    <span className="text-4xl sm:text-5xl font-extrabold text-zinc-50">{formattedActualPrice}</span>
+                    <span className="text-lg sm:text-xl text-gray-500 line-through sm:mb-0 mb-1 sm:mb-0">{formattedOriginalPrice}</span>
                   </div>
                   <span className="px-4 py-2 rounded-xl bg-gradient-to-r from-green-600/20 to-emerald-600/20 text-green-400 text-base sm:text-sm font-bold border border-green-500/30 shadow-[0_0_15px_-3px_rgba(34,197,94,0.3)]">-{discount}%</span>
                 </>
@@ -511,8 +512,8 @@ export default function CarPlayVoiturePage() {
             {/* Price + Discount badge */}
             <div className="flex items-center justify-center gap-3 mb-3">
               <div className="flex items-baseline gap-2">
-                <span className="text-2xl font-extrabold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">{formattedFinalPrice}</span>
-                <span className="text-sm text-gray-500 line-through">{formattedBasePrice}</span>
+                <span className="text-2xl font-extrabold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">{formattedActualPrice}</span>
+                <span className="text-sm text-gray-500 line-through">{formattedOriginalPrice}</span>
               </div>
               <span className="px-3 py-1.5 rounded-lg bg-gradient-to-r from-green-600/20 to-emerald-600/20 text-green-400 text-sm font-bold border border-green-500/30 shadow-[0_0_10px_-2px_rgba(34,197,94,0.4)]">-{discount}%</span>
             </div>
@@ -542,7 +543,7 @@ export default function CarPlayVoiturePage() {
         onClose={() => setShowCheckout(false)}
         productSlug="carplay-voiture"
         productName="CarPlay Voiture"
-        price={formattedFinalPrice || ""}
+        price={formattedActualPrice || ""}
       />
 
       {/* ─── FOOTER ─── */}
