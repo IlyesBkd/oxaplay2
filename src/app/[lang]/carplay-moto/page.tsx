@@ -99,11 +99,16 @@ export default function CarPlayMotoPage() {
   const [activeImg, setActiveImg] = useState(0);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [showCheckout, setShowCheckout] = useState(false);
-  const [price, setPrice] = useState("129,99 €");
+  const [basePrice, setBasePrice] = useState<number | null>(null);
   const [discount, setDiscount] = useState(50);
   const [loading, setLoading] = useState(true);
   const [showSticky, setShowSticky] = useState(false);
   const posthog = usePostHog();
+
+  // Calculate discounted price
+  const finalPrice = basePrice ? basePrice - (basePrice * (discount / 100)) : null;
+  const formattedBasePrice = basePrice ? `${(basePrice / 100).toFixed(2).replace(".", ",")} €` : null;
+  const formattedFinalPrice = finalPrice ? `${(finalPrice / 100).toFixed(2).replace(".", ",")} €` : null;
 
   useEffect(() => {
     async function fetchPrice() {
@@ -111,8 +116,7 @@ export default function CarPlayMotoPage() {
         const res = await fetch("/api/prices");
         if (res.ok) {
           const prices = await res.json();
-          const priceEur = (prices.carplayMotoEur / 100).toFixed(2).replace(".", ",");
-          setPrice(`${priceEur} €`);
+          setBasePrice(prices.carplayMotoEur);
           setDiscount(prices.carplayMotoDiscount || 50);
           
           // Track Product_Viewed event
@@ -155,11 +159,11 @@ export default function CarPlayMotoPage() {
 
   // Handle checkout button click with tracking
   const handleCheckoutClick = () => {
-    if (posthog) {
+    if (posthog && finalPrice) {
       try {
         posthog.capture('Checkout_Started', {
           product_name: 'CarPlay Moto',
-          price: parseFloat(price.replace(',', '.').replace(' €', '')),
+          price: finalPrice / 100,
           currency: 'EUR',
         });
       } catch (error) {
@@ -247,11 +251,21 @@ export default function CarPlayMotoPage() {
 
             {/* Price */}
             <div className="flex flex-col sm:flex-row sm:items-end gap-3 sm:gap-4 mb-8 sm:mb-10">
-              <div className="flex flex-col sm:flex-row sm:items-end gap-2">
-                <span className="text-4xl sm:text-5xl font-extrabold text-zinc-50">{price}</span>
-                <span className="text-lg sm:text-xl text-gray-500 line-through sm:mb-0 mb-1 sm:mb-0">259,99 €</span>
-              </div>
-              <span className="px-4 py-2 rounded-xl bg-gradient-to-r from-green-600/20 to-emerald-600/20 text-green-400 text-base sm:text-sm font-bold border border-green-500/30 shadow-[0_0_15px_-3px_rgba(34,197,94,0.3)]">-{discount}%</span>
+              {loading ? (
+                <div className="flex flex-col sm:flex-row sm:items-end gap-3 sm:gap-4">
+                  <div className="h-12 sm:h-14 w-40 bg-white/5 rounded-lg animate-pulse" />
+                  <div className="h-6 sm:h-7 w-24 bg-white/5 rounded-lg animate-pulse" />
+                  <div className="h-10 w-20 bg-white/5 rounded-lg animate-pulse" />
+                </div>
+              ) : (
+                <>
+                  <div className="flex flex-col sm:flex-row sm:items-end gap-2">
+                    <span className="text-4xl sm:text-5xl font-extrabold text-zinc-50">{formattedFinalPrice}</span>
+                    <span className="text-lg sm:text-xl text-gray-500 line-through sm:mb-0 mb-1 sm:mb-0">{formattedBasePrice}</span>
+                  </div>
+                  <span className="px-4 py-2 rounded-xl bg-gradient-to-r from-green-600/20 to-emerald-600/20 text-green-400 text-base sm:text-sm font-bold border border-green-500/30 shadow-[0_0_15px_-3px_rgba(34,197,94,0.3)]">-{discount}%</span>
+                </>
+              )}
             </div>
 
             {/* CTA */}
@@ -482,8 +496,8 @@ export default function CarPlayMotoPage() {
             {/* Price + Discount badge */}
             <div className="flex items-center justify-center gap-3 mb-3">
               <div className="flex items-baseline gap-2">
-                <span className="text-2xl font-extrabold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">{price}</span>
-                <span className="text-sm text-gray-500 line-through">259,99 €</span>
+                <span className="text-2xl font-extrabold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">{formattedFinalPrice}</span>
+                <span className="text-sm text-gray-500 line-through">{formattedBasePrice}</span>
               </div>
               <span className="px-3 py-1.5 rounded-lg bg-gradient-to-r from-green-600/20 to-emerald-600/20 text-green-400 text-sm font-bold border border-green-500/30 shadow-[0_0_10px_-2px_rgba(34,197,94,0.4)]">-{discount}%</span>
             </div>
@@ -512,7 +526,7 @@ export default function CarPlayMotoPage() {
         onClose={() => setShowCheckout(false)}
         productSlug="carplay-moto"
         productName="CarPlay Moto"
-        price={price}
+        price={formattedFinalPrice || ""}
       />
 
       {/* ─── FOOTER ─── */}
