@@ -16,7 +16,7 @@ interface VariantPrices {
 }
 
 const VARIANT_PRICES: Record<PricingVariant, VariantPrices> = {
-  control: { voiture: 7900, moto: 9900 },
+  control: { voiture: 100, moto: 9900 }, // TODO: revert voiture to 7900 after test
   test:    { voiture: 11900, moto: 13900 },
 };
 
