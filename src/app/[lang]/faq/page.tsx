@@ -40,44 +40,37 @@ const FAQ_ITEMS = [
   },
 ];
 
-const GLOW = "shadow-[0_0_20px_rgba(168,85,247,0.6)]";
 
 export default function FAQPage() {
   const [open, setOpen] = useState<number | null>(null);
 
   return (
-    <main className="w-full min-h-screen bg-black text-white">
-      {/* Navbar */}
+    <main className="w-full min-h-screen bg-zinc-950 text-white">
       <Header />
 
-      {/* Hero */}
-      <section className="w-full py-20 sm:py-28 relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-purple-950/20 to-black" />
-        <div className="relative z-10 max-w-7xl mx-auto px-4 text-center">
-          <span className="inline-block px-4 py-1.5 rounded-full bg-purple-600/20 border border-purple-500/30 text-purple-400 text-xs font-bold uppercase tracking-widest mb-6">
-            Support
-          </span>
-          <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4">Foire Aux Questions</h1>
-          <p className="text-gray-400 text-lg max-w-xl mx-auto">Trouvez rapidement les réponses à vos questions sur OxaPlay</p>
+      <section className="w-full py-20 sm:py-28">
+        <div className="max-w-7xl mx-auto px-6 text-center">
+          <p className="text-[11px] font-medium text-zinc-500 uppercase tracking-[0.25em] mb-6">Support</p>
+          <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4 tracking-tight">Foire Aux Questions.</h1>
+          <p className="text-zinc-500 text-base max-w-xl mx-auto">Trouvez rapidement les réponses à vos questions sur OxaPlay.</p>
         </div>
       </section>
 
-      {/* FAQ Accordion */}
       <section className="w-full pb-20 sm:pb-28">
-        <div className="max-w-3xl mx-auto px-4">
+        <div className="max-w-3xl mx-auto px-6">
           <div className="space-y-3">
             {FAQ_ITEMS.map((item, i) => (
               <div
                 key={i}
-                className="rounded-xl border border-white/5 bg-zinc-900 overflow-hidden transition-all duration-300 hover:border-purple-500/40"
+                className="rounded-2xl border border-zinc-800 bg-zinc-900/50 overflow-hidden transition-all duration-300 hover:border-zinc-700"
               >
                 <button
                   onClick={() => setOpen(open === i ? null : i)}
                   className="w-full flex items-center justify-between gap-4 px-6 py-5 text-left"
                 >
-                  <span className="text-sm sm:text-base font-semibold text-white">{item.q}</span>
+                  <span className="text-sm sm:text-base font-medium text-white">{item.q}</span>
                   <svg
-                    className={`w-5 h-5 text-purple-400 shrink-0 transition-transform duration-300 ${open === i ? "rotate-180" : ""}`}
+                    className={`w-4 h-4 text-zinc-500 shrink-0 transition-transform duration-300 ${open === i ? "rotate-180" : ""}`}
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -87,18 +80,17 @@ export default function FAQPage() {
                   </svg>
                 </button>
                 <div className={`overflow-hidden transition-all duration-300 ${open === i ? "max-h-60 pb-5" : "max-h-0"}`}>
-                  <p className="px-6 text-sm text-gray-400 leading-relaxed">{item.a}</p>
+                  <p className="px-6 text-sm text-zinc-500 leading-relaxed">{item.a}</p>
                 </div>
               </div>
             ))}
           </div>
 
-          {/* CTA */}
           <div className="mt-16 text-center">
-            <p className="text-gray-400 mb-6">Vous ne trouvez pas votre réponse ?</p>
+            <p className="text-zinc-500 mb-6">Vous ne trouvez pas votre réponse ?</p>
             <Link
               href="/contact"
-              className={`inline-flex items-center px-8 py-3 rounded-full bg-purple-600 hover:bg-purple-500 text-white font-bold transition-all ${GLOW}`}
+              className="inline-flex items-center px-8 py-3 rounded-full bg-white text-zinc-950 font-semibold text-sm transition-all duration-300 hover:bg-zinc-200 hover:scale-[1.02] active:scale-95"
             >
               Contactez-nous
             </Link>
@@ -106,20 +98,18 @@ export default function FAQPage() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="w-full border-t border-purple-900/30 bg-black">
-        <div className="max-w-7xl mx-auto px-4 py-12">
+      <footer className="w-full border-t border-zinc-800/50 bg-zinc-950">
+        <div className="max-w-7xl mx-auto px-6 py-12">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-xs text-gray-600">© 2025 OxaPlay. Tous droits réservés.</p>
-            <div className="flex gap-6 text-xs text-gray-500">
-              <Link href="/mentions-legales" className="hover:text-purple-400 transition-colors">Mentions Légales</Link>
-              <Link href="/cgv" className="hover:text-purple-400 transition-colors">CGV</Link>
-              <Link href="/politique-de-confidentialite" className="hover:text-purple-400 transition-colors">Confidentialité</Link>
-              <Link href="/politique-de-retour" className="hover:text-purple-400 transition-colors">Retours</Link>
+            <p className="text-xs text-zinc-700">© 2025 OxaPlay. Tous droits réservés.</p>
+            <div className="flex gap-6 text-xs text-zinc-600">
+              <Link href="/mentions-legales" className="hover:text-white transition-colors duration-300">Mentions Légales</Link>
+              <Link href="/cgv" className="hover:text-white transition-colors duration-300">CGV</Link>
+              <Link href="/politique-de-confidentialite" className="hover:text-white transition-colors duration-300">Confidentialité</Link>
+              <Link href="/politique-de-retour" className="hover:text-white transition-colors duration-300">Retours</Link>
             </div>
           </div>
         </div>
-        <div className="w-full h-1 bg-gradient-to-r from-purple-700 via-purple-500 to-purple-700" />
       </footer>
     </main>
   );

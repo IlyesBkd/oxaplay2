@@ -2,8 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import Header from "../../components/Header";
 
-const GLOW = "shadow-[0_0_20px_rgba(168,85,247,0.6)]";
-const GLOW_SM = "shadow-[0_0_15px_rgba(168,85,247,0.3)]";
 
 const CONTACT_INFO = [
   {
@@ -34,127 +32,118 @@ const CONTACT_INFO = [
 
 export default function ContactPage() {
   return (
-    <main className="w-full min-h-screen bg-black text-white">
-      {/* Navbar */}
+    <main className="w-full min-h-screen bg-zinc-950 text-white">
       <Header />
 
-      {/* Hero */}
-      <section className="w-full py-20 sm:py-28 relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-purple-950/20 to-black" />
-        <div className="relative z-10 max-w-7xl mx-auto px-4 text-center">
-          <span className="inline-block px-4 py-1.5 rounded-full bg-purple-600/20 border border-purple-500/30 text-purple-400 text-xs font-bold uppercase tracking-widest mb-6">
-            Support
-          </span>
-          <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4">Contactez-nous</h1>
-          <p className="text-gray-400 text-lg max-w-xl mx-auto">Une question ? Notre équipe vous répond sous 24h</p>
+      <section className="w-full py-20 sm:py-28">
+        <div className="max-w-7xl mx-auto px-6 text-center">
+          <p className="text-[11px] font-medium text-zinc-500 uppercase tracking-[0.25em] mb-6">Support</p>
+          <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4 tracking-tight">Contactez-nous.</h1>
+          <p className="text-zinc-500 text-base max-w-xl mx-auto">Une question ? Notre équipe vous répond sous 24h.</p>
         </div>
       </section>
 
-      {/* Content: 2 columns */}
       <section className="w-full pb-20 sm:pb-28">
-        <div className="max-w-7xl mx-auto px-4">
+        <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
             {/* Left: Contact info */}
             <div>
-              <h2 className="text-2xl font-bold text-white mb-8">Nos coordonnées</h2>
-              <div className="space-y-5">
+              <h2 className="text-2xl font-semibold text-white mb-8 tracking-tight">Nos coordonnées</h2>
+              <div className="space-y-4">
                 {CONTACT_INFO.map((c) => (
-                  <div key={c.label} className="flex items-start gap-4 p-5 rounded-xl bg-zinc-900 border border-white/5 hover:border-purple-500/30 transition-colors">
-                    <div className="shrink-0 w-10 h-10 rounded-lg bg-purple-600/20 border border-purple-500/30 flex items-center justify-center">
-                      <svg className="w-5 h-5 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <div key={c.label} className="flex items-start gap-4 p-5 rounded-2xl bg-zinc-900/50 border border-zinc-800 hover:border-zinc-700 transition-colors duration-300">
+                    <div className="shrink-0 w-10 h-10 rounded-xl bg-zinc-800 flex items-center justify-center">
+                      <svg className="w-5 h-5 text-zinc-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                         <path strokeLinecap="round" strokeLinejoin="round" d={c.svg} />
                       </svg>
                     </div>
                     <div>
-                      <p className="text-xs text-gray-500 uppercase tracking-wide font-semibold mb-1">{c.label}</p>
+                      <p className="text-[11px] text-zinc-500 uppercase tracking-[0.2em] font-medium mb-1">{c.label}</p>
                       {c.href ? (
-                        <a href={c.href} className="text-sm text-purple-400 hover:underline">{c.value}</a>
+                        <a href={c.href} className="text-sm text-white hover:text-zinc-300 transition-colors duration-300">{c.value}</a>
                       ) : (
-                        <p className="text-sm text-gray-300">{c.value}</p>
+                        <p className="text-sm text-zinc-400">{c.value}</p>
                       )}
                     </div>
                   </div>
                 ))}
               </div>
 
-              {/* Quick links */}
-              <div className="mt-8 p-5 rounded-xl bg-zinc-900 border border-white/5">
-                <p className="text-sm text-gray-400 mb-3">Consultez aussi :</p>
+              <div className="mt-8 p-5 rounded-2xl bg-zinc-900/50 border border-zinc-800">
+                <p className="text-sm text-zinc-500 mb-3">Consultez aussi :</p>
                 <div className="flex flex-wrap gap-2">
-                  <Link href="/faq" className="px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs text-gray-400 hover:text-purple-400 hover:border-purple-500/30 transition-all">FAQ</Link>
-                  <Link href="/politique-de-retour" className="px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs text-gray-400 hover:text-purple-400 hover:border-purple-500/30 transition-all">Retours & Remboursements</Link>
-                  <Link href="/cgv" className="px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs text-gray-400 hover:text-purple-400 hover:border-purple-500/30 transition-all">CGV</Link>
+                  <Link href="/faq" className="px-3 py-1.5 rounded-full bg-zinc-800 text-xs text-zinc-400 hover:text-white hover:bg-zinc-700 transition-all duration-300">FAQ</Link>
+                  <Link href="/politique-de-retour" className="px-3 py-1.5 rounded-full bg-zinc-800 text-xs text-zinc-400 hover:text-white hover:bg-zinc-700 transition-all duration-300">Retours & Remboursements</Link>
+                  <Link href="/cgv" className="px-3 py-1.5 rounded-full bg-zinc-800 text-xs text-zinc-400 hover:text-white hover:bg-zinc-700 transition-all duration-300">CGV</Link>
                 </div>
               </div>
             </div>
 
             {/* Right: Form */}
             <div>
-              <h2 className="text-2xl font-bold text-white mb-8">Envoyez-nous un message</h2>
+              <h2 className="text-2xl font-semibold text-white mb-8 tracking-tight">Envoyez-nous un message</h2>
               <form action="#" className="space-y-5">
                 <div>
-                  <label htmlFor="name" className="block text-xs text-gray-500 uppercase tracking-wide font-semibold mb-2">Nom</label>
+                  <label htmlFor="name" className="block text-[11px] text-zinc-500 uppercase tracking-[0.2em] font-medium mb-2">Nom</label>
                   <input
                     id="name"
                     type="text"
                     placeholder="Votre nom complet"
-                    className="w-full px-4 py-3.5 rounded-xl bg-zinc-900 border border-white/5 text-white placeholder-gray-600 focus:border-purple-500 focus:outline-none focus:shadow-[0_0_10px_rgba(168,85,247,0.2)] transition-all"
+                    className="w-full px-4 py-3.5 rounded-xl bg-zinc-900/50 border border-zinc-800 text-white placeholder-zinc-600 focus:border-zinc-600 focus:outline-none transition-all duration-300"
                   />
                 </div>
                 <div>
-                  <label htmlFor="email" className="block text-xs text-gray-500 uppercase tracking-wide font-semibold mb-2">Email</label>
+                  <label htmlFor="email" className="block text-[11px] text-zinc-500 uppercase tracking-[0.2em] font-medium mb-2">Email</label>
                   <input
                     id="email"
                     type="email"
                     placeholder="votre@email.com"
-                    className="w-full px-4 py-3.5 rounded-xl bg-zinc-900 border border-white/5 text-white placeholder-gray-600 focus:border-purple-500 focus:outline-none focus:shadow-[0_0_10px_rgba(168,85,247,0.2)] transition-all"
+                    className="w-full px-4 py-3.5 rounded-xl bg-zinc-900/50 border border-zinc-800 text-white placeholder-zinc-600 focus:border-zinc-600 focus:outline-none transition-all duration-300"
                   />
                 </div>
                 <div>
-                  <label htmlFor="subject" className="block text-xs text-gray-500 uppercase tracking-wide font-semibold mb-2">Sujet</label>
+                  <label htmlFor="subject" className="block text-[11px] text-zinc-500 uppercase tracking-[0.2em] font-medium mb-2">Sujet</label>
                   <input
                     id="subject"
                     type="text"
                     placeholder="Ex: Question sur la compatibilité"
-                    className="w-full px-4 py-3.5 rounded-xl bg-zinc-900 border border-white/5 text-white placeholder-gray-600 focus:border-purple-500 focus:outline-none focus:shadow-[0_0_10px_rgba(168,85,247,0.2)] transition-all"
+                    className="w-full px-4 py-3.5 rounded-xl bg-zinc-900/50 border border-zinc-800 text-white placeholder-zinc-600 focus:border-zinc-600 focus:outline-none transition-all duration-300"
                   />
                 </div>
                 <div>
-                  <label htmlFor="message" className="block text-xs text-gray-500 uppercase tracking-wide font-semibold mb-2">Message</label>
+                  <label htmlFor="message" className="block text-[11px] text-zinc-500 uppercase tracking-[0.2em] font-medium mb-2">Message</label>
                   <textarea
                     id="message"
                     rows={5}
                     placeholder="Décrivez votre demande en détail..."
-                    className="w-full px-4 py-3.5 rounded-xl bg-zinc-900 border border-white/5 text-white placeholder-gray-600 focus:border-purple-500 focus:outline-none focus:shadow-[0_0_10px_rgba(168,85,247,0.2)] transition-all resize-none"
+                    className="w-full px-4 py-3.5 rounded-xl bg-zinc-900/50 border border-zinc-800 text-white placeholder-zinc-600 focus:border-zinc-600 focus:outline-none transition-all duration-300 resize-none"
                   />
                 </div>
                 <button
                   type="submit"
-                  className={`w-full py-3.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-base transition-all duration-300 ${GLOW}`}
+                  className="w-full py-3.5 rounded-full bg-white text-zinc-950 font-semibold text-sm transition-all duration-300 hover:bg-zinc-200 hover:scale-[1.01] active:scale-[0.99]"
                 >
                   Envoyer le message
                 </button>
-                <p className="text-xs text-gray-600 text-center">Nous répondons généralement sous 24h en jours ouvrés.</p>
+                <p className="text-xs text-zinc-600 text-center">Nous répondons généralement sous 24h en jours ouvrés.</p>
               </form>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="w-full border-t border-purple-900/30 bg-black">
-        <div className="max-w-7xl mx-auto px-4 py-12">
+      <footer className="w-full border-t border-zinc-800/50 bg-zinc-950">
+        <div className="max-w-7xl mx-auto px-6 py-12">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-xs text-gray-600">© 2025 OxaPlay. Tous droits réservés.</p>
-            <div className="flex gap-6 text-xs text-gray-500">
-              <Link href="/mentions-legales" className="hover:text-purple-400 transition-colors">Mentions Légales</Link>
-              <Link href="/cgv" className="hover:text-purple-400 transition-colors">CGV</Link>
-              <Link href="/politique-de-confidentialite" className="hover:text-purple-400 transition-colors">Confidentialité</Link>
-              <Link href="/politique-de-retour" className="hover:text-purple-400 transition-colors">Retours</Link>
+            <p className="text-xs text-zinc-700">© 2025 OxaPlay. Tous droits réservés.</p>
+            <div className="flex gap-6 text-xs text-zinc-600">
+              <Link href="/mentions-legales" className="hover:text-white transition-colors duration-300">Mentions Légales</Link>
+              <Link href="/cgv" className="hover:text-white transition-colors duration-300">CGV</Link>
+              <Link href="/politique-de-confidentialite" className="hover:text-white transition-colors duration-300">Confidentialité</Link>
+              <Link href="/politique-de-retour" className="hover:text-white transition-colors duration-300">Retours</Link>
             </div>
           </div>
         </div>
-        <div className="w-full h-1 bg-gradient-to-r from-purple-700 via-purple-500 to-purple-700" />
       </footer>
     </main>
   );

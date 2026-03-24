@@ -3,8 +3,6 @@ import Link from "next/link";
 import RatingBadge from "../../components/RatingBadge";
 import Header from "../../components/Header";
 
-const GLOW = "shadow-[0_0_20px_rgba(168,85,247,0.6)]";
-const GLOW_SM = "shadow-[0_0_15px_rgba(168,85,247,0.3)]";
 
 const TESTIMONIAL_VIDEOS = [
   "/Voiture/temoignages_clients/8617e897bf7249b88b80b3d27bf0e139.HD-720p-1.6Mbps-55016171.mp4",
@@ -40,82 +38,66 @@ function MiniStars({ count }: { count: number }) {
 
 export default function AvisPage() {
   return (
-    <main className="w-full min-h-screen bg-black text-white">
-      {/* Navbar */}
+    <main className="w-full min-h-screen bg-zinc-950 text-white">
       <Header />
 
-      {/* Hero */}
-      <section className="w-full py-20 sm:py-28 relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-purple-950/20 to-black" />
-        <div className="relative z-10 max-w-7xl mx-auto px-4 text-center">
-          <span className="inline-block px-4 py-1.5 rounded-full bg-purple-600/20 border border-purple-500/30 text-purple-400 text-xs font-bold uppercase tracking-widest mb-6">
-            +2 500 avis
-          </span>
-          <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4">
-            Ce que nos conducteurs pensent d&apos;OxaPlay
+      <section className="w-full py-20 sm:py-28">
+        <div className="max-w-7xl mx-auto px-6 text-center">
+          <p className="text-[11px] font-medium text-zinc-500 uppercase tracking-[0.25em] mb-6">+2 500 avis</p>
+          <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4 tracking-tight">
+            Ce que nos conducteurs pensent d&apos;OxaPlay.
           </h1>
-          <p className="text-gray-400 text-lg max-w-xl mx-auto mb-8">Des milliers de clients satisfaits sur la route</p>
-
-          {/* Global rating */}
+          <p className="text-zinc-500 text-base max-w-xl mx-auto mb-8">Des milliers de clients satisfaits sur la route.</p>
           <div className="inline-flex flex-col items-center gap-3">
             <RatingBadge />
-            <p className="text-sm text-gray-400">Basé sur <strong className="text-white">2 547</strong> avis vérifiés</p>
+            <p className="text-sm text-zinc-500">Basé sur <strong className="text-white">2 547</strong> avis vérifiés</p>
           </div>
         </div>
       </section>
 
-      {/* Video Testimonials */}
       <section className="w-full pb-16 sm:pb-24">
-        <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-white mb-8">Témoignages vidéo</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="max-w-7xl mx-auto px-6">
+          <h2 className="text-2xl font-semibold text-white mb-8 tracking-tight">Témoignages vidéo</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {TESTIMONIAL_VIDEOS.map((src, i) => (
               <div
                 key={i}
-                className="rounded-xl overflow-hidden border border-purple-800/30 hover:border-purple-500 hover:shadow-[0_0_15px_rgba(168,85,247,0.3)] transition-all duration-300 bg-purple-950/20"
+                className="rounded-2xl overflow-hidden bg-zinc-900/50 border border-zinc-800 hover:border-zinc-700 transition-all duration-500"
               >
-                <video
-                  src={src}
-                  controls
-                  playsInline
-                  preload="metadata"
-                  className="w-full aspect-[9/16] object-cover rounded-xl bg-zinc-900"
-                />
+                <video src={src} controls playsInline preload="metadata" className="w-full aspect-[9/16] object-cover bg-zinc-900" />
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Text Reviews */}
       <section className="w-full pb-20 sm:pb-28">
-        <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-white mb-8">Avis clients</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="max-w-7xl mx-auto px-6">
+          <h2 className="text-2xl font-semibold text-white mb-8 tracking-tight">Avis clients</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {TEXT_REVIEWS.map((r, i) => (
               <div
                 key={i}
-                className="rounded-xl bg-zinc-900 border border-white/5 p-6 hover:border-purple-500/40 hover:shadow-[0_0_15px_rgba(168,85,247,0.15)] transition-all duration-300"
+                className="rounded-2xl bg-zinc-900/50 border border-zinc-800 p-6 hover:border-zinc-700 transition-all duration-300"
               >
                 <div className="flex items-center justify-between mb-3">
                   <div>
-                    <p className="text-sm font-semibold text-white">{r.name}</p>
-                    <span className="inline-block mt-1 px-2 py-0.5 rounded-full bg-green-500/10 text-green-400 text-[10px] font-bold uppercase tracking-wide">
+                    <p className="text-sm font-medium text-white">{r.name}</p>
+                    <span className="inline-block mt-1 px-2 py-0.5 rounded-full bg-zinc-800 text-zinc-400 text-[10px] font-medium uppercase tracking-wide">
                       Acheteur vérifié
                     </span>
                   </div>
                   <MiniStars count={r.stars} />
                 </div>
-                <p className="text-sm text-gray-400 leading-relaxed">{r.text}</p>
+                <p className="text-sm text-zinc-500 leading-relaxed">{r.text}</p>
               </div>
             ))}
           </div>
 
-          {/* CTA */}
           <div className="mt-16 text-center">
             <Link
               href="/#products"
-              className={`inline-flex items-center px-10 py-3.5 rounded-full bg-purple-600 hover:bg-purple-500 text-white font-bold text-lg transition-all ${GLOW}`}
+              className="inline-flex items-center px-8 py-3.5 rounded-full bg-white text-zinc-950 font-semibold text-sm transition-all duration-300 hover:bg-zinc-200 hover:scale-[1.02] active:scale-95"
             >
               Rejoindre +2 500 clients satisfaits
             </Link>
@@ -123,20 +105,18 @@ export default function AvisPage() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="w-full border-t border-purple-900/30 bg-black">
-        <div className="max-w-7xl mx-auto px-4 py-12">
+      <footer className="w-full border-t border-zinc-800/50 bg-zinc-950">
+        <div className="max-w-7xl mx-auto px-6 py-12">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-xs text-gray-600">© 2025 OxaPlay. Tous droits réservés.</p>
-            <div className="flex gap-6 text-xs text-gray-500">
-              <Link href="/mentions-legales" className="hover:text-purple-400 transition-colors">Mentions Légales</Link>
-              <Link href="/cgv" className="hover:text-purple-400 transition-colors">CGV</Link>
-              <Link href="/politique-de-confidentialite" className="hover:text-purple-400 transition-colors">Confidentialité</Link>
-              <Link href="/politique-de-retour" className="hover:text-purple-400 transition-colors">Retours</Link>
+            <p className="text-xs text-zinc-700">© 2025 OxaPlay. Tous droits réservés.</p>
+            <div className="flex gap-6 text-xs text-zinc-600">
+              <Link href="/mentions-legales" className="hover:text-white transition-colors duration-300">Mentions Légales</Link>
+              <Link href="/cgv" className="hover:text-white transition-colors duration-300">CGV</Link>
+              <Link href="/politique-de-confidentialite" className="hover:text-white transition-colors duration-300">Confidentialité</Link>
+              <Link href="/politique-de-retour" className="hover:text-white transition-colors duration-300">Retours</Link>
             </div>
           </div>
         </div>
-        <div className="w-full h-1 bg-gradient-to-r from-purple-700 via-purple-500 to-purple-700" />
       </footer>
     </main>
   );

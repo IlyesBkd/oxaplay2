@@ -79,7 +79,7 @@ function PaymentStep({
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div>
-        <p className="text-xs font-bold text-purple-400 uppercase tracking-[0.15em] mb-4">
+        <p className="text-[11px] font-medium text-zinc-500 uppercase tracking-[0.25em] mb-4">
           Paiement express
         </p>
         <ExpressCheckoutElement
@@ -98,10 +98,10 @@ function PaymentStep({
 
       <div className="relative">
         <div className="absolute inset-0 flex items-center">
-          <div className="w-full border-t border-white/10" />
+          <div className="w-full border-t border-zinc-800" />
         </div>
         <div className="relative flex justify-center">
-          <span className="bg-zinc-900 px-3 text-xs text-gray-500">
+          <span className="bg-zinc-900 px-3 text-xs text-zinc-600">
             ou payer par carte
           </span>
         </div>
@@ -123,7 +123,7 @@ function PaymentStep({
         <button
           type="button"
           onClick={onBack}
-          className="px-6 py-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/50 text-white font-semibold text-base transition-all flex items-center justify-center gap-2"
+          className="px-6 py-4 rounded-xl bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-white font-medium text-sm transition-all duration-300 flex items-center justify-center gap-2"
         >
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
@@ -133,7 +133,7 @@ function PaymentStep({
         <button
           type="submit"
           disabled={!stripe || loading}
-          className="flex-1 py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-base transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_30px_-5px_rgba(168,85,247,0.4)]"
+          className="flex-1 py-4 rounded-xl bg-white text-zinc-950 font-semibold text-sm transition-all duration-300 hover:bg-zinc-200 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {loading ? (
             <span className="flex items-center justify-center gap-2">
@@ -272,11 +272,11 @@ export default function CheckoutModal({
       />
 
       {/* Modal: fullscreen mobile, centered popup desktop */}
-      <div className="relative w-full h-full md:h-auto md:max-w-2xl md:max-h-[90vh] bg-gradient-to-br from-zinc-900 via-zinc-900 to-black md:border md:border-white/10 md:rounded-3xl overflow-hidden shadow-[0_20px_80px_-20px_rgba(168,85,247,0.4)] flex flex-col">
+      <div className="relative w-full h-full md:h-auto md:max-w-2xl md:max-h-[90vh] bg-zinc-900 md:border md:border-zinc-800 md:rounded-2xl overflow-hidden shadow-[0_20px_60px_-15px_rgba(0,0,0,0.6)] flex flex-col">
         {/* Close button - top right */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 sm:top-6 sm:right-6 z-20 w-11 h-11 min-h-[44px] min-w-[44px] rounded-full bg-white/5 backdrop-blur-sm border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 hover:border-purple-500/50 transition-all"
+          className="absolute top-4 right-4 sm:top-6 sm:right-6 z-20 w-10 h-10 min-h-[40px] min-w-[40px] rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center text-zinc-400 hover:text-white hover:bg-zinc-700 transition-all duration-300"
         >
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -284,14 +284,13 @@ export default function CheckoutModal({
         </button>
 
         {/* Header with gradient */}
-        <div className="relative px-8 pt-8 pb-6 border-b border-white/5">
-          <div className="absolute inset-0 bg-gradient-to-r from-purple-600/10 via-transparent to-transparent" />
+        <div className="relative px-5 sm:px-8 pt-6 sm:pt-8 pb-5 sm:pb-6 border-b border-zinc-800">
           <div className="relative">
-            <h2 className="text-2xl font-bold text-white mb-2">Finaliser votre commande</h2>
+            <h2 className="text-xl font-bold text-white mb-2 tracking-tight">Finaliser votre commande</h2>
             <div className="flex items-center gap-3">
-              <span className="text-gray-400 text-sm">{productName}</span>
-              <span className="w-1 h-1 rounded-full bg-purple-500" />
-              <span className="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+              <span className="text-zinc-500 text-sm">{productName}</span>
+              <span className="w-1 h-1 rounded-full bg-zinc-600" />
+              <span className="text-lg font-light text-white tracking-tight">
                 {price}
               </span>
             </div>
@@ -299,32 +298,32 @@ export default function CheckoutModal({
         </div>
 
         {/* Progress Steps */}
-        <div className="px-8 py-5 bg-white/[0.02]">
+        <div className="px-5 sm:px-8 py-4 border-b border-zinc-800/50">
           <div className="flex items-center gap-3">
-            <div className={`flex items-center gap-2.5 transition-all ${step === 1 ? "opacity-100" : "opacity-50"}`}>
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-all ${
+            <div className={`flex items-center gap-2 transition-all ${step === 1 ? "opacity-100" : "opacity-50"}`}>
+              <div className={`w-7 h-7 rounded-full flex items-center justify-center font-medium text-xs transition-all ${
                 step > 1 
-                  ? "bg-green-500/20 text-green-400 border-2 border-green-500/40" 
-                  : "bg-purple-600/20 text-purple-400 border-2 border-purple-500/40"
+                  ? "bg-white text-zinc-950" 
+                  : "bg-zinc-800 text-white border border-zinc-700"
               }`}>
                 {step > 1 ? "✓" : "1"}
               </div>
-              <span className="text-sm font-semibold text-white">Informations</span>
+              <span className="text-sm font-medium text-white">Informations</span>
             </div>
             
-            <div className="flex-1 h-0.5 bg-white/10 rounded-full overflow-hidden">
-              <div className={`h-full bg-gradient-to-r from-purple-500 to-pink-500 transition-all duration-500 ${step === 2 ? "w-full" : "w-0"}`} />
+            <div className="flex-1 h-px bg-zinc-800 overflow-hidden">
+              <div className={`h-full bg-white transition-all duration-500 ${step === 2 ? "w-full" : "w-0"}`} />
             </div>
             
-            <div className={`flex items-center gap-2.5 transition-all ${step === 2 ? "opacity-100" : "opacity-50"}`}>
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-all ${
+            <div className={`flex items-center gap-2 transition-all ${step === 2 ? "opacity-100" : "opacity-40"}`}>
+              <div className={`w-7 h-7 rounded-full flex items-center justify-center font-medium text-xs transition-all ${
                 step === 2 
-                  ? "bg-purple-600/20 text-purple-400 border-2 border-purple-500/40" 
-                  : "bg-white/5 text-gray-500 border-2 border-white/10"
+                  ? "bg-zinc-800 text-white border border-zinc-700" 
+                  : "bg-zinc-800/50 text-zinc-600 border border-zinc-800"
               }`}>
                 2
               </div>
-              <span className="text-sm font-semibold text-white">Paiement</span>
+              <span className="text-sm font-medium text-white">Paiement</span>
             </div>
           </div>
         </div>
@@ -335,7 +334,7 @@ export default function CheckoutModal({
             <form onSubmit={handleSubmit(onContactSubmit)} className="space-y-3 pt-4">
               {/* Contact Section */}
               <div className="space-y-2.5">
-                <h3 className="text-xs font-bold text-purple-400 uppercase tracking-wider flex items-center gap-2">
+                <h3 className="text-[11px] font-medium text-zinc-500 uppercase tracking-[0.2em] flex items-center gap-2">
                   <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                   </svg>
@@ -347,7 +346,7 @@ export default function CheckoutModal({
                     <input
                       {...register("firstName")}
                       placeholder="Prénom *"
-                      className="w-full px-3 py-2.5 text-sm rounded-lg bg-black/40 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:border-purple-500/60 focus:bg-black/60 transition-all"
+                      className="w-full px-3 py-2.5 text-sm rounded-xl bg-zinc-800/50 border border-zinc-700 text-white placeholder:text-zinc-600 focus:outline-none focus:border-zinc-500 transition-all duration-300"
                     />
                     {errors.firstName && (
                       <p className="text-xs text-red-400 mt-1 flex items-center gap-1">
@@ -359,7 +358,7 @@ export default function CheckoutModal({
                     <input
                       {...register("lastName")}
                       placeholder="Nom *"
-                      className="w-full px-3 py-2.5 text-sm rounded-lg bg-black/40 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:border-purple-500/60 focus:bg-black/60 transition-all"
+                      className="w-full px-3 py-2.5 text-sm rounded-xl bg-zinc-800/50 border border-zinc-700 text-white placeholder:text-zinc-600 focus:outline-none focus:border-zinc-500 transition-all duration-300"
                     />
                     {errors.lastName && (
                       <p className="text-xs text-red-400 mt-1 flex items-center gap-1">
@@ -374,7 +373,7 @@ export default function CheckoutModal({
                     {...register("email")}
                     type="email"
                     placeholder="Email *"
-                    className="w-full px-3 py-2.5 text-sm rounded-lg bg-black/40 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:border-purple-500/60 focus:bg-black/60 transition-all"
+                    className="w-full px-3 py-2.5 text-sm rounded-xl bg-zinc-800/50 border border-zinc-700 text-white placeholder:text-zinc-600 focus:outline-none focus:border-zinc-500 transition-all duration-300"
                   />
                   {errors.email && (
                     <p className="text-xs text-red-400 mt-1 flex items-center gap-1">
@@ -388,14 +387,14 @@ export default function CheckoutModal({
                     {...register("phone")}
                     type="tel"
                     placeholder="Téléphone (optionnel)"
-                    className="w-full px-3 py-2.5 text-sm rounded-lg bg-black/40 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:border-purple-500/60 focus:bg-black/60 transition-all"
+                    className="w-full px-3 py-2.5 text-sm rounded-xl bg-zinc-800/50 border border-zinc-700 text-white placeholder:text-zinc-600 focus:outline-none focus:border-zinc-500 transition-all duration-300"
                   />
                 </div>
               </div>
 
               {/* Shipping Section */}
               <div className="space-y-2.5 pt-1">
-                <h3 className="text-xs font-bold text-purple-400 uppercase tracking-wider flex items-center gap-2">
+                <h3 className="text-[11px] font-medium text-zinc-500 uppercase tracking-[0.2em] flex items-center gap-2">
                   <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                   </svg>
@@ -406,7 +405,7 @@ export default function CheckoutModal({
                   <input
                     {...register("line1")}
                     placeholder="Adresse *"
-                    className="w-full px-3 py-2.5 text-sm rounded-lg bg-black/40 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:border-purple-500/60 focus:bg-black/60 transition-all"
+                    className="w-full px-3 py-2.5 text-sm rounded-xl bg-zinc-800/50 border border-zinc-700 text-white placeholder:text-zinc-600 focus:outline-none focus:border-zinc-500 transition-all duration-300"
                   />
                   {errors.line1 && (
                     <p className="text-xs text-red-400 mt-1 flex items-center gap-1">
@@ -419,7 +418,7 @@ export default function CheckoutModal({
                   <input
                     {...register("line2")}
                     placeholder="Complément d'adresse (optionnel)"
-                    className="w-full px-3 py-2.5 text-sm rounded-lg bg-black/40 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:border-purple-500/60 focus:bg-black/60 transition-all"
+                    className="w-full px-3 py-2.5 text-sm rounded-xl bg-zinc-800/50 border border-zinc-700 text-white placeholder:text-zinc-600 focus:outline-none focus:border-zinc-500 transition-all duration-300"
                   />
                 </div>
 
@@ -428,7 +427,7 @@ export default function CheckoutModal({
                     <input
                       {...register("postalCode")}
                       placeholder="Code postal *"
-                      className="w-full px-3 py-2.5 text-sm rounded-lg bg-black/40 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:border-purple-500/60 focus:bg-black/60 transition-all"
+                      className="w-full px-3 py-2.5 text-sm rounded-xl bg-zinc-800/50 border border-zinc-700 text-white placeholder:text-zinc-600 focus:outline-none focus:border-zinc-500 transition-all duration-300"
                     />
                     {errors.postalCode && (
                       <p className="text-xs text-red-400 mt-1 flex items-center gap-1">
@@ -440,7 +439,7 @@ export default function CheckoutModal({
                     <input
                       {...register("city")}
                       placeholder="Ville *"
-                      className="w-full px-3 py-2.5 text-sm rounded-lg bg-black/40 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:border-purple-500/60 focus:bg-black/60 transition-all"
+                      className="w-full px-3 py-2.5 text-sm rounded-xl bg-zinc-800/50 border border-zinc-700 text-white placeholder:text-zinc-600 focus:outline-none focus:border-zinc-500 transition-all duration-300"
                     />
                     {errors.city && (
                       <p className="text-xs text-red-400 mt-1 flex items-center gap-1">
@@ -453,7 +452,7 @@ export default function CheckoutModal({
                 <div>
                   <select
                     {...register("country")}
-                    className="w-full px-3 py-2.5 text-sm rounded-lg bg-black/40 border border-white/10 text-white focus:outline-none focus:border-purple-500/60 focus:bg-black/60 transition-all cursor-pointer"
+                    className="w-full px-3 py-2.5 text-sm rounded-xl bg-zinc-800/50 border border-zinc-700 text-white focus:outline-none focus:border-zinc-500 transition-all duration-300 cursor-pointer"
                   >
                     <option value="FR">🇫🇷 France</option>
                     <option value="BE">🇧🇪 Belgique</option>
@@ -472,7 +471,7 @@ export default function CheckoutModal({
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full py-3 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_8px_30px_-8px_rgba(168,85,247,0.6)] hover:shadow-[0_8px_40px_-8px_rgba(168,85,247,0.8)] hover:scale-[1.02] active:scale-[0.98]"
+                  className="w-full py-3 rounded-full bg-white text-zinc-950 font-semibold text-sm transition-all duration-300 hover:bg-zinc-200 hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {loading ? (
                     <span className="flex items-center justify-center gap-2">
@@ -492,7 +491,7 @@ export default function CheckoutModal({
                   )}
                 </button>
                 <div className="flex items-center justify-center mt-2">
-                  <Image src="/badges_paiement.png" alt="Paiement sécurisé" width={200} height={28} className="h-6 w-auto object-contain opacity-70" />
+                  <Image src="/badges_paiement.png" alt="Paiement sécurisé" width={180} height={22} className="h-5 w-auto object-contain opacity-30" />
                 </div>
               </div>
             </form>
@@ -506,12 +505,12 @@ export default function CheckoutModal({
                 appearance: {
                   theme: "night",
                   variables: {
-                    colorPrimary: "#a855f7",
+                    colorPrimary: "#ffffff",
                     colorBackground: "#18181b",
                     colorText: "#ffffff",
                     colorDanger: "#ef4444",
                     borderRadius: "12px",
-                    fontFamily: "Poppins, sans-serif",
+                    fontFamily: "Inter, sans-serif",
                   },
                 },
               }}

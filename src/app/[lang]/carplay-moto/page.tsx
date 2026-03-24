@@ -9,8 +9,6 @@ import RatingBadge from "@/app/components/RatingBadge";
 import { usePostHog } from "posthog-js/react";
 
 /* ─── Data ─── */
-const GLOW = "shadow-[0_0_30px_-5px_rgba(168,85,247,0.4)]";
-const GLOW_SM = "shadow-[0_0_20px_-5px_rgba(168,85,247,0.2)]";
 
 const GALLERY = [
   "/Moto/photos_produits/1.jpg",
@@ -175,136 +173,110 @@ export default function CarPlayMotoPage() {
   };
 
   return (
-    <main className="w-full min-h-screen bg-black text-white overflow-x-hidden">
+    <main className="w-full min-h-screen bg-zinc-950 text-white overflow-x-hidden">
       {/* ─── NAVBAR ─── */}
       <Header />
 
-      {/* ─── PRODUCT HERO: Immersive Split ─── */}
-      <section className="relative w-full min-h-[70vh] lg:min-h-[85vh] flex flex-col lg:flex-row">
-        {/* LEFT: Full-bleed image */}
-        <div className="relative w-full lg:w-1/2 min-h-[50vh] lg:min-h-full">
-          <Image
-            src={GALLERY[activeImg]}
-            alt="Écran CarPlay sans fil 5 pouces étanche IP67 pour moto - GPS et navigation"
-            fill
-            sizes="(max-width: 1024px) 100vw, 50vw"
-            className="object-cover"
-            priority
-          />
-          <div className="hidden lg:block absolute inset-y-0 right-0 w-32 bg-gradient-to-r from-transparent to-black" />
-          <div className="lg:hidden absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black to-transparent" />
-
-          {/* Floating vertical thumbnails */}
-          <div className="absolute left-4 top-1/2 -translate-y-1/2 hidden lg:flex flex-col gap-2.5 z-10">
+      {/* ─── PRODUCT HERO: Apple Store Style ─── */}
+      <section className="relative w-full flex flex-col lg:flex-row lg:min-h-[calc(100vh-72px)]">
+        {/* LEFT: Gallery with thumbnail selector */}
+        <div className="w-full lg:w-1/2 flex flex-col">
+          {/* Main image */}
+          <div className="relative w-full aspect-square lg:aspect-[4/3] lg:flex-1 bg-zinc-900">
+            <Image
+              src={GALLERY[activeImg]}
+              alt="Écran CarPlay sans fil 5 pouces étanche IP67 pour moto - GPS et navigation"
+              fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="object-cover"
+              priority
+            />
+          </div>
+          {/* Thumbnail selector – always visible */}
+          <div className="flex gap-2 px-4 py-3 bg-zinc-950">
             {GALLERY.map((src, i) => (
               <button
                 key={i}
                 onClick={() => setActiveImg(i)}
-                className={`relative w-14 h-14 rounded-lg overflow-hidden border-2 transition-all duration-300 backdrop-blur-sm ${
+                className={`relative w-1/5 aspect-square rounded-xl overflow-hidden border-2 transition-all duration-300 ${
                   activeImg === i
-                    ? "border-purple-500 shadow-[0_0_15px_-3px_rgba(168,85,247,0.5)] scale-110"
-                    : "border-white/20 hover:border-white/50 opacity-70 hover:opacity-100"
+                    ? "border-white"
+                    : "border-zinc-800 opacity-60 hover:opacity-100"
                 }`}
               >
-                <Image src={src} alt={`Écran CarPlay moto vue ${i + 1}`} fill sizes="56px" className="object-cover" />
+                <Image src={src} alt={`Écran CarPlay moto aperçu ${i + 1}`} fill sizes="80px" className="object-cover" />
               </button>
             ))}
           </div>
         </div>
 
-        {/* RIGHT: Product info */}
-        <div className="relative w-full lg:w-1/2 flex items-center bg-black">
+        {/* RIGHT: Product info - sticky on desktop */}
+        <div className="w-full lg:w-1/2 lg:sticky lg:top-[72px] lg:h-[calc(100vh-72px)] flex items-center bg-zinc-950">
           <div className="w-full max-w-xl mx-auto px-6 sm:px-10 lg:px-14 py-12 lg:py-0">
-            {/* Mobile thumbnails - moved to top */}
-            <div className="flex gap-2.5 lg:hidden mb-6">
-              {GALLERY.map((src, i) => (
-                <button
-                  key={i}
-                  onClick={() => setActiveImg(i)}
-                  className={`relative w-1/5 aspect-square rounded-lg overflow-hidden border-2 transition-all duration-300 ${
-                    activeImg === i
-                      ? "border-purple-500 shadow-[0_0_12px_-3px_rgba(168,85,247,0.4)]"
-                      : "border-white/10 hover:border-white/30"
-                  }`}
-                >
-                  <Image src={src} alt={`Écran CarPlay moto aperçu ${i + 1}`} fill sizes="80px" className="object-cover" />
-                </button>
-              ))}
-            </div>
+            <p className="text-[11px] font-medium text-zinc-500 uppercase tracking-[0.25em] mb-6">Édition Moto</p>
 
-            <span className="inline-block px-3 py-1 rounded-full bg-white/5 border border-white/10 text-purple-400 text-xs font-bold uppercase tracking-[0.2em] mb-6">
-              Édition Moto
-            </span>
-
-            <h1 className="text-2xl sm:text-3xl lg:text-5xl font-bold text-zinc-50 mb-4 sm:mb-5 tracking-tight leading-tight">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-5 tracking-tight leading-[1.1]">
               Écran Connecté<br />CarPlay & Android Auto
             </h1>
 
-            <p className="text-gray-400 text-sm sm:text-base leading-relaxed mb-6 sm:mb-8 max-w-md">
+            <p className="text-zinc-500 text-sm sm:text-base leading-relaxed mb-8 max-w-md">
               L&apos;écran 5&quot; étanche IP67 pour transformer votre moto en deux-roues connecté. GPS, musique et appels mains libres.
             </p>
 
             {/* Rating */}
-            <div className="flex items-center gap-3 mb-10">
+            <div className="flex items-center gap-3 mb-8">
               <RatingBadge />
-              <span className="text-sm text-gray-400">800+ avis</span>
+              <span className="text-sm text-zinc-500">800+ avis</span>
             </div>
 
-            {/* Price */}
-            <div className="flex flex-col sm:flex-row sm:items-end gap-3 sm:gap-4 mb-8 sm:mb-10">
+            {/* Price - massive and light */}
+            <div className="flex items-end gap-4 mb-10">
               {loading ? (
-                <div className="flex flex-col sm:flex-row sm:items-end gap-3 sm:gap-4">
-                  <div className="h-12 sm:h-14 w-40 bg-white/5 rounded-lg animate-pulse" />
-                  <div className="h-6 sm:h-7 w-24 bg-white/5 rounded-lg animate-pulse" />
-                  <div className="h-10 w-20 bg-white/5 rounded-lg animate-pulse" />
+                <div className="flex items-end gap-4">
+                  <div className="h-14 w-44 bg-zinc-800 rounded-lg animate-pulse" />
+                  <div className="h-6 w-24 bg-zinc-800 rounded-lg animate-pulse" />
                 </div>
               ) : (
                 <>
-                  <div className="flex flex-col sm:flex-row sm:items-end gap-2">
-                    <span className="text-4xl sm:text-5xl font-extrabold text-zinc-50">{formattedActualPrice}</span>
-                    <span className="text-lg sm:text-xl text-gray-500 line-through sm:mb-0 mb-1 sm:mb-0">{formattedOriginalPrice}</span>
+                  <span className="text-4xl sm:text-5xl lg:text-6xl font-light text-white tracking-tight">{formattedActualPrice}</span>
+                  <div className="flex flex-col gap-1 mb-2">
+                    <span className="text-base text-zinc-600 line-through">{formattedOriginalPrice}</span>
+                    <span className="text-xs text-zinc-500 font-medium">-{discount}%</span>
                   </div>
-                  <span className="px-4 py-2 rounded-xl bg-gradient-to-r from-green-600/20 to-emerald-600/20 text-green-400 text-base sm:text-sm font-bold border border-green-500/30 shadow-[0_0_15px_-3px_rgba(34,197,94,0.3)]">-{discount}%</span>
                 </>
               )}
             </div>
 
             {/* CTA */}
-            <div id="commander" className="space-y-4 mb-10">
+            <div id="commander" className="space-y-3 mb-8">
               <button
                 onClick={handleCheckoutClick}
-                className="animate-glow-pulse flex items-center justify-center gap-3 w-full py-5 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-xl transition-all duration-300 cursor-pointer"
+                className="flex items-center justify-center gap-3 w-full py-4.5 rounded-full bg-white text-zinc-950 font-semibold text-base transition-all duration-300 hover:bg-zinc-200 hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
               >
-                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z" />
-                </svg>
                 Commander maintenant
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
               </button>
-              <p className="text-center text-xs text-gray-500">Livraison gratuite en 48h</p>
+              <p className="text-center text-xs text-zinc-600">Livraison gratuite en 48h · Paiement sécurisé</p>
             </div>
 
             {/* Payment */}
-            <div className="flex flex-col items-center gap-2">
-              <Image src="/badges_paiement.png" alt="Moyens de paiement" width={200} height={24} className="object-contain opacity-60" />
-              <div className="flex items-center gap-2">
-                <svg className="w-4 h-4 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                </svg>
-                <span className="text-xs text-gray-500">Paiement sécurisé</span>
-              </div>
+            <div className="flex items-center justify-center">
+              <Image src="/badges_paiement.png" alt="Moyens de paiement" width={180} height={22} className="object-contain opacity-30" />
             </div>
           </div>
         </div>
       </section>
 
       {/* ─── BRAND MARQUEE ─── */}
-      <section className="w-full border-y border-white/[0.06] bg-black/60 overflow-hidden">
-        <div className="py-5">
-          <p className="text-center text-xs font-bold text-purple-400 uppercase tracking-[0.2em] mb-4">Compatible avec 99% des deux-roues</p>
-          <div className="flex w-max animate-marquee gap-12">
+      <section className="w-full border-y border-zinc-800/50 bg-zinc-950 overflow-hidden">
+        <div className="py-8">
+          <p className="text-center text-[11px] font-medium text-zinc-500 uppercase tracking-[0.25em] mb-6">Compatible avec 99% des deux-roues</p>
+          <div className="flex w-max animate-marquee gap-16">
             {[...MOTO_BRANDS, ...MOTO_BRANDS].map((b, i) => (
-              <div key={`${b.alt}-${i}`} className="relative h-24 w-56 shrink-0 opacity-60 hover:opacity-100 transition-opacity">
-                <Image src={b.src} alt={b.alt} fill sizes="112px" className="object-contain" />
+              <div key={`${b.alt}-${i}`} className="relative h-16 w-40 shrink-0 opacity-30 hover:opacity-60 transition-opacity duration-500">
+                <Image src={b.src} alt={b.alt} fill sizes="112px" className="object-contain grayscale" />
               </div>
             ))}
           </div>
@@ -312,31 +284,26 @@ export default function CarPlayMotoPage() {
       </section>
 
       {/* ─── FOCUS PRODUIT ─── */}
-      <section className="w-full bg-black">
-        <div className="max-w-7xl mx-auto px-4 py-12">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+      <section className="w-full bg-zinc-950">
+        <div className="max-w-7xl mx-auto px-6 py-20 sm:py-28">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
             {/* Left: Text */}
-            <div className="border-l-2 border-purple-500 pl-8">
-              <span className="block text-xs font-bold text-purple-400 uppercase tracking-[0.2em] mb-5">Technologie & Détails</span>
-              <h2 className="text-3xl sm:text-4xl font-bold text-white leading-tight mb-8">
-                Conçu pour résister<br />à toutes les routes
+            <div className="border-l border-zinc-800 pl-8">
+              <p className="text-[11px] font-medium text-zinc-500 uppercase tracking-[0.25em] mb-5">Technologie & Détails</p>
+              <h2 className="text-3xl sm:text-4xl font-bold text-white leading-tight mb-8 tracking-tight">
+                Conçu pour résister<br />à toutes les routes.
               </h2>
-              <p className="text-zinc-400 text-lg leading-relaxed mb-6">
+              <p className="text-zinc-500 text-base leading-relaxed mb-6">
                 Un écran tactile LCD 5 pouces avec une résolution de 1024×480 pixels, optimisé pour une lisibilité parfaite même sous le soleil direct. Le revêtement anti-reflet et la luminosité adaptative garantissent un confort visuel en toutes conditions.
               </p>
-              <p className="text-zinc-400 text-lg leading-relaxed">
+              <p className="text-zinc-500 text-base leading-relaxed">
                 Certifié IP67, cet écran résiste à la pluie, la poussière et aux vibrations. Connectez-vous en Wi-Fi et Bluetooth 5.0 pour profiter de Waze, Spotify et vos appels mains libres — directement depuis votre guidon.
               </p>
             </div>
 
-            {/* Right: Floating neon image */}
+            {/* Right: Product image */}
             <div className="relative flex items-center justify-center py-12">
-              {/* Neon glow background */}
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <div className="w-80 h-80 bg-purple-600/20 blur-[100px] rounded-full" />
-              </div>
-              {/* Product image */}
-              <div className="relative w-full max-w-sm aspect-square drop-shadow-[0_0_30px_rgba(168,85,247,0.4)]">
+              <div className="relative w-full max-w-sm aspect-square">
                 <Image
                   src="/Moto/photo_sans_fond_moto.png"
                   alt="Écran CarPlay Moto"
@@ -351,26 +318,26 @@ export default function CarPlayMotoPage() {
       </section>
 
       {/* ─── FEATURES BENTO GRID ─── */}
-      <section className="w-full bg-black py-12 sm:py-16">
-        <div className="max-w-7xl mx-auto px-4">
-          <span className="block text-center text-xs font-bold text-purple-400 uppercase tracking-[0.2em] mb-4">Fonctionnalités</span>
-          <h2 className="text-2xl sm:text-3xl font-bold text-center text-zinc-50 mb-16">
-            Conçu pour les motards
+      <section className="w-full bg-zinc-950 py-20 sm:py-28">
+        <div className="max-w-7xl mx-auto px-6">
+          <p className="text-center text-[11px] font-medium text-zinc-500 uppercase tracking-[0.25em] mb-4">Fonctionnalités</p>
+          <h2 className="text-3xl sm:text-4xl font-bold text-center text-white mb-16 tracking-tight">
+            Conçu pour les motards.
           </h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {BENTO_FEATURES.map((f) => (
               <div
                 key={f.title}
-                className={`group rounded-2xl bg-zinc-900/30 backdrop-blur-lg border border-white/10 p-8 hover:border-purple-500/50 hover:shadow-[0_0_30px_-5px_rgba(168,85,247,0.12)] transition-all duration-500 ${f.span}`}
+                className={`group rounded-2xl bg-zinc-900/50 border border-zinc-800 p-8 hover:border-zinc-700 hover:bg-zinc-900/80 transition-all duration-500 ${f.span}`}
               >
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-600/20 to-indigo-600/20 border border-purple-500/20 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300">
-                  <svg className="w-6 h-6 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <div className="w-10 h-10 rounded-xl bg-zinc-800 flex items-center justify-center mb-5 group-hover:bg-zinc-700 transition-colors duration-300">
+                  <svg className="w-5 h-5 text-zinc-400 group-hover:text-white transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d={f.svg} />
                   </svg>
                 </div>
-                <h3 className="text-lg font-bold text-zinc-50 mb-2">{f.title}</h3>
-                <p className="text-sm text-gray-400 leading-relaxed">{f.desc}</p>
+                <h3 className="text-base font-semibold text-white mb-2 tracking-tight">{f.title}</h3>
+                <p className="text-sm text-zinc-500 leading-relaxed">{f.desc}</p>
               </div>
             ))}
           </div>
@@ -378,50 +345,50 @@ export default function CarPlayMotoPage() {
       </section>
 
       {/* ─── SPECS & BOX ─── */}
-      <section className="w-full bg-black">
-        <div className="max-w-7xl mx-auto px-4 py-12 sm:py-16">
-          <span className="block text-center text-xs font-bold text-purple-400 uppercase tracking-[0.2em] mb-4">Détails</span>
-          <h2 className="text-2xl sm:text-3xl font-bold text-center text-zinc-50 mb-16">
-            Fiche technique & Contenu
+      <section className="w-full bg-zinc-950">
+        <div className="max-w-7xl mx-auto px-6 py-20 sm:py-28">
+          <p className="text-center text-[11px] font-medium text-zinc-500 uppercase tracking-[0.25em] mb-4">Détails</p>
+          <h2 className="text-3xl sm:text-4xl font-bold text-center text-white mb-16 tracking-tight">
+            Fiche technique & Contenu.
           </h2>
 
-          <div className="grid lg:grid-cols-2 gap-8">
+          <div className="grid lg:grid-cols-2 gap-6">
             {/* Left: Specs */}
-            <div className="rounded-2xl bg-zinc-900/30 backdrop-blur-lg border border-white/10 overflow-hidden">
-              <div className="px-6 py-4 border-b border-white/[0.06]">
-                <h3 className="text-sm font-bold text-zinc-50 uppercase tracking-[0.15em]">Spécifications techniques</h3>
+            <div className="rounded-2xl bg-zinc-900/50 border border-zinc-800 overflow-hidden">
+              <div className="px-6 py-4 border-b border-zinc-800">
+                <h3 className="text-[11px] font-medium text-zinc-400 uppercase tracking-[0.2em]">Spécifications techniques</h3>
               </div>
               {SPECS_LEFT.map((s, i) => (
                 <div
                   key={s.label}
-                  className={`flex items-center justify-between px-6 py-3.5 ${i < SPECS_LEFT.length - 1 ? "border-b border-white/[0.04]" : ""}`}
+                  className={`flex items-center justify-between px-6 py-3.5 ${i < SPECS_LEFT.length - 1 ? "border-b border-zinc-800/50" : ""}`}
                 >
-                  <span className="text-sm text-gray-500">{s.label}</span>
-                  <span className="text-sm font-medium text-zinc-200 text-right max-w-[55%]">{s.value}</span>
+                  <span className="text-sm text-zinc-500">{s.label}</span>
+                  <span className="text-sm font-medium text-zinc-300 text-right max-w-[55%]">{s.value}</span>
                 </div>
               ))}
             </div>
 
             {/* Right: Box contents */}
-            <div className="rounded-2xl bg-purple-950/15 backdrop-blur-lg border border-purple-500/20 overflow-hidden">
-              <div className="px-6 py-4 border-b border-purple-500/10">
-                <h3 className="text-sm font-bold text-zinc-50 uppercase tracking-[0.15em]">Ce que vous recevez</h3>
+            <div className="rounded-2xl bg-zinc-900/50 border border-zinc-800 overflow-hidden">
+              <div className="px-6 py-4 border-b border-zinc-800">
+                <h3 className="text-[11px] font-medium text-zinc-400 uppercase tracking-[0.2em]">Ce que vous recevez</h3>
               </div>
               <div className="p-6 space-y-4">
                 {BOX_ITEMS.map((item) => (
                   <div key={item} className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-purple-600/15 border border-purple-500/20 flex items-center justify-center shrink-0">
-                      <svg className="w-4 h-4 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <div className="w-7 h-7 rounded-lg bg-zinc-800 flex items-center justify-center shrink-0">
+                      <svg className="w-3.5 h-3.5 text-zinc-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
-                    <span className="text-sm text-gray-300">{item}</span>
+                    <span className="text-sm text-zinc-400">{item}</span>
                   </div>
                 ))}
               </div>
               <div className="px-6 pb-6">
-                <div className="rounded-xl bg-purple-600/10 border border-purple-500/15 p-4 text-center">
-                  <p className="text-xs text-purple-300">Tous les accessoires inclus — Prêt à rouler</p>
+                <div className="rounded-xl bg-zinc-800/50 p-4 text-center">
+                  <p className="text-xs text-zinc-500">Tous les accessoires inclus — Prêt à rouler</p>
                 </div>
               </div>
             </div>
@@ -430,21 +397,21 @@ export default function CarPlayMotoPage() {
       </section>
 
       {/* ─── TESTIMONIALS ─── */}
-      <section className="w-full bg-black py-12 sm:py-16">
-        <div className="max-w-7xl mx-auto px-4">
-          <span className="block text-center text-xs font-bold text-purple-400 uppercase tracking-[0.2em] mb-4">Social Proof</span>
-          <h2 className="text-2xl sm:text-3xl font-bold text-center text-zinc-50 mb-4">
-            Ils roulent avec OxaPlay
+      <section className="w-full bg-zinc-950 py-20 sm:py-28">
+        <div className="max-w-7xl mx-auto px-6">
+          <p className="text-center text-[11px] font-medium text-zinc-500 uppercase tracking-[0.25em] mb-4">Témoignages</p>
+          <h2 className="text-3xl sm:text-4xl font-bold text-center text-white mb-4 tracking-tight">
+            Ils roulent avec OxaPlay.
           </h2>
-          <p className="text-center text-gray-400 mb-14 leading-relaxed">Découvrez les retours de nos motards en vidéo</p>
+          <p className="text-center text-zinc-500 text-sm mb-14">Découvrez les retours de nos motards en vidéo.</p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {TESTIMONIAL_VIDEOS.map((src, i) => (
               <div
                 key={i}
-                className="rounded-2xl overflow-hidden border border-white/10 hover:border-purple-500/50 hover:shadow-[0_0_30px_-5px_rgba(168,85,247,0.15)] transition-all duration-500 bg-white/[0.03] backdrop-blur-lg"
+                className="rounded-2xl overflow-hidden bg-zinc-900/50 border border-zinc-800 hover:border-zinc-700 transition-all duration-500"
               >
-                <video src={src} controls playsInline preload="metadata" className="w-full aspect-[9/16] object-cover rounded-2xl bg-zinc-900" />
+                <video src={src} controls playsInline preload="metadata" className="w-full aspect-[9/16] object-cover bg-zinc-900" />
               </div>
             ))}
           </div>
@@ -452,33 +419,33 @@ export default function CarPlayMotoPage() {
       </section>
 
       {/* ─── FAQ ─── */}
-      <section className="w-full bg-black py-12 sm:py-16">
-        <div className="max-w-3xl mx-auto px-4">
-          <span className="block text-center text-xs font-bold text-purple-400 uppercase tracking-[0.2em] mb-4">Support</span>
-          <h2 className="text-2xl sm:text-3xl font-bold text-center text-zinc-50 mb-14">
-            Questions fréquentes
+      <section className="w-full bg-zinc-950 py-20 sm:py-28">
+        <div className="max-w-3xl mx-auto px-6">
+          <p className="text-center text-[11px] font-medium text-zinc-500 uppercase tracking-[0.25em] mb-4">Support</p>
+          <h2 className="text-3xl sm:text-4xl font-bold text-center text-white mb-14 tracking-tight">
+            Questions fréquentes.
           </h2>
 
           <div className="space-y-3">
             {FAQ_ITEMS.map((item, i) => (
               <div
                 key={i}
-                className="rounded-xl border border-white/10 bg-white/[0.03] backdrop-blur-lg overflow-hidden transition-all duration-300 hover:border-purple-500/40"
+                className="rounded-2xl border border-zinc-800 bg-zinc-900/50 overflow-hidden transition-all duration-300 hover:border-zinc-700"
               >
                 <button
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
                   className="w-full flex items-center justify-between gap-4 px-6 py-5 text-left"
                 >
-                  <span className="text-sm sm:text-base font-semibold text-zinc-50">{item.q}</span>
+                  <span className="text-sm sm:text-base font-medium text-white">{item.q}</span>
                   <svg
-                    className={`w-5 h-5 text-purple-400 shrink-0 transition-transform duration-300 ${openFaq === i ? "rotate-180" : ""}`}
+                    className={`w-4 h-4 text-zinc-500 shrink-0 transition-transform duration-300 ${openFaq === i ? "rotate-180" : ""}`}
                     fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                   </svg>
                 </button>
                 <div className={`overflow-hidden transition-all duration-300 ${openFaq === i ? "max-h-60 pb-5" : "max-h-0"}`}>
-                  <p className="px-6 text-sm text-gray-400 leading-relaxed">{item.a}</p>
+                  <p className="px-6 text-sm text-zinc-500 leading-relaxed">{item.a}</p>
                 </div>
               </div>
             ))}
@@ -489,36 +456,27 @@ export default function CarPlayMotoPage() {
       {/* ─── STICKY BOTTOM CTA (mobile) ─── */}
       {showSticky && (
         <div className="fixed bottom-0 left-0 right-0 z-40 lg:hidden">
-        {/* Gradient fade top */}
-        <div className="absolute inset-x-0 bottom-full h-20 bg-gradient-to-t from-black to-transparent pointer-events-none" />
-        
-        <div className="relative bg-gradient-to-b from-zinc-900/95 to-black/95 backdrop-blur-2xl border-t border-white/10 shadow-[0_-10px_40px_-10px_rgba(0,0,0,0.8)]">
-          <div className="max-w-lg mx-auto px-4 py-4">
-            {/* Price + Discount badge */}
-            <div className="flex items-center justify-center gap-3 mb-3">
-              <div className="flex items-baseline gap-2">
-                <span className="text-2xl font-extrabold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">{formattedActualPrice}</span>
-                <span className="text-sm text-gray-500 line-through">{formattedOriginalPrice}</span>
+          <div className="relative bg-zinc-950/95 backdrop-blur-2xl border-t border-zinc-800">
+            <div className="max-w-lg mx-auto px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-baseline gap-2">
+                  <span className="text-xl font-light text-white">{formattedActualPrice}</span>
+                  <span className="text-xs text-zinc-600 line-through">{formattedOriginalPrice}</span>
+                </div>
+                <span className="text-xs text-zinc-500">-{discount}%</span>
               </div>
-              <span className="px-3 py-1.5 rounded-lg bg-gradient-to-r from-green-600/20 to-emerald-600/20 text-green-400 text-sm font-bold border border-green-500/30 shadow-[0_0_10px_-2px_rgba(34,197,94,0.4)]">-{discount}%</span>
+              <button
+                onClick={handleCheckoutClick}
+                className="w-full py-3.5 min-h-[48px] rounded-full bg-white text-zinc-950 font-semibold text-sm transition-all duration-300 hover:bg-zinc-200 active:scale-[0.98] flex items-center justify-center gap-2"
+              >
+                Commander maintenant
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </button>
             </div>
-            
-            {/* CTA Button */}
-            <button
-              onClick={handleCheckoutClick}
-              className="w-full py-4 min-h-[52px] rounded-2xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-base transition-all duration-300 shadow-[0_8px_30px_-8px_rgba(168,85,247,0.6)] hover:shadow-[0_8px_40px_-8px_rgba(168,85,247,0.8)] hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2"
-            >
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z" />
-              </svg>
-              Commander maintenant
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
-            </button>
           </div>
         </div>
-      </div>
       )}
 
       {/* Checkout Modal */}
@@ -531,19 +489,18 @@ export default function CarPlayMotoPage() {
       />
 
       {/* ─── FOOTER ─── */}
-      <footer className="w-full border-t border-white/[0.06] bg-black pb-20 lg:pb-0">
-        <div className="max-w-7xl mx-auto px-4 py-16">
+      <footer className="w-full border-t border-zinc-800/50 bg-zinc-950 pb-20 lg:pb-0">
+        <div className="max-w-7xl mx-auto px-6 py-12">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-xs text-gray-600">© 2025 OxaPlay. Tous droits réservés.</p>
-            <div className="flex flex-wrap gap-6 text-xs text-gray-500">
-              <Link href="/mentions-legales" className="hover:text-purple-400 transition-colors">Mentions Légales</Link>
-              <Link href="/cgv" className="hover:text-purple-400 transition-colors">CGV</Link>
-              <Link href="/politique-de-confidentialite" className="hover:text-purple-400 transition-colors">Confidentialité</Link>
-              <Link href="/politique-de-retour" className="hover:text-purple-400 transition-colors">Retours</Link>
+            <p className="text-xs text-zinc-700">© 2025 OxaPlay. Tous droits réservés.</p>
+            <div className="flex flex-wrap gap-6 text-xs text-zinc-600">
+              <Link href="/mentions-legales" className="hover:text-white transition-colors duration-300">Mentions Légales</Link>
+              <Link href="/cgv" className="hover:text-white transition-colors duration-300">CGV</Link>
+              <Link href="/politique-de-confidentialite" className="hover:text-white transition-colors duration-300">Confidentialité</Link>
+              <Link href="/politique-de-retour" className="hover:text-white transition-colors duration-300">Retours</Link>
             </div>
           </div>
         </div>
-        <div className="w-full h-1 bg-gradient-to-r from-purple-700 via-purple-500 to-purple-700" />
       </footer>
     </main>
   );

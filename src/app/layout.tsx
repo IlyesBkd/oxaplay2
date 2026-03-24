@@ -1,13 +1,19 @@
 import type { Metadata } from "next";
-import { Poppins } from "next/font/google";
+import { Outfit, Inter } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { PostHogProvider } from "./components/PostHogProvider";
 import { PostHogPageView } from "./components/PostHogPageView";
 import { Suspense } from "react";
 
-const poppins = Poppins({
-  variable: "--font-poppins",
+const outfit = Outfit({
+  variable: "--font-outfit",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800"],
+});
+
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
 });
@@ -72,7 +78,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr" className={`${poppins.variable} antialiased`}>
+    <html lang="fr" className={`${outfit.variable} ${inter.variable} antialiased`}>
       <head>
         {/* Google Ads Conversion Tracking */}
         <Script
@@ -88,7 +94,7 @@ export default function RootLayout({
           `}
         </Script>
       </head>
-      <body className="min-h-screen bg-black text-white">
+      <body className="min-h-screen bg-zinc-950 text-white font-sans">
         <PostHogProvider>
           <Suspense fallback={null}>
             <PostHogPageView />
