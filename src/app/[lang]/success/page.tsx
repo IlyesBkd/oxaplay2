@@ -4,6 +4,7 @@ import { getOrderByPaymentId, updateOrderStatus } from "@/db";
 import { notifyNewOrder } from "@/lib/discord";
 import { sendOrderConfirmationEmail } from "@/lib/email";
 import { OrderCompletedTracker } from "@/app/components/OrderCompletedTracker";
+import { GoogleAdsConversion } from "@/app/components/GoogleAdsConversion";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2026-02-25.clover",
@@ -95,13 +96,21 @@ export default async function SuccessPage({ searchParams }: SuccessPageProps) {
     <main className="w-full min-h-screen bg-black text-white flex items-center justify-center">
       {/* PostHog Order Tracking */}
       {orderData && (
-        <OrderCompletedTracker
-          orderId={orderData.id}
-          productName={orderData.productName}
-          amount={orderData.amount}
-          currency={orderData.currency}
-          email={orderData.email}
-        />
+        <>
+          <OrderCompletedTracker
+            orderId={orderData.id}
+            productName={orderData.productName}
+            amount={orderData.amount}
+            currency={orderData.currency}
+            email={orderData.email}
+          />
+          {/* Google Ads Conversion Tracking */}
+          <GoogleAdsConversion
+            orderId={orderData.id}
+            amount={orderData.amount}
+            currency={orderData.currency}
+          />
+        </>
       )}
       
       <div className="max-w-lg mx-auto px-6 text-center py-20">

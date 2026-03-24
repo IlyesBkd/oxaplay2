@@ -46,8 +46,10 @@ interface CheckoutModalProps {
 /* ─── Step 2: Payment Form ─── */
 function PaymentStep({
   onSuccess,
+  onBack,
 }: {
   onSuccess: () => void;
+  onBack: () => void;
 }) {
   const stripe = useStripe();
   const elements = useElements();
@@ -117,38 +119,50 @@ function PaymentStep({
         </p>
       )}
 
-      <button
-        type="submit"
-        disabled={!stripe || loading}
-        className="w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-base transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_30px_-5px_rgba(168,85,247,0.4)]"
-      >
-        {loading ? (
-          <span className="flex items-center justify-center gap-2">
-            <svg
-              className="w-5 h-5 animate-spin"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <circle
-                className="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                strokeWidth="4"
-              />
-              <path
-                className="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-              />
-            </svg>
-            Traitement...
-          </span>
-        ) : (
-          "Payer maintenant"
-        )}
-      </button>
+      <div className="flex gap-3">
+        <button
+          type="button"
+          onClick={onBack}
+          className="px-6 py-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/50 text-white font-semibold text-base transition-all flex items-center justify-center gap-2"
+        >
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+          </svg>
+          Retour
+        </button>
+        <button
+          type="submit"
+          disabled={!stripe || loading}
+          className="flex-1 py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-base transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_30px_-5px_rgba(168,85,247,0.4)]"
+        >
+          {loading ? (
+            <span className="flex items-center justify-center gap-2">
+              <svg
+                className="w-5 h-5 animate-spin"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                />
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                />
+              </svg>
+              Traitement...
+            </span>
+          ) : (
+            "Payer maintenant"
+          )}
+        </button>
+      </div>
     </form>
   );
 }
@@ -315,8 +329,8 @@ export default function CheckoutModal({
           </div>
         </div>
 
-        {/* Content - no scroll, compact */}
-        <div className="px-4 sm:px-6 pb-6 flex-1 overflow-hidden">
+        {/* Content - scrollable */}
+        <div className="px-4 sm:px-6 pb-6 flex-1 overflow-y-auto overflow-x-hidden">
           {step === 1 && (
             <form onSubmit={handleSubmit(onContactSubmit)} className="space-y-3 pt-4">
               {/* Contact Section */}
@@ -502,7 +516,7 @@ export default function CheckoutModal({
                 },
               }}
             >
-              <PaymentStep onSuccess={handleSuccess} />
+              <PaymentStep onSuccess={handleSuccess} onBack={() => setStep(1)} />
             </Elements>
           )}
         </div>

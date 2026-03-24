@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { PostHogProvider } from "./components/PostHogProvider";
 import { PostHogPageView } from "./components/PostHogPageView";
@@ -72,6 +73,21 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" className={`${poppins.variable} antialiased`}>
+      <head>
+        {/* Google Ads Conversion Tracking */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=AW-18013095662"
+          strategy="afterInteractive"
+        />
+        <Script id="google-ads-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'AW-18013095662');
+          `}
+        </Script>
+      </head>
       <body className="min-h-screen bg-black text-white">
         <PostHogProvider>
           <Suspense fallback={null}>
