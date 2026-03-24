@@ -315,28 +315,28 @@ export default function CheckoutModal({
           </div>
         </div>
 
-        {/* Content - scrollable */}
-        <div className="px-5 sm:px-8 pb-8 overflow-y-auto flex-1">
+        {/* Content - no scroll, compact */}
+        <div className="px-4 sm:px-6 pb-6 flex-1 overflow-hidden">
           {step === 1 && (
-            <form onSubmit={handleSubmit(onContactSubmit)} className="space-y-5 pt-6">
+            <form onSubmit={handleSubmit(onContactSubmit)} className="space-y-3 pt-4">
               {/* Contact Section */}
-              <div className="space-y-3.5">
-                <h3 className="text-sm font-bold text-purple-400 uppercase tracking-wider flex items-center gap-2">
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <div className="space-y-2.5">
+                <h3 className="text-xs font-bold text-purple-400 uppercase tracking-wider flex items-center gap-2">
+                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                   </svg>
                   Contact
                 </h3>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-3">
                   <div>
                     <input
                       {...register("firstName")}
                       placeholder="Prénom *"
-                      className="w-full px-4 py-3.5 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:border-purple-500/60 focus:bg-black/60 transition-all"
+                      className="w-full px-3 py-2.5 text-sm rounded-lg bg-black/40 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:border-purple-500/60 focus:bg-black/60 transition-all"
                     />
                     {errors.firstName && (
-                      <p className="text-xs text-red-400 mt-1.5 flex items-center gap-1">
+                      <p className="text-xs text-red-400 mt-1 flex items-center gap-1">
                         <span>⚠</span> {errors.firstName.message}
                       </p>
                     )}
@@ -345,10 +345,10 @@ export default function CheckoutModal({
                     <input
                       {...register("lastName")}
                       placeholder="Nom *"
-                      className="w-full px-4 py-3.5 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:border-purple-500/60 focus:bg-black/60 transition-all"
+                      className="w-full px-3 py-2.5 text-sm rounded-lg bg-black/40 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:border-purple-500/60 focus:bg-black/60 transition-all"
                     />
                     {errors.lastName && (
-                      <p className="text-xs text-red-400 mt-1.5 flex items-center gap-1">
+                      <p className="text-xs text-red-400 mt-1 flex items-center gap-1">
                         <span>⚠</span> {errors.lastName.message}
                       </p>
                     )}
@@ -360,10 +360,10 @@ export default function CheckoutModal({
                     {...register("email")}
                     type="email"
                     placeholder="Email *"
-                    className="w-full px-4 py-3.5 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:border-purple-500/60 focus:bg-black/60 transition-all"
+                    className="w-full px-3 py-2.5 text-sm rounded-lg bg-black/40 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:border-purple-500/60 focus:bg-black/60 transition-all"
                   />
                   {errors.email && (
-                    <p className="text-xs text-red-400 mt-1.5 flex items-center gap-1">
+                    <p className="text-xs text-red-400 mt-1 flex items-center gap-1">
                       <span>⚠</span> {errors.email.message}
                     </p>
                   )}
@@ -374,15 +374,15 @@ export default function CheckoutModal({
                     {...register("phone")}
                     type="tel"
                     placeholder="Téléphone (optionnel)"
-                    className="w-full px-4 py-3.5 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:border-purple-500/60 focus:bg-black/60 transition-all"
+                    className="w-full px-3 py-2.5 text-sm rounded-lg bg-black/40 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:border-purple-500/60 focus:bg-black/60 transition-all"
                   />
                 </div>
               </div>
 
               {/* Shipping Section */}
-              <div className="space-y-3.5 pt-2">
-                <h3 className="text-sm font-bold text-purple-400 uppercase tracking-wider flex items-center gap-2">
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <div className="space-y-2.5 pt-1">
+                <h3 className="text-xs font-bold text-purple-400 uppercase tracking-wider flex items-center gap-2">
+                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                   </svg>
                   Livraison
@@ -392,10 +392,10 @@ export default function CheckoutModal({
                   <input
                     {...register("line1")}
                     placeholder="Adresse *"
-                    className="w-full px-4 py-3.5 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:border-purple-500/60 focus:bg-black/60 transition-all"
+                    className="w-full px-3 py-2.5 text-sm rounded-lg bg-black/40 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:border-purple-500/60 focus:bg-black/60 transition-all"
                   />
                   {errors.line1 && (
-                    <p className="text-xs text-red-400 mt-1.5 flex items-center gap-1">
+                    <p className="text-xs text-red-400 mt-1 flex items-center gap-1">
                       <span>⚠</span> {errors.line1.message}
                     </p>
                   )}
@@ -405,19 +405,19 @@ export default function CheckoutModal({
                   <input
                     {...register("line2")}
                     placeholder="Complément d'adresse (optionnel)"
-                    className="w-full px-4 py-3.5 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:border-purple-500/60 focus:bg-black/60 transition-all"
+                    className="w-full px-3 py-2.5 text-sm rounded-lg bg-black/40 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:border-purple-500/60 focus:bg-black/60 transition-all"
                   />
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-3">
                   <div>
                     <input
                       {...register("postalCode")}
                       placeholder="Code postal *"
-                      className="w-full px-4 py-3.5 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:border-purple-500/60 focus:bg-black/60 transition-all"
+                      className="w-full px-3 py-2.5 text-sm rounded-lg bg-black/40 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:border-purple-500/60 focus:bg-black/60 transition-all"
                     />
                     {errors.postalCode && (
-                      <p className="text-xs text-red-400 mt-1.5 flex items-center gap-1">
+                      <p className="text-xs text-red-400 mt-1 flex items-center gap-1">
                         <span>⚠</span> {errors.postalCode.message}
                       </p>
                     )}
@@ -426,10 +426,10 @@ export default function CheckoutModal({
                     <input
                       {...register("city")}
                       placeholder="Ville *"
-                      className="w-full px-4 py-3.5 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:border-purple-500/60 focus:bg-black/60 transition-all"
+                      className="w-full px-3 py-2.5 text-sm rounded-lg bg-black/40 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:border-purple-500/60 focus:bg-black/60 transition-all"
                     />
                     {errors.city && (
-                      <p className="text-xs text-red-400 mt-1.5 flex items-center gap-1">
+                      <p className="text-xs text-red-400 mt-1 flex items-center gap-1">
                         <span>⚠</span> {errors.city.message}
                       </p>
                     )}
@@ -439,7 +439,7 @@ export default function CheckoutModal({
                 <div>
                   <select
                     {...register("country")}
-                    className="w-full px-4 py-3.5 rounded-xl bg-black/40 border border-white/10 text-white focus:outline-none focus:border-purple-500/60 focus:bg-black/60 transition-all cursor-pointer"
+                    className="w-full px-3 py-2.5 text-sm rounded-lg bg-black/40 border border-white/10 text-white focus:outline-none focus:border-purple-500/60 focus:bg-black/60 transition-all cursor-pointer"
                   >
                     <option value="FR">🇫🇷 France</option>
                     <option value="BE">🇧🇪 Belgique</option>
@@ -454,11 +454,11 @@ export default function CheckoutModal({
               </div>
 
               {/* Submit Button */}
-              <div className="pt-4">
+              <div className="pt-2">
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-base transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_8px_30px_-8px_rgba(168,85,247,0.6)] hover:shadow-[0_8px_40px_-8px_rgba(168,85,247,0.8)] hover:scale-[1.02] active:scale-[0.98]"
+                  className="w-full py-3 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_8px_30px_-8px_rgba(168,85,247,0.6)] hover:shadow-[0_8px_40px_-8px_rgba(168,85,247,0.8)] hover:scale-[1.02] active:scale-[0.98]"
                 >
                   {loading ? (
                     <span className="flex items-center justify-center gap-2">
@@ -477,8 +477,8 @@ export default function CheckoutModal({
                     </span>
                   )}
                 </button>
-                <div className="flex items-center justify-center mt-3">
-                  <Image src="/badges_paiement.png" alt="Paiement sécurisé" width={240} height={32} className="h-8 w-auto object-contain" />
+                <div className="flex items-center justify-center mt-2">
+                  <Image src="/badges_paiement.png" alt="Paiement sécurisé" width={200} height={28} className="h-6 w-auto object-contain opacity-70" />
                 </div>
               </div>
             </form>
