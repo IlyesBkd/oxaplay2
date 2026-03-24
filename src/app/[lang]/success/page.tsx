@@ -93,7 +93,7 @@ export default async function SuccessPage({ searchParams }: SuccessPageProps) {
   };
 
   return (
-    <main className="w-full min-h-screen bg-black text-white flex items-center justify-center">
+    <main className="w-full min-h-screen bg-zinc-950 text-white flex items-center justify-center">
       {/* PostHog Order Tracking */}
       {orderData && (
         <>
@@ -141,7 +141,7 @@ export default async function SuccessPage({ searchParams }: SuccessPageProps) {
         {orderData && (
           <div className="rounded-2xl bg-zinc-900/50 border border-white/[0.08] overflow-hidden mb-8 text-left">
             <div className="px-6 py-4 border-b border-white/[0.06]">
-              <p className="text-xs font-bold text-purple-400 uppercase tracking-[0.15em]">Récapitulatif de commande</p>
+              <p className="text-xs font-bold text-zinc-400 uppercase tracking-[0.15em]">Récapitulatif de commande</p>
             </div>
 
             <div className="px-6 py-3.5 flex justify-between border-b border-white/[0.04]">
@@ -156,7 +156,7 @@ export default async function SuccessPage({ searchParams }: SuccessPageProps) {
 
             <div className="px-6 py-3.5 flex justify-between border-b border-white/[0.04]">
               <span className="text-sm text-gray-500">Total payé</span>
-              <span className="text-lg font-bold text-purple-400">{formatPrice(orderData.amount, orderData.currency)}</span>
+              <span className="text-lg font-bold text-white">{formatPrice(orderData.amount, orderData.currency)}</span>
             </div>
 
             <div className="px-6 py-3.5 flex justify-between">
@@ -170,9 +170,9 @@ export default async function SuccessPage({ searchParams }: SuccessPageProps) {
         )}
 
         {/* Reassurance */}
-        <div className="rounded-xl bg-purple-950/15 border border-purple-500/15 px-5 py-4 mb-10">
+        <div className="rounded-xl bg-zinc-800/30 border border-zinc-800 px-5 py-4 mb-10">
           <div className="flex items-center gap-3 mb-2">
-            <svg className="w-5 h-5 text-purple-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <svg className="w-5 h-5 text-zinc-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
             </svg>
             <span className="text-sm font-semibold text-white">Confirmation envoyée</span>
@@ -185,7 +185,7 @@ export default async function SuccessPage({ searchParams }: SuccessPageProps) {
         {/* Shipping info */}
         <div className="rounded-xl bg-white/[0.03] border border-white/10 px-5 py-4 mb-10">
           <div className="flex items-center gap-3 mb-2">
-            <svg className="w-5 h-5 text-purple-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <svg className="w-5 h-5 text-zinc-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0" />
             </svg>
             <span className="text-sm font-semibold text-white">Livraison estimée</span>
@@ -195,7 +195,7 @@ export default async function SuccessPage({ searchParams }: SuccessPageProps) {
 
         <Link
           href="/"
-          className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-sm font-bold transition-all shadow-[0_0_30px_-5px_rgba(168,85,247,0.4)]"
+          className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white text-zinc-950 text-sm font-semibold transition-all duration-300 hover:bg-zinc-200 hover:scale-[1.03] active:scale-[0.97]"
         >
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />

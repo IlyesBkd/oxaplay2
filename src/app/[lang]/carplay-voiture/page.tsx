@@ -7,12 +7,13 @@ import Header from "@/app/components/Header";
 import CheckoutModal from "@/app/components/CheckoutModal";
 import RatingBadge from "@/app/components/RatingBadge";
 import { usePostHog } from "posthog-js/react";
+import { usePricingVariant } from "@/lib/usePricingVariant";
 
 /* ─── Data ─── */
 
 const GALLERY = [
-  "/Voiture/photos_produits/1.jpg",
   "/Voiture/photos_produits/2.jpg",
+  "/Voiture/photos_produits/1.jpg",
   "/Voiture/photos_produits/3.jpg",
   "/Voiture/photos_produits/4.jpg",
   "/Voiture/photos_produits/5.jpg",
@@ -110,47 +111,28 @@ export default function CarPlayVoiturePage() {
   const [activeImg, setActiveImg] = useState(0);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [showCheckout, setShowCheckout] = useState(false);
-  const [actualPrice, setActualPrice] = useState<number | null>(null);
-  const [originalPrice, setOriginalPrice] = useState<number | null>(null);
-  const [discount, setDiscount] = useState(50);
-  const [loading, setLoading] = useState(true);
   const [showSticky, setShowSticky] = useState(false);
   const posthog = usePostHog();
+  const pricing = usePricingVariant();
 
-  // Format prices for display
-  const formattedActualPrice = actualPrice ? `${(actualPrice / 100).toFixed(2).replace(".", ",")} €` : null;
-  const formattedOriginalPrice = originalPrice ? `${(originalPrice / 100).toFixed(2).replace(".", ",")} €` : null;
+  const { loading } = pricing;
+  const { formatted: formattedActualPrice, formattedOriginal: formattedOriginalPrice, actual: actualPrice, discount } = pricing.voiture;
 
+  // Track Product_Viewed once pricing resolves
   useEffect(() => {
-    async function fetchPrice() {
+    if (!loading && posthog) {
       try {
-        const res = await fetch("/api/prices");
-        if (res.ok) {
-          const prices = await res.json();
-          setActualPrice(prices.carplayVoitureEur);
-          setOriginalPrice(prices.carplayVoitureOriginalEur);
-          setDiscount(prices.carplayVoitureDiscount || 50);
-          
-          // Track Product_Viewed event
-          if (posthog) {
-            try {
-              posthog.capture('Product_Viewed', {
-                product_name: 'CarPlay Voiture',
-                price: prices.carplayVoitureEur / 100,
-              });
-            } catch (error) {
-              console.error('[PostHog] Error tracking Product_Viewed:', error);
-            }
-          }
-        }
-      } catch (err) {
-        console.error("Failed to fetch prices:", err);
-      } finally {
-        setLoading(false);
+        posthog.capture('Product_Viewed', {
+          product_name: 'CarPlay Voiture',
+          price: actualPrice / 100,
+          variant: pricing.variant,
+        });
+      } catch (error) {
+        console.error('[PostHog] Error tracking Product_Viewed:', error);
       }
     }
-    fetchPrice();
-  }, [posthog]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loading]);
 
   // Scroll listener for sticky CTA
   useEffect(() => {
@@ -171,12 +153,13 @@ export default function CarPlayVoiturePage() {
 
   // Handle checkout button click with tracking
   const handleCheckoutClick = () => {
-    if (posthog && actualPrice) {
+    if (posthog) {
       try {
         posthog.capture('Checkout_Started', {
           product_name: 'CarPlay Voiture',
           price: actualPrice / 100,
           currency: 'EUR',
+          variant: pricing.variant,
         });
       } catch (error) {
         console.error('[PostHog] Error tracking Checkout_Started:', error);
@@ -498,7 +481,8 @@ export default function CarPlayVoiturePage() {
         onClose={() => setShowCheckout(false)}
         productSlug="carplay-voiture"
         productName="CarPlay Voiture"
-        price={formattedActualPrice || ""}
+        price={formattedActualPrice}
+        variant={pricing.variant}
       />
 
       {/* ─── FOOTER ─── */}

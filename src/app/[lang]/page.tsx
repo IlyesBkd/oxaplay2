@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import Image from "next/image";
 import FAQ from "../components/FAQ";
 import RatingBadge from "../components/RatingBadge";
 import Header from "../components/Header";
+import { usePricingVariant, type PricingData } from "@/lib/usePricingVariant";
 
 /* ─── Data ─── */
 
@@ -94,50 +94,14 @@ const FOOTER_LEGAL = [
    PAGE
    ═══════════════════════════════════════════════════════════ */
 export default function Home() {
-  const [loading, setLoading] = useState(true);
-  const [pricesData, setPricesData] = useState<{
-    voiture: { actual: number; original: number; discount: number } | null;
-    moto: { actual: number; original: number; discount: number } | null;
-  }>({
-    voiture: null,
-    moto: null,
-  });
-
-  useEffect(() => {
-    async function fetchPrices() {
-      try {
-        const res = await fetch("/api/prices");
-        if (res.ok) {
-          const data = await res.json();
-          
-          setPricesData({
-            voiture: { 
-              actual: data.carplayVoitureEur,
-              original: data.carplayVoitureOriginalEur,
-              discount: data.carplayVoitureDiscount || 50
-            },
-            moto: { 
-              actual: data.carplayMotoEur,
-              original: data.carplayMotoOriginalEur,
-              discount: data.carplayMotoDiscount || 50
-            },
-          });
-        }
-      } catch (err) {
-        console.error("Failed to fetch prices:", err);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchPrices();
-  }, []);
+  const pricing = usePricingVariant();
 
   return (
     <main className="w-full min-h-screen bg-zinc-950 text-white overflow-x-hidden">
       <Header />
-      <Hero pricesData={pricesData} loading={loading} />
+      <Hero pricing={pricing} />
       <BrandStrip />
-      <ProductsCTA pricesData={pricesData} loading={loading} />
+      <ProductsCTA pricing={pricing} />
       <FeaturesHighlight />
       <HowItWorks />
       <Testimonials />
@@ -148,8 +112,8 @@ export default function Home() {
 }
 
 /* ─────────────────────────── HERO ─────────────────────────── */
-type PriceData = { actual: number; original: number; discount: number } | null;
-function Hero({ pricesData, loading }: { pricesData: { voiture: PriceData; moto: PriceData }; loading: boolean }) {
+
+function Hero({ pricing }: { pricing: PricingData }) {
   return (
     <section className="relative w-full h-[calc(100vh-72px)] min-h-[500px] flex items-end justify-center -mt-[72px] pt-[72px]">
       {/* Edge-to-edge background image */}
@@ -167,13 +131,16 @@ function Hero({ pricesData, loading }: { pricesData: { voiture: PriceData; moto:
       <div className="absolute inset-0 z-[1] bg-gradient-to-t from-zinc-950 via-zinc-950/60 to-transparent" />
       <div className="absolute inset-0 z-[1] bg-zinc-950/30" />
 
-      {/* Centered content */}
-      <div className="relative z-10 w-full max-w-4xl mx-auto px-6 pb-16 sm:pb-24 text-center">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.08] backdrop-blur-sm border border-white/[0.1] mb-8">
+      {/* Rating badge — positioned higher */}
+      <div className="absolute top-[calc(72px+18%)] left-0 right-0 z-10 flex justify-center">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.08] backdrop-blur-sm border border-white/[0.1]">
           <RatingBadge />
           <span className="text-sm text-zinc-300 font-medium">+2 000 clients satisfaits</span>
         </div>
+      </div>
 
+      {/* Centered content */}
+      <div className="relative z-10 w-full max-w-4xl mx-auto px-6 pb-3 sm:pb-4 text-center">
         <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold leading-[1.05] tracking-tight mb-6">
           <span className="text-white">L&apos;écran qui transforme</span>
           <br />
@@ -196,14 +163,14 @@ function Hero({ pricesData, loading }: { pricesData: { voiture: PriceData; moto:
             </svg>
           </a>
           <div className="flex items-center gap-3 text-sm text-zinc-500">
-            {loading ? (
+            {pricing.loading ? (
               <div className="h-5 w-32 bg-white/5 rounded-full animate-pulse" />
-            ) : pricesData.voiture ? (
+            ) : (
               <>
-                <span className="font-semibold text-white">À partir de {(pricesData.voiture.actual / 100).toFixed(2).replace(".", ",")} €</span>
-                <span className="text-zinc-600 line-through text-xs">{(pricesData.voiture.original / 100).toFixed(2).replace(".", ",")} €</span>
+                <span className="font-semibold text-white">À partir de {pricing.voiture.formatted}</span>
+                <span className="text-zinc-600 line-through text-xs">{pricing.voiture.formattedOriginal}</span>
               </>
-            ) : null}
+            )}
           </div>
         </div>
       </div>
@@ -234,7 +201,7 @@ function BrandStrip() {
 }
 
 /* ─────────────────────────── PRODUCTS CTA ─────────────────────────── */
-function ProductsCTA({ pricesData, loading }: { pricesData: { voiture: PriceData; moto: PriceData }; loading: boolean }) {
+function ProductsCTA({ pricing }: { pricing: PricingData }) {
   return (
     <section id="products" className="w-full bg-zinc-950 py-20 sm:py-28 relative overflow-hidden">
       <div className="relative z-10 max-w-6xl mx-auto px-6">
@@ -267,17 +234,17 @@ function ProductsCTA({ pricesData, loading }: { pricesData: { voiture: PriceData
                   <p className="text-sm text-zinc-500">Écran 10.26&quot; IPS HD panoramique</p>
                 </div>
                 <div className="text-right shrink-0">
-                  {loading ? (
+                  {pricing.loading ? (
                     <>
                       <div className="h-8 w-24 bg-zinc-800 rounded-lg animate-pulse mb-1" />
                       <div className="h-3 w-16 bg-zinc-800 rounded animate-pulse ml-auto" />
                     </>
-                  ) : pricesData.voiture ? (
+                  ) : (
                     <>
-                      <p className="text-2xl font-light text-white tracking-tight">{(pricesData.voiture.actual / 100).toFixed(2).replace(".", ",")} €</p>
-                      <p className="text-xs text-zinc-600 line-through">{(pricesData.voiture.original / 100).toFixed(2).replace(".", ",")} €</p>
+                      <p className="text-2xl font-light text-white tracking-tight">{pricing.voiture.formatted}</p>
+                      <p className="text-xs text-zinc-600 line-through">{pricing.voiture.formattedOriginal}</p>
                     </>
-                  ) : null}
+                  )}
                 </div>
               </div>
 
@@ -319,17 +286,17 @@ function ProductsCTA({ pricesData, loading }: { pricesData: { voiture: PriceData
                   <p className="text-sm text-zinc-500">Écran 5&quot; compact & étanche IP67</p>
                 </div>
                 <div className="text-right shrink-0">
-                  {loading ? (
+                  {pricing.loading ? (
                     <>
                       <div className="h-8 w-24 bg-zinc-800 rounded-lg animate-pulse mb-1" />
                       <div className="h-3 w-16 bg-zinc-800 rounded animate-pulse ml-auto" />
                     </>
-                  ) : pricesData.moto ? (
+                  ) : (
                     <>
-                      <p className="text-2xl font-light text-white tracking-tight">{(pricesData.moto.actual / 100).toFixed(2).replace(".", ",")} €</p>
-                      <p className="text-xs text-zinc-600 line-through">{(pricesData.moto.original / 100).toFixed(2).replace(".", ",")} €</p>
+                      <p className="text-2xl font-light text-white tracking-tight">{pricing.moto.formatted}</p>
+                      <p className="text-xs text-zinc-600 line-through">{pricing.moto.formattedOriginal}</p>
                     </>
-                  ) : null}
+                  )}
                 </div>
               </div>
 

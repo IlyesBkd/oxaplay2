@@ -14,6 +14,7 @@ import {
 import { loadStripe } from "@stripe/stripe-js";
 import Image from "next/image";
 import { usePostHog } from "posthog-js/react";
+import type { PricingVariant } from "@/lib/pricing";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
@@ -41,6 +42,7 @@ interface CheckoutModalProps {
   productSlug: string;
   productName: string;
   price: string;
+  variant: PricingVariant;
 }
 
 /* ─── Step 2: Payment Form ─── */
@@ -174,6 +176,7 @@ export default function CheckoutModal({
   productSlug,
   productName,
   price,
+  variant,
 }: CheckoutModalProps) {
   const [step, setStep] = useState<1 | 2>(1);
   const [clientSecret, setClientSecret] = useState<string | null>(null);
@@ -217,6 +220,7 @@ export default function CheckoutModal({
           lastName: data.lastName,
           phone: data.phone,
           productSlug,
+          variant,
           currency: detectCurrency(),
           shipping: {
             line1: data.line1,
