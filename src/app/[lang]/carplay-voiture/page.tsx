@@ -281,8 +281,8 @@ export default function CarPlayVoiturePage() {
 
       {/* ─── FOCUS PRODUIT ─── */}
       <section className="w-full bg-zinc-950">
-        <div className="max-w-7xl mx-auto px-6 py-20 sm:py-28">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+        <div className="max-w-7xl mx-auto px-6 py-12 sm:py-28">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 sm:gap-16 items-center">
             {/* Left: Text */}
             <div className="border-l border-zinc-800 pl-8">
               <p className="text-[11px] font-medium text-zinc-500 uppercase tracking-[0.25em] mb-5">Technologie & Détails</p>
@@ -314,26 +314,26 @@ export default function CarPlayVoiturePage() {
       </section>
 
       {/* ─── FEATURES BENTO GRID ─── */}
-      <section className="w-full bg-zinc-950 py-20 sm:py-28">
+      <section className="w-full bg-zinc-950 py-12 sm:py-28">
         <div className="max-w-7xl mx-auto px-6">
           <p className="text-center text-[11px] font-medium text-zinc-500 uppercase tracking-[0.25em] mb-4">Fonctionnalités</p>
-          <h2 className="text-3xl sm:text-4xl font-bold text-center text-white mb-16 tracking-tight">
+          <h2 className="text-3xl sm:text-4xl font-bold text-center text-white mb-10 sm:mb-16 tracking-tight">
             Tout ce dont vous avez besoin.
           </h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-3 sm:gap-4">
             {BENTO_FEATURES.map((f) => (
               <div
                 key={f.title}
-                className={`group rounded-2xl bg-zinc-900/50 border border-zinc-800 p-8 hover:border-zinc-700 hover:bg-zinc-900/80 transition-all duration-500 ${f.span}`}
+                className={`group rounded-xl sm:rounded-2xl bg-zinc-900/50 border border-zinc-800 p-4 sm:p-8 hover:border-zinc-700 hover:bg-zinc-900/80 transition-all duration-500 ${f.span}`}
               >
-                <div className="w-10 h-10 rounded-xl bg-zinc-800 flex items-center justify-center mb-5 group-hover:bg-zinc-700 transition-colors duration-300">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-zinc-800 flex items-center justify-center mb-3 sm:mb-5 group-hover:bg-zinc-700 transition-colors duration-300">
                   <svg className="w-5 h-5 text-zinc-400 group-hover:text-white transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d={f.svg} />
                   </svg>
                 </div>
-                <h3 className="text-base font-semibold text-white mb-2 tracking-tight">{f.title}</h3>
-                <p className="text-sm text-zinc-500 leading-relaxed">{f.desc}</p>
+                <h3 className="text-sm sm:text-base font-semibold text-white mb-1 sm:mb-2 tracking-tight">{f.title}</h3>
+                <p className="text-xs sm:text-sm text-zinc-500 leading-relaxed">{f.desc}</p>
               </div>
             ))}
           </div>
@@ -342,9 +342,9 @@ export default function CarPlayVoiturePage() {
 
       {/* ─── SPECS & BOX ─── */}
       <section className="w-full bg-zinc-950">
-        <div className="max-w-7xl mx-auto px-6 py-20 sm:py-28">
+        <div className="max-w-7xl mx-auto px-6 py-12 sm:py-28">
           <p className="text-center text-[11px] font-medium text-zinc-500 uppercase tracking-[0.25em] mb-4">Détails</p>
-          <h2 className="text-3xl sm:text-4xl font-bold text-center text-white mb-16 tracking-tight">
+          <h2 className="text-3xl sm:text-4xl font-bold text-center text-white mb-10 sm:mb-16 tracking-tight">
             Fiche technique & Contenu.
           </h2>
 
@@ -393,15 +393,15 @@ export default function CarPlayVoiturePage() {
       </section>
 
       {/* ─── TESTIMONIALS ─── */}
-      <section className="w-full bg-zinc-950 py-20 sm:py-28">
+      <section className="w-full bg-zinc-950 py-12 sm:py-28">
         <div className="max-w-7xl mx-auto px-6">
           <p className="text-center text-[11px] font-medium text-zinc-500 uppercase tracking-[0.25em] mb-4">Témoignages</p>
           <h2 className="text-3xl sm:text-4xl font-bold text-center text-white mb-4 tracking-tight">
             Ils l&apos;ont adopté.
           </h2>
-          <p className="text-center text-zinc-500 text-sm mb-14">Découvrez les retours de nos clients en vidéo.</p>
+          <p className="text-center text-zinc-500 text-sm mb-10 sm:mb-14">Découvrez les retours de nos clients en vidéo.</p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             {TESTIMONIAL_VIDEOS.map((src, i) => (
               <div
                 key={i}
@@ -415,10 +415,10 @@ export default function CarPlayVoiturePage() {
       </section>
 
       {/* ─── FAQ ─── */}
-      <section className="w-full bg-zinc-950 py-20 sm:py-28">
+      <section className="w-full bg-zinc-950 py-12 sm:py-28">
         <div className="max-w-3xl mx-auto px-6">
           <p className="text-center text-[11px] font-medium text-zinc-500 uppercase tracking-[0.25em] mb-4">Support</p>
-          <h2 className="text-3xl sm:text-4xl font-bold text-center text-white mb-14 tracking-tight">
+          <h2 className="text-3xl sm:text-4xl font-bold text-center text-white mb-10 sm:mb-14 tracking-tight">
             Questions fréquentes.
           </h2>
 

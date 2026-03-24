@@ -93,7 +93,7 @@ export default async function SuccessPage({ searchParams }: SuccessPageProps) {
   };
 
   return (
-    <main className="w-full min-h-screen bg-zinc-950 text-white flex items-center justify-center">
+    <main className="w-full min-h-screen bg-zinc-950 text-white flex items-start justify-center pt-20 sm:pt-28">
       {/* PostHog Order Tracking */}
       {orderData && (
         <>

@@ -203,9 +203,9 @@ function BrandStrip() {
 /* ─────────────────────────── PRODUCTS CTA ─────────────────────────── */
 function ProductsCTA({ pricing }: { pricing: PricingData }) {
   return (
-    <section id="products" className="w-full bg-zinc-950 py-20 sm:py-28 relative overflow-hidden">
+    <section id="products" className="w-full bg-zinc-950 py-12 sm:py-28 relative overflow-hidden">
       <div className="relative z-10 max-w-6xl mx-auto px-6">
-        <div className="text-center mb-16">
+        <div className="text-center mb-10 sm:mb-16">
           <p className="text-[11px] font-medium text-zinc-500 uppercase tracking-[0.25em] mb-4">Nos Produits</p>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4 tracking-tight">
             Choisissez votre écran.
@@ -216,7 +216,7 @@ function ProductsCTA({ pricing }: { pricing: PricingData }) {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
           {/* ── CarPlay Voiture ── */}
           <a href="/carplay-voiture" className="group relative rounded-3xl overflow-hidden bg-zinc-900/50 border border-zinc-800 hover:border-zinc-700 transition-all duration-500 hover:scale-[1.01]">
-            <div className="relative h-72 sm:h-80 overflow-hidden">
+            <div className="relative h-48 sm:h-80 overflow-hidden">
               <Image
                 src="/Voiture/photos_produits/2.jpg"
                 alt="CarPlay Voiture"
@@ -227,10 +227,10 @@ function ProductsCTA({ pricing }: { pricing: PricingData }) {
               <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-zinc-900/40 to-transparent" />
             </div>
 
-            <div className="relative p-8">
-              <div className="flex items-start justify-between gap-4 mb-5">
+            <div className="relative p-5 sm:p-8">
+              <div className="flex items-start justify-between gap-4 mb-4 sm:mb-5">
                 <div>
-                  <h3 className="text-xl sm:text-2xl font-bold text-white mb-1.5 tracking-tight">CarPlay Voiture</h3>
+                  <h3 className="text-lg sm:text-2xl font-bold text-white mb-1 sm:mb-1.5 tracking-tight">CarPlay Voiture</h3>
                   <p className="text-sm text-zinc-500">Écran 10.26&quot; IPS HD panoramique</p>
                 </div>
                 <div className="text-right shrink-0">
@@ -248,7 +248,7 @@ function ProductsCTA({ pricing }: { pricing: PricingData }) {
                 </div>
               </div>
 
-              <div className="flex flex-wrap gap-2 mb-6">
+              <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-4 sm:mb-6">
                 {["Sans fil", "CarPlay + Android", "Plug & Play"].map((f) => (
                   <span key={f} className="px-3 py-1 rounded-full bg-zinc-800/80 text-[11px] text-zinc-400 font-medium">{f}</span>
                 ))}
@@ -268,7 +268,7 @@ function ProductsCTA({ pricing }: { pricing: PricingData }) {
 
           {/* ── CarPlay Moto ── */}
           <a href="/carplay-moto" className="group relative rounded-3xl overflow-hidden bg-zinc-900/50 border border-zinc-800 hover:border-zinc-700 transition-all duration-500 hover:scale-[1.01]">
-            <div className="relative h-72 sm:h-80 overflow-hidden">
+            <div className="relative h-48 sm:h-80 overflow-hidden">
               <Image
                 src="/Moto/photos_produits/3.jpg"
                 alt="CarPlay Moto"
@@ -279,10 +279,10 @@ function ProductsCTA({ pricing }: { pricing: PricingData }) {
               <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-zinc-900/40 to-transparent" />
             </div>
 
-            <div className="relative p-8">
-              <div className="flex items-start justify-between gap-4 mb-5">
+            <div className="relative p-5 sm:p-8">
+              <div className="flex items-start justify-between gap-4 mb-4 sm:mb-5">
                 <div>
-                  <h3 className="text-xl sm:text-2xl font-bold text-white mb-1.5 tracking-tight">CarPlay Moto</h3>
+                  <h3 className="text-lg sm:text-2xl font-bold text-white mb-1 sm:mb-1.5 tracking-tight">CarPlay Moto</h3>
                   <p className="text-sm text-zinc-500">Écran 5&quot; compact & étanche IP67</p>
                 </div>
                 <div className="text-right shrink-0">
@@ -300,7 +300,7 @@ function ProductsCTA({ pricing }: { pricing: PricingData }) {
                 </div>
               </div>
 
-              <div className="flex flex-wrap gap-2 mb-6">
+              <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-4 sm:mb-6">
                 {["Étanche IP67", "GPS intégré", "Soleil lisible"].map((f) => (
                   <span key={f} className="px-3 py-1 rounded-full bg-zinc-800/80 text-[11px] text-zinc-400 font-medium">{f}</span>
                 ))}
@@ -320,7 +320,7 @@ function ProductsCTA({ pricing }: { pricing: PricingData }) {
         </div>
 
         {/* Trust strip */}
-        <div className="mt-14 flex flex-wrap items-center justify-center gap-8 sm:gap-12">
+        <div className="mt-8 sm:mt-14 grid grid-cols-2 sm:flex sm:flex-wrap items-center justify-center gap-4 sm:gap-12">
           {[
             { icon: "M5 13l4 4L19 7", label: "Livraison 48h gratuite" },
             { icon: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z", label: "Garantie 2 ans" },
@@ -344,8 +344,8 @@ function ProductsCTA({ pricing }: { pricing: PricingData }) {
 function FeaturesHighlight() {
   return (
     <section id="features" className="w-full bg-zinc-950 border-y border-zinc-800/50">
-      <div className="max-w-6xl mx-auto px-6 py-20 sm:py-28">
-        <div className="text-center mb-16">
+      <div className="max-w-6xl mx-auto px-6 py-12 sm:py-28">
+        <div className="text-center mb-10 sm:mb-16">
           <p className="text-[11px] font-medium text-zinc-500 uppercase tracking-[0.25em] mb-4">Avantages</p>
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4 tracking-tight">
             Pourquoi choisir OxaPlay.
@@ -404,8 +404,8 @@ const STEPS = [
 function HowItWorks() {
   return (
     <section className="w-full bg-zinc-950 border-y border-zinc-800/50">
-      <div className="max-w-5xl mx-auto px-6 py-20 sm:py-28">
-        <div className="text-center mb-16">
+      <div className="max-w-5xl mx-auto px-6 py-12 sm:py-28">
+        <div className="text-center mb-10 sm:mb-16">
           <p className="text-[11px] font-medium text-zinc-500 uppercase tracking-[0.25em] mb-4">Simplicité</p>
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4 tracking-tight">
             Installation en 3 étapes.
@@ -413,7 +413,7 @@ function HowItWorks() {
           <p className="text-zinc-500 text-sm">Aucun outil requis. Prêt en 2 minutes.</p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        <div className="grid grid-cols-3 gap-4 sm:gap-6">
           {STEPS.map((s, i) => (
             <div key={s.num} className="relative text-center group">
               {/* Connector line */}
@@ -421,7 +421,7 @@ function HowItWorks() {
                 <div className="hidden sm:block absolute top-12 left-[60%] w-[80%] h-px bg-zinc-800" />
               )}
 
-              <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-zinc-900 border border-zinc-800 group-hover:border-zinc-700 transition-all duration-300 mb-6">
+              <div className="inline-flex items-center justify-center w-14 h-14 sm:w-20 sm:h-20 rounded-2xl bg-zinc-900 border border-zinc-800 group-hover:border-zinc-700 transition-all duration-300 mb-3 sm:mb-6">
                 <svg className="w-7 h-7 text-zinc-400 group-hover:text-white transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d={s.svg} />
                 </svg>
@@ -442,8 +442,8 @@ function HowItWorks() {
 function Testimonials() {
   return (
     <section id="avis" className="w-full bg-zinc-950">
-      <div className="max-w-7xl mx-auto px-6 py-20 sm:py-28">
-        <div className="text-center mb-16">
+      <div className="max-w-7xl mx-auto px-6 py-12 sm:py-28">
+        <div className="text-center mb-10 sm:mb-16">
           <p className="text-[11px] font-medium text-zinc-500 uppercase tracking-[0.25em] mb-4">Témoignages</p>
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4 tracking-tight">
             Ils l&apos;ont adopté.
@@ -451,11 +451,11 @@ function Testimonials() {
           <p className="text-zinc-500 text-sm">Découvrez les retours de nos clients en vidéo.</p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           {TESTIMONIAL_VIDEOS.map((src, i) => (
             <div
               key={i}
-              className="rounded-2xl overflow-hidden bg-zinc-900/50 border border-zinc-800 hover:border-zinc-700 transition-all duration-500"
+              className="rounded-xl sm:rounded-2xl overflow-hidden bg-zinc-900/50 border border-zinc-800 hover:border-zinc-700 transition-all duration-500"
             >
               <video
                 src={src}
