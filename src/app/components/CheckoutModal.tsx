@@ -226,7 +226,7 @@ function PaymentStep({
       {/* Product summary */}
       <ProductSummary productSlug={productSlug} productName={productName} price={price} />
 
-      {/* Express Checkout (Apple Pay / Google Pay) */}
+      {/* Express Checkout — Apple Pay + PayPal only */}
       <div>
         <p className="text-[11px] font-medium text-zinc-500 uppercase tracking-[0.25em] mb-3">
           Paiement express
@@ -235,19 +235,23 @@ function PaymentStep({
           options={{
             buttonType: {
               applePay: "buy",
-              googlePay: "buy",
               paypal: "buynow",
+            },
+            buttonTheme: {
+              applePay: "white-outline",
+              paypal: "gold",
             },
             buttonHeight: 52,
             layout: {
               maxColumns: 1,
-              maxRows: 3,
+              maxRows: 2,
               overflow: "never",
             },
             paymentMethods: {
               applePay: "always",
-              googlePay: "always",
+              googlePay: "never",
               paypal: "auto",
+              link: "never",
             },
           }}
           onConfirm={handleExpressCheckoutConfirm}
@@ -255,7 +259,7 @@ function PaymentStep({
       </div>
 
       {/* Separator */}
-      <div className="relative">
+      <div className="relative py-1">
         <div className="absolute inset-0 flex items-center">
           <div className="w-full border-t border-zinc-800" />
         </div>
@@ -266,11 +270,15 @@ function PaymentStep({
         </div>
       </div>
 
-      {/* Card Payment Form */}
+      {/* Card Payment Form — no wallets, card only */}
       <form onSubmit={handleSubmit} className="space-y-5">
         <PaymentElement
           options={{
             layout: "tabs",
+            wallets: {
+              applePay: "never",
+              googlePay: "never",
+            },
           }}
         />
 
