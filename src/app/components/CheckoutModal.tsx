@@ -227,7 +227,7 @@ function PaymentStep({
       <ProductSummary productSlug={productSlug} productName={productName} price={price} />
 
       {/* Express Checkout — Apple Pay + PayPal only */}
-      <div>
+      <div className="min-h-[120px]">
         <p className="text-[11px] font-medium text-zinc-500 uppercase tracking-[0.25em] mb-3">
           Paiement express
         </p>
@@ -235,7 +235,7 @@ function PaymentStep({
           options={{
             buttonType: {
               applePay: "buy",
-              paypal: "buynow",
+              paypal: "checkout",
             },
             buttonTheme: {
               applePay: "white-outline",
@@ -252,6 +252,7 @@ function PaymentStep({
               googlePay: "never",
               paypal: "auto",
               link: "never",
+              klarna: "never",
             },
           }}
           onConfirm={handleExpressCheckoutConfirm}
