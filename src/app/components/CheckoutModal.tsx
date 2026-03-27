@@ -247,7 +247,7 @@ function PaymentStep({
             paymentMethods: {
               applePay: "always",
               googlePay: "always",
-              paypal: "always",
+              paypal: "auto",
             },
           }}
           onConfirm={handleExpressCheckoutConfirm}
