@@ -11,7 +11,7 @@ import {
   useStripe,
   useElements,
 } from "@stripe/react-stripe-js";
-import { loadStripe, type StripeExpressCheckoutElementConfirmEvent } from "@stripe/stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 import Image from "next/image";
 import { usePostHog } from "posthog-js/react";
 import type { PricingVariant } from "@/lib/pricing";
@@ -206,19 +206,22 @@ function PaymentStep({
   };
 
   const handleExpressCheckoutConfirm = useCallback(
-    async (_event: StripeExpressCheckoutElementConfirmEvent) => {
+    async () => {
       if (!stripe || !elements) return;
       const { error } = await stripe.confirmPayment({
         elements,
         confirmParams: {
           return_url: `${window.location.origin}/success`,
         },
+        redirect: "if_required",
       });
       if (error) {
         setError(error.message || "Erreur de paiement express");
+      } else {
+        onSuccess();
       }
     },
-    [stripe, elements]
+    [stripe, elements, onSuccess]
   );
 
   return (
@@ -226,36 +229,20 @@ function PaymentStep({
       {/* Product summary */}
       <ProductSummary productSlug={productSlug} productName={productName} price={price} />
 
-      {/* Express Checkout — Apple Pay + PayPal only */}
-      <div className="min-h-[120px]">
+      {/* Express Checkout — Apple Pay / Google Pay / PayPal */}
+      <div className="min-h-[60px]">
         <p className="text-[11px] font-medium text-zinc-500 uppercase tracking-[0.25em] mb-3">
           Paiement express
         </p>
         <ExpressCheckoutElement
+          onConfirm={handleExpressCheckoutConfirm}
           options={{
+            buttonHeight: 52,
             buttonType: {
               applePay: "buy",
-              paypal: "checkout",
-            },
-            buttonTheme: {
-              applePay: "white-outline",
-              paypal: "gold",
-            },
-            buttonHeight: 52,
-            layout: {
-              maxColumns: 1,
-              maxRows: 3,
-              overflow: "never",
-            },
-            paymentMethods: {
-              applePay: "always",
-              googlePay: "always",
-              paypal: "auto",
-              link: "never",
-              klarna: "never",
+              googlePay: "buy",
             },
           }}
-          onConfirm={handleExpressCheckoutConfirm}
         />
       </div>
 
