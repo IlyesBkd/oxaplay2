@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -11,7 +11,7 @@ import {
   useStripe,
   useElements,
 } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
+import { loadStripe, type StripeExpressCheckoutElementConfirmEvent } from "@stripe/stripe-js";
 import Image from "next/image";
 import { usePostHog } from "posthog-js/react";
 import type { PricingVariant } from "@/lib/pricing";
@@ -19,6 +19,61 @@ import type { PricingVariant } from "@/lib/pricing";
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
 );
+
+/* ─── Product image map ─── */
+const PRODUCT_IMAGES: Record<string, string> = {
+  "carplay-voiture": "/Voiture/photos_produits/2.jpg",
+  "carplay-moto": "/Moto/photos_produits/3.jpg",
+};
+
+/* ─── Stripe Appearance (Premium Native dark) ─── */
+const STRIPE_APPEARANCE = {
+  theme: "night" as const,
+  variables: {
+    colorPrimary: "#ffffff",
+    colorBackground: "#18181b",
+    colorText: "#ffffff",
+    colorTextSecondary: "#a1a1aa",
+    colorTextPlaceholder: "#52525b",
+    colorDanger: "#ef4444",
+    colorIcon: "#a1a1aa",
+    borderRadius: "12px",
+    fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+    fontSizeBase: "14px",
+    spacingUnit: "4px",
+    spacingGridRow: "16px",
+    spacingGridColumn: "16px",
+  },
+  rules: {
+    ".Tab": {
+      border: "1px solid #27272a",
+      backgroundColor: "#18181b",
+      boxShadow: "none",
+    },
+    ".Tab:hover": {
+      border: "1px solid #3f3f46",
+      backgroundColor: "#27272a",
+    },
+    ".Tab--selected": {
+      border: "1px solid #52525b",
+      backgroundColor: "#27272a",
+      boxShadow: "none",
+    },
+    ".Input": {
+      border: "1px solid #3f3f46",
+      backgroundColor: "#18181b",
+      boxShadow: "none",
+    },
+    ".Input:focus": {
+      border: "1px solid #71717a",
+      boxShadow: "none",
+    },
+    ".Label": {
+      color: "#a1a1aa",
+      fontSize: "13px",
+    },
+  },
+};
 
 /* ─── Zod Schema ─── */
 const contactSchema = z.object({
@@ -45,13 +100,85 @@ interface CheckoutModalProps {
   variant: PricingVariant;
 }
 
+/* ─── Reassurance Badges (reused in both steps) ─── */
+function ReassuranceBadges() {
+  return (
+    <div className="space-y-3 pt-4">
+      {/* Security + payment badges */}
+      <div className="flex items-center justify-center gap-3">
+        <div className="flex items-center gap-1.5 text-zinc-500">
+          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+          </svg>
+          <span className="text-[11px] font-medium">Paiement 100% s&eacute;curis&eacute;</span>
+        </div>
+        <span className="w-px h-3 bg-zinc-800" />
+        <span className="text-[11px] text-zinc-600 font-medium">via Stripe</span>
+      </div>
+
+      {/* Card logos */}
+      <div className="flex items-center justify-center">
+        <Image src="/badges_paiement.png" alt="Visa, Mastercard, Amex, Apple Pay" width={200} height={24} className="h-5 w-auto object-contain opacity-40" />
+      </div>
+    </div>
+  );
+}
+
+/* ─── Product Summary Card ─── */
+function ProductSummary({ productSlug, productName, price }: { productSlug: string; productName: string; price: string }) {
+  return (
+    <div className="flex items-center gap-4 p-4 rounded-xl bg-zinc-800/40 border border-zinc-800">
+      {/* Product thumbnail */}
+      <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden bg-zinc-800 shrink-0">
+        <Image
+          src={PRODUCT_IMAGES[productSlug] || "/Voiture/photos_produits/2.jpg"}
+          alt={productName}
+          fill
+          sizes="80px"
+          className="object-cover"
+        />
+      </div>
+
+      {/* Details */}
+      <div className="flex-1 min-w-0">
+        <h3 className="text-sm font-semibold text-white truncate">{productName}</h3>
+
+        <div className="flex items-baseline gap-2 mt-1">
+          <span className="text-lg font-bold text-white tracking-tight">{price}</span>
+        </div>
+
+        <div className="flex items-center gap-3 mt-1.5">
+          <span className="inline-flex items-center gap-1 text-[11px] text-emerald-400 font-medium">
+            <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+            Livraison gratuite
+          </span>
+          <span className="inline-flex items-center gap-1 text-[11px] text-zinc-500 font-medium">
+            <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            </svg>
+            Garantie 30 jours
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* ─── Step 2: Payment Form ─── */
 function PaymentStep({
   onSuccess,
   onBack,
+  productSlug,
+  productName,
+  price,
 }: {
   onSuccess: () => void;
   onBack: () => void;
+  productSlug: string;
+  productName: string;
+  price: string;
 }) {
   const stripe = useStripe();
   const elements = useElements();
@@ -78,94 +205,114 @@ function PaymentStep({
     }
   };
 
+  const handleExpressCheckoutConfirm = useCallback(
+    async (_event: StripeExpressCheckoutElementConfirmEvent) => {
+      if (!stripe || !elements) return;
+      const { error } = await stripe.confirmPayment({
+        elements,
+        confirmParams: {
+          return_url: `${window.location.origin}/success`,
+        },
+      });
+      if (error) {
+        setError(error.message || "Erreur de paiement express");
+      }
+    },
+    [stripe, elements]
+  );
+
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <div className="space-y-5 pt-4">
+      {/* Product summary */}
+      <ProductSummary productSlug={productSlug} productName={productName} price={price} />
+
+      {/* Express Checkout (Apple Pay / Google Pay) */}
       <div>
-        <p className="text-[11px] font-medium text-zinc-500 uppercase tracking-[0.25em] mb-4">
+        <p className="text-[11px] font-medium text-zinc-500 uppercase tracking-[0.25em] mb-3">
           Paiement express
         </p>
         <ExpressCheckoutElement
-          onConfirm={async () => {
-            if (!stripe || !elements) return;
-            const { error } = await stripe.confirmPayment({
-              elements,
-              confirmParams: {
-                return_url: `${window.location.origin}/success`,
-              },
-            });
-            if (!error) onSuccess();
+          options={{
+            buttonType: {
+              applePay: "buy",
+              googlePay: "buy",
+            },
+            buttonHeight: 48,
+            layout: {
+              maxColumns: 2,
+              maxRows: 1,
+              overflow: "never",
+            },
           }}
+          onConfirm={handleExpressCheckoutConfirm}
         />
       </div>
 
+      {/* Separator */}
       <div className="relative">
         <div className="absolute inset-0 flex items-center">
           <div className="w-full border-t border-zinc-800" />
         </div>
         <div className="relative flex justify-center">
-          <span className="bg-zinc-900 px-3 text-xs text-zinc-600">
+          <span className="bg-zinc-900 px-4 text-xs text-zinc-600">
             ou payer par carte
           </span>
         </div>
       </div>
 
-      <PaymentElement
-        options={{
-          layout: "tabs",
-        }}
-      />
+      {/* Card Payment Form */}
+      <form onSubmit={handleSubmit} className="space-y-5">
+        <PaymentElement
+          options={{
+            layout: "tabs",
+          }}
+        />
 
-      {error && (
-        <p className="text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-4 py-2">
-          {error}
-        </p>
-      )}
+        {error && (
+          <p className="text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-3">
+            {error}
+          </p>
+        )}
 
-      <div className="flex gap-3">
-        <button
-          type="button"
-          onClick={onBack}
-          className="px-6 py-4 rounded-xl bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-white font-medium text-sm transition-all duration-300 flex items-center justify-center gap-2"
-        >
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-          </svg>
-          Retour
-        </button>
-        <button
-          type="submit"
-          disabled={!stripe || loading}
-          className="flex-1 py-4 rounded-xl bg-white text-zinc-950 font-semibold text-sm transition-all duration-300 hover:bg-zinc-200 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {loading ? (
-            <span className="flex items-center justify-center gap-2">
-              <svg
-                className="w-5 h-5 animate-spin"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                />
-                <path
-                  className="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-                />
-              </svg>
-              Traitement...
-            </span>
-          ) : (
-            "Payer maintenant"
-          )}
-        </button>
-      </div>
-    </form>
+        <div className="flex gap-3">
+          <button
+            type="button"
+            onClick={onBack}
+            className="px-5 py-3.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-white font-medium text-sm transition-all duration-300 flex items-center justify-center gap-1.5"
+          >
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+            </svg>
+            Retour
+          </button>
+          <button
+            type="submit"
+            disabled={!stripe || loading}
+            className="flex-1 py-3.5 rounded-xl bg-white text-zinc-950 font-semibold text-sm transition-all duration-300 hover:bg-zinc-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          >
+            {loading ? (
+              <>
+                <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                </svg>
+                Traitement...
+              </>
+            ) : (
+              <>
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
+                Payer maintenant
+              </>
+            )}
+          </button>
+        </div>
+
+        {/* Reassurance */}
+        <ReassuranceBadges />
+      </form>
+    </div>
   );
 }
 
@@ -287,18 +434,9 @@ export default function CheckoutModal({
           </svg>
         </button>
 
-        {/* Header with gradient */}
+        {/* Header */}
         <div className="relative px-5 sm:px-8 pt-6 sm:pt-8 pb-5 sm:pb-6 border-b border-zinc-800">
-          <div className="relative">
-            <h2 className="text-xl font-bold text-white mb-2 tracking-tight">Finaliser votre commande</h2>
-            <div className="flex items-center gap-3">
-              <span className="text-zinc-500 text-sm">{productName}</span>
-              <span className="w-1 h-1 rounded-full bg-zinc-600" />
-              <span className="text-lg font-light text-white tracking-tight">
-                {price}
-              </span>
-            </div>
-          </div>
+          <h2 className="text-xl font-bold text-white tracking-tight">Finaliser votre commande</h2>
         </div>
 
         {/* Progress Steps */}
@@ -336,8 +474,11 @@ export default function CheckoutModal({
         <div className="px-4 sm:px-6 pb-6 flex-1 overflow-y-auto overflow-x-hidden">
           {step === 1 && (
             <form onSubmit={handleSubmit(onContactSubmit)} className="space-y-3 pt-4">
+              {/* Product summary */}
+              <ProductSummary productSlug={productSlug} productName={productName} price={price} />
+
               {/* Contact Section */}
-              <div className="space-y-2.5">
+              <div className="space-y-2.5 pt-2">
                 <h3 className="text-[11px] font-medium text-zinc-500 uppercase tracking-[0.2em] flex items-center gap-2">
                   <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -458,14 +599,14 @@ export default function CheckoutModal({
                     {...register("country")}
                     className="w-full px-3 py-2.5 text-sm rounded-xl bg-zinc-800/50 border border-zinc-700 text-white focus:outline-none focus:border-zinc-500 transition-all duration-300 cursor-pointer"
                   >
-                    <option value="FR">🇫🇷 France</option>
-                    <option value="BE">🇧🇪 Belgique</option>
-                    <option value="CH">🇨🇭 Suisse</option>
-                    <option value="DE">🇩🇪 Allemagne</option>
-                    <option value="ES">🇪🇸 Espagne</option>
-                    <option value="IT">🇮🇹 Italie</option>
-                    <option value="GB">🇬🇧 Royaume-Uni</option>
-                    <option value="US">🇺🇸 États-Unis</option>
+                    <option value="FR">France</option>
+                    <option value="BE">Belgique</option>
+                    <option value="CH">Suisse</option>
+                    <option value="DE">Allemagne</option>
+                    <option value="ES">Espagne</option>
+                    <option value="IT">Italie</option>
+                    <option value="GB">Royaume-Uni</option>
+                    <option value="US">&Eacute;tats-Unis</option>
                   </select>
                 </div>
               </div>
@@ -475,7 +616,7 @@ export default function CheckoutModal({
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full py-3 rounded-full bg-white text-zinc-950 font-semibold text-sm transition-all duration-300 hover:bg-zinc-200 hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full py-3.5 rounded-full bg-white text-zinc-950 font-semibold text-sm transition-all duration-300 hover:bg-zinc-200 hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {loading ? (
                     <span className="flex items-center justify-center gap-2">
@@ -494,9 +635,9 @@ export default function CheckoutModal({
                     </span>
                   )}
                 </button>
-                <div className="flex items-center justify-center mt-2">
-                  <Image src="/badges_paiement.png" alt="Paiement sécurisé" width={180} height={22} className="h-5 w-auto object-contain opacity-30" />
-                </div>
+
+                {/* Reassurance */}
+                <ReassuranceBadges />
               </div>
             </form>
           )}
@@ -506,20 +647,16 @@ export default function CheckoutModal({
               stripe={stripePromise}
               options={{
                 clientSecret,
-                appearance: {
-                  theme: "night",
-                  variables: {
-                    colorPrimary: "#ffffff",
-                    colorBackground: "#18181b",
-                    colorText: "#ffffff",
-                    colorDanger: "#ef4444",
-                    borderRadius: "12px",
-                    fontFamily: "Inter, sans-serif",
-                  },
-                },
+                appearance: STRIPE_APPEARANCE,
               }}
             >
-              <PaymentStep onSuccess={handleSuccess} onBack={() => setStep(1)} />
+              <PaymentStep
+                onSuccess={handleSuccess}
+                onBack={() => setStep(1)}
+                productSlug={productSlug}
+                productName={productName}
+                price={price}
+              />
             </Elements>
           )}
         </div>
