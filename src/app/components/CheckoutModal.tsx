@@ -244,12 +244,12 @@ function PaymentStep({
             buttonHeight: 52,
             layout: {
               maxColumns: 1,
-              maxRows: 2,
+              maxRows: 3,
               overflow: "never",
             },
             paymentMethods: {
               applePay: "always",
-              googlePay: "never",
+              googlePay: "always",
               paypal: "auto",
               link: "never",
               klarna: "never",
