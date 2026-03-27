@@ -236,12 +236,18 @@ function PaymentStep({
             buttonType: {
               applePay: "buy",
               googlePay: "buy",
+              paypal: "buynow",
             },
-            buttonHeight: 48,
+            buttonHeight: 52,
             layout: {
-              maxColumns: 2,
-              maxRows: 1,
+              maxColumns: 1,
+              maxRows: 3,
               overflow: "never",
+            },
+            paymentMethods: {
+              applePay: "always",
+              googlePay: "always",
+              paypal: "always",
             },
           }}
           onConfirm={handleExpressCheckoutConfirm}
