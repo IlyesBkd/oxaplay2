@@ -513,8 +513,7 @@
     "title": "Return & Refund Policy",
     "section1": {
       "title": "1. Right of Withdrawal",
-      "content": "In accordance with French legislation, you have {days} days from receipt of your order to exercise your right of withdrawal, without having to justify reasons or pay penalties.",
-      "days": "14"
+      "content": "In accordance with French legislation, you have <strong>{days}</strong> days from receipt of your order to exercise your right of withdrawal, without having to justify reasons or pay penalties."
     },
     "section2": {
       "title": "2. Return Conditions",
@@ -532,8 +531,7 @@
     },
     "section5": {
       "title": "5. Refund",
-      "content": "The refund will be made within a maximum of {days} days following receipt of the returned product. The refund will be made via the same payment method used for the initial order.",
-      "days": "14"
+      "content": "The refund will be made within a maximum of <strong>{days}</strong> days following receipt of the returned product. The refund will be made via the same payment method used for the initial order."
     },
     "section6": {
       "title": "6. Defective Products",
@@ -541,8 +539,7 @@
     },
     "section7": {
       "title": "7. Commercial Warranty",
-      "content": "All OxaPlay products come with a {years}-year warranty covering manufacturing defects. This warranty does not cover damage resulting from misuse, incorrect installation or normal wear and tear.",
-      "years": "2"
+      "content": "All OxaPlay products come with a <strong>{years}</strong>-year warranty covering manufacturing defects. This warranty does not cover damage resulting from misuse, incorrect installation or normal wear and tear."
     },
     "section8": {
       "title": "8. Contact",

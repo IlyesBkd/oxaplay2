@@ -513,8 +513,7 @@
     "title": "Rückgabe- und Erstattungsrichtlinie",
     "section1": {
       "title": "1. Widerrufsrecht",
-      "content": "Gemäß französischem Recht haben Sie {days} Tage ab Erhalt Ihrer Bestellung Zeit, Ihr Widerrufsrecht auszuüben, ohne Gründe angeben oder Strafen zahlen zu müssen.",
-      "days": "14"
+      "content": "Gemäß französischem Recht haben Sie <strong>{days}</strong> Tage ab Erhalt Ihrer Bestellung Zeit, Ihr Widerrufsrecht auszuüben, ohne Gründe angeben oder Strafen zahlen zu müssen."
     },
     "section2": {
       "title": "2. Rückgabebedingungen",
@@ -532,8 +531,7 @@
     },
     "section5": {
       "title": "5. Erstattung",
-      "content": "Die Erstattung erfolgt innerhalb von maximal {days} Tagen nach Erhalt des zurückgesendeten Produkts. Die Erstattung erfolgt über dieselbe Zahlungsmethode, die für die ursprüngliche Bestellung verwendet wurde.",
-      "days": "14"
+      "content": "Die Erstattung erfolgt innerhalb von maximal <strong>{days}</strong> Tagen nach Erhalt des zurückgesendeten Produkts. Die Erstattung erfolgt über dieselbe Zahlungsmethode, die für die ursprüngliche Bestellung verwendet wurde."
     },
     "section6": {
       "title": "6. Defekte Produkte",
@@ -541,8 +539,7 @@
     },
     "section7": {
       "title": "7. Kommerzielle Garantie",
-      "content": "Alle OxaPlay-Produkte haben eine {years}-jährige Garantie, die Herstellungsfehler abdeckt. Diese Garantie deckt keine Schäden ab, die durch Missbrauch, falsche Installation oder normale Abnutzung entstehen.",
-      "years": "2"
+      "content": "Alle OxaPlay-Produkte haben eine <strong>{years}</strong>-jährige Garantie, die Herstellungsfehler abdeckt. Diese Garantie deckt keine Schäden ab, die durch Missbrauch, falsche Installation oder normale Abnutzung entstehen."
     },
     "section8": {
       "title": "8. Kontakt",

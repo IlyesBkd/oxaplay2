@@ -18,7 +18,7 @@ export default function PolitiqueDeRetour() {
         <div className="space-y-8 text-gray-400 text-sm leading-relaxed">
           <section>
             <h2 className="text-lg font-semibold text-white mb-3">{t('section1.title')}</h2>
-            <p>{t('section1.content', { days: <strong className="text-gray-300">14</strong> })}</p>
+            <p>{t.rich('section1.content', { days: 14, strong: (chunks) => <strong className="text-gray-300">{chunks}</strong> })}</p>
           </section>
 
           <section>
@@ -44,7 +44,7 @@ export default function PolitiqueDeRetour() {
 
           <section>
             <h2 className="text-lg font-semibold text-white mb-3">{t('section5.title')}</h2>
-            <p>{t('section5.content', { days: <strong className="text-gray-300">14</strong> })}</p>
+            <p>{t.rich('section5.content', { days: 14, strong: (chunks) => <strong className="text-gray-300">{chunks}</strong> })}</p>
           </section>
 
           <section>
@@ -54,7 +54,7 @@ export default function PolitiqueDeRetour() {
 
           <section>
             <h2 className="text-lg font-semibold text-white mb-3">{t('section7.title')}</h2>
-            <p>{t('section7.content', { years: <strong className="text-gray-300">2</strong> })}</p>
+            <p>{t.rich('section7.content', { years: 2, strong: (chunks) => <strong className="text-gray-300">{chunks}</strong> })}</p>
           </section>
 
           <section>

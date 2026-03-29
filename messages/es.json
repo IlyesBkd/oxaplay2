@@ -513,8 +513,7 @@
     "title": "Política de Devolución y Reembolso",
     "section1": {
       "title": "1. Derecho de desistimiento",
-      "content": "De conformidad con la legislación francesa, dispone de {days} días desde la recepción de su pedido para ejercer su derecho de desistimiento, sin tener que justificar motivos ni pagar penalizaciones.",
-      "days": "14"
+      "content": "De conformidad con la legislación francesa, dispone de <strong>{days}</strong> días desde la recepción de su pedido para ejercer su derecho de desistimiento, sin tener que justificar motivos ni pagar penalizaciones."
     },
     "section2": {
       "title": "2. Condiciones de devolución",
@@ -532,8 +531,7 @@
     },
     "section5": {
       "title": "5. Reembolso",
-      "content": "El reembolso se efectuará en un plazo máximo de {days} días tras la recepción del producto devuelto. El reembolso se realizará mediante el mismo método de pago utilizado para el pedido inicial.",
-      "days": "14"
+      "content": "El reembolso se efectuará en un plazo máximo de <strong>{days}</strong> días tras la recepción del producto devuelto. El reembolso se realizará mediante el mismo método de pago utilizado para el pedido inicial."
     },
     "section6": {
       "title": "6. Productos defectuosos",
@@ -541,8 +539,7 @@
     },
     "section7": {
       "title": "7. Garantía comercial",
-      "content": "Todos los productos OxaPlay tienen una garantía de {years} años que cubre defectos de fabricación. Esta garantía no cubre daños resultantes de mal uso, instalación incorrecta o desgaste normal.",
-      "years": "2"
+      "content": "Todos los productos OxaPlay tienen una garantía de <strong>{years}</strong> años que cubre defectos de fabricación. Esta garantía no cubre daños resultantes de mal uso, instalación incorrecta o desgaste normal."
     },
     "section8": {
       "title": "8. Contacto",

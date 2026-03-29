@@ -513,8 +513,7 @@
     "title": "Politique de Retour & Remboursement",
     "section1": {
       "title": "1. Droit de rétractation",
-      "content": "Conformément à la législation française, vous disposez d'un délai de {days} jours à compter de la réception de votre commande pour exercer votre droit de rétractation, sans avoir à justifier de motifs ni à payer de pénalités.",
-      "days": "14"
+      "content": "Conformément à la législation française, vous disposez d'un délai de <strong>{days}</strong> jours à compter de la réception de votre commande pour exercer votre droit de rétractation, sans avoir à justifier de motifs ni à payer de pénalités."
     },
     "section2": {
       "title": "2. Conditions de retour",
@@ -532,8 +531,7 @@
     },
     "section5": {
       "title": "5. Remboursement",
-      "content": "Le remboursement sera effectué dans un délai maximum de {days} jours suivant la réception du produit retourné. Le remboursement sera effectué via le même moyen de paiement utilisé lors de la commande initiale.",
-      "days": "14"
+      "content": "Le remboursement sera effectué dans un délai maximum de <strong>{days}</strong> jours suivant la réception du produit retourné. Le remboursement sera effectué via le même moyen de paiement utilisé lors de la commande initiale."
     },
     "section6": {
       "title": "6. Produits défectueux",
@@ -541,8 +539,7 @@
     },
     "section7": {
       "title": "7. Garantie commerciale",
-      "content": "Tous les produits OxaPlay bénéficient d'une garantie de {years} ans couvrant les défauts de fabrication. Cette garantie ne couvre pas les dommages résultant d'une mauvaise utilisation, d'une installation incorrecte ou de l'usure normale.",
-      "years": "2"
+      "content": "Tous les produits OxaPlay bénéficient d'une garantie de <strong>{years}</strong> ans couvrant les défauts de fabrication. Cette garantie ne couvre pas les dommages résultant d'une mauvaise utilisation, d'une installation incorrecte ou de l'usure normale."
     },
     "section8": {
       "title": "8. Contact",

@@ -513,8 +513,7 @@
     "title": "Politica di Reso e Rimborso",
     "section1": {
       "title": "1. Diritto di recesso",
-      "content": "In conformità con la legislazione francese, hai {days} giorni dalla ricezione del tuo ordine per esercitare il diritto di recesso, senza dover giustificare motivi né pagare penali.",
-      "days": "14"
+      "content": "In conformità con la legislazione francese, hai <strong>{days}</strong> giorni dalla ricezione del tuo ordine per esercitare il diritto di recesso, senza dover giustificare motivi né pagare penali."
     },
     "section2": {
       "title": "2. Condizioni di reso",
@@ -532,8 +531,7 @@
     },
     "section5": {
       "title": "5. Rimborso",
-      "content": "Il rimborso verrà effettuato entro un massimo di {days} giorni dalla ricezione del prodotto restituito. Il rimborso verrà effettuato tramite lo stesso metodo di pagamento utilizzato per l'ordine iniziale.",
-      "days": "14"
+      "content": "Il rimborso verrà effettuato entro un massimo di <strong>{days}</strong> giorni dalla ricezione del prodotto restituito. Il rimborso verrà effettuato tramite lo stesso metodo di pagamento utilizzato per l'ordine iniziale."
     },
     "section6": {
       "title": "6. Prodotti difettosi",
@@ -541,8 +539,7 @@
     },
     "section7": {
       "title": "7. Garanzia commerciale",
-      "content": "Tutti i prodotti OxaPlay hanno una garanzia di {years} anni che copre i difetti di fabbricazione. Questa garanzia non copre i danni derivanti da uso improprio, installazione errata o normale usura.",
-      "years": "2"
+      "content": "Tutti i prodotti OxaPlay hanno una garanzia di <strong>{years}</strong> anni che copre i difetti di fabbricazione. Questa garanzia non copre i danni derivanti da uso improprio, installazione errata o normale usura."
     },
     "section8": {
       "title": "8. Contatto",
