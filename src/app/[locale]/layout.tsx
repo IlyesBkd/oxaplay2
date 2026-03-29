@@ -1,13 +1,8 @@
 import { NextIntlClientProvider } from 'next-intl';
-import { getMessages, getTranslations } from 'next-intl/server';
-import { notFound } from 'next/navigation';
-import type { Metadata } from "next";
-import { locales, hasLocale } from "./dictionaries";
-import type { Locale } from "./dictionaries";
-import ChatWidget from "../components/ChatWidget";
-import "../globals.css";
+import { getMessages } from 'next-intl/server';
 import { Outfit, Inter } from "next/font/google";
 import Script from "next/script";
+import "../globals.css";
 import { PostHogProvider } from "../components/PostHogProvider";
 import { PostHogPageView } from "../components/PostHogPageView";
 import { Suspense } from "react";
@@ -24,50 +19,20 @@ const inter = Inter({
   weight: ["300", "400", "500", "600", "700"],
 });
 
-export async function generateStaticParams() {
-  return locales.map((lang) => ({ lang }));
-}
-
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ lang: string }>;
-}): Promise<Metadata> {
-  const { lang } = await params;
-  if (!hasLocale(lang)) return {};
-
-  const t = await getTranslations({ locale: lang, namespace: 'Meta' });
-  const baseUrl = "https://oxaplay.com";
-  const alternates: Record<string, string> = {};
-  for (const l of locales) {
-    alternates[l] = `${baseUrl}/${l}`;
-  }
-
-  return {
-    title: t('title'),
-    description: t('description'),
-    alternates: {
-      canonical: `${baseUrl}/${lang}`,
-      languages: alternates,
-    },
-  };
-}
-
 export default async function LocaleLayout({
   children,
-  params,
+  params
 }: {
   children: React.ReactNode;
-  params: Promise<{ lang: string }>;
+  params: Promise<{ locale: string }>;
 }) {
-  const { lang } = await params;
-  if (!hasLocale(lang)) notFound();
-
-  // Providing all messages to the client side
+  const { locale } = await params;
+  // Providing all messages to the client
+  // side is the easiest way to get started
   const messages = await getMessages();
 
   return (
-    <html lang={lang} className={`${outfit.variable} ${inter.variable} antialiased`}>
+    <html lang={locale} className={`${outfit.variable} ${inter.variable} antialiased`}>
       <head>
         {/* Google Ads Conversion Tracking */}
         <Script
@@ -91,7 +56,6 @@ export default async function LocaleLayout({
             </Suspense>
             {children}
           </PostHogProvider>
-          <ChatWidget />
         </NextIntlClientProvider>
       </body>
     </html>

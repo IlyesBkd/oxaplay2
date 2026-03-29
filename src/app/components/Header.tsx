@@ -4,22 +4,24 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import NavCTA from "./NavCTA";
 import LanguageSwitcher from "./LanguageSwitcher";
-
-const NAV_LINKS = [
-  { label: "Accueil", href: "/" },
-  { label: "CarPlay Voiture", href: "/carplay-voiture" },
-  { label: "CarPlay Moto", href: "/carplay-moto" },
-  { label: "Avis", href: "/avis" },
-  { label: "FAQ", href: "/faq" },
-];
 
 export default function Header() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathWithoutLocale = pathname.replace(/^\/[a-z]{2}(?=\/|$)/, "") || "/";
+  const t = useTranslations('Navigation');
+
+  const NAV_LINKS = [
+    { label: t('home'), href: "/" },
+    { label: t('carplayVoiture'), href: "/carplay-voiture" },
+    { label: t('carplayMoto'), href: "/carplay-moto" },
+    { label: t('reviews'), href: "/avis" },
+    { label: t('faq'), href: "/faq" },
+  ];
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);

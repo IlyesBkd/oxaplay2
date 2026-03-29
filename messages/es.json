@@ -1,101 +1,554 @@
 {
-  "metadata": {
-    "title": "OxaPlay – Transformez votre véhicule",
-    "description": "Écrans CarPlay & Android Auto premium, sans fil, plug & play. Compatible avec 98% des véhicules."
+  "Meta": {
+    "title": "OxaPlay – Transforma tu vehículo",
+    "description": "Pantallas CarPlay y Android Auto premium, inalámbricas, plug & play. Compatible con el 98% de los vehículos."
   },
-  "nav": {
-    "home": "Accueil",
-    "carplayVoiture": "CarPlay Voiture",
+
+  "Navigation": {
+    "home": "Inicio",
+    "carplayVoiture": "CarPlay Coche",
     "carplayMoto": "CarPlay Moto",
-    "reviews": "Avis",
+    "reviews": "Opiniones",
     "faq": "FAQ",
-    "contact": "Contact"
+    "contact": "Contacto",
+    "voiture": "Coche",
+    "moto": "Moto",
+    "discover": "Descubrir"
   },
-  "hero": {
-    "ratingText": "+2 000 clients satisfaits",
-    "title1": "TRANSFORMEZ",
-    "title2": "VOTRE VOITURE AVEC",
-    "title3": "OXAPLAY",
-    "subtitle": "L'écran CarPlay & Android Auto sans fil, plug-and-play. Compatible avec 98% des véhicules. Installation en 5 minutes.",
-    "editionVoiture": "Édition Voiture",
-    "editionMoto": "Édition Moto"
+
+  "Hero": {
+    "ratingText": "Más de 2.000 clientes satisfechos",
+    "title1": "La pantalla que transforma",
+    "title2": "tu vehículo.",
+    "subtitle": "Pantalla CarPlay y Android Auto inalámbrica, plug & play. Compatible con el 98% de los vehículos.",
+    "discover": "Descubrir",
+    "fromPrice": "Desde"
   },
-  "products": {
-    "badge": "Nos Produits",
-    "title": "Choisissez votre écran CarPlay",
-    "subtitle": "Plug & play, sans fil, compatible avec 98% des véhicules.",
+
+  "Products": {
+    "badge": "Nuestros Productos",
+    "title": "Elige tu pantalla CarPlay",
+    "subtitle": "Plug & play, inalámbrica, compatible con el 98% de los vehículos.",
     "voiture": {
-      "name": "CarPlay Voiture",
-      "desc": "Écran 10.26\" IPS HD panoramique",
-      "features": ["Sans fil", "CarPlay + Android", "Plug & Play"],
-      "rating": "4.8 — 2 000+ avis",
-      "discover": "Découvrir"
+      "name": "CarPlay Coche",
+      "desc": "Pantalla panorámica IPS HD de 10,26\"",
+      "features": ["Inalámbrica", "CarPlay + Android", "Plug & Play"],
+      "rating": "4,8 — 2.000+ opiniones",
+      "discover": "Descubrir"
     },
     "moto": {
       "name": "CarPlay Moto",
-      "desc": "Écran 5\" compact & étanche IP67",
-      "features": ["Étanche IP67", "GPS intégré", "Soleil lisible"],
-      "rating": "4.7 — 800+ avis",
-      "discover": "Découvrir"
+      "desc": "Pantalla compacta de 5\" resistente al agua IP67",
+      "features": ["IP67 Resistente al agua", "GPS integrado", "Legible al sol"],
+      "rating": "4,7 — 800+ opiniones",
+      "discover": "Descubrir"
     },
     "trust": {
-      "shipping": "Livraison 48h gratuite",
-      "warranty": "Garantie 2 ans",
-      "returns": "Retour 14 jours",
-      "payment": "Paiement sécurisé"
+      "shipping": "Envío gratis en 48h",
+      "warranty": "Garantía de 2 años",
+      "returns": "Devolución en 14 días",
+      "payment": "Pago seguro"
     }
   },
-  "features": {
-    "badge": "Avantages",
-    "title": "POURQUOI CHOISIR OXAPLAY ?",
-    "subtitle": "Une technologie premium pensée pour transformer votre expérience de conduite",
+
+  "BrandStrip": {
+    "compatible": "Compatible con más del 99% de los vehículos"
+  },
+
+  "Features": {
+    "badge": "Ventajas",
+    "title": "Por qué elegir OxaPlay.",
+    "subtitle": "Tecnología premium diseñada para transformar tu experiencia de conducción.",
     "items": [
-      { "title": "Plug & Play", "desc": "Installation en 5 minutes, aucun câblage complexe nécessaire." },
-      { "title": "Apple CarPlay", "desc": "Connexion sans fil à votre iPhone pour GPS, musique et appels." },
-      { "title": "Android Auto", "desc": "Compatible avec tous les smartphones Android récents." },
-      { "title": "Écran HD Tactile", "desc": "Résolution haute définition avec tactile multi-points réactif." },
-      { "title": "Universel", "desc": "Compatible avec 98% des voitures et motos du marché." },
-      { "title": "Garantie 2 ans", "desc": "Service après-vente réactif et garantie constructeur incluse." }
+      { "title": "Plug & Play", "desc": "Instalación en 5 minutos, sin cableado complejo.", "svg": "M13 10V3L4 14h7v7l9-11h-7z" },
+      { "title": "Apple CarPlay", "desc": "Conexión inalámbrica a tu iPhone para GPS, música y llamadas.", "svg": "M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.858 15.355-5.858 21.213 0" },
+      { "title": "Android Auto", "desc": "Compatible con todos los smartphones Android recientes.", "svg": "M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" },
+      { "title": "Pantalla táctil HD", "desc": "Resolución de alta definición con multitáctil reactivo.", "svg": "M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" },
+      { "title": "Universal", "desc": "Compatible con el 98% de los coches y motos del mercado.", "svg": "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" },
+      { "title": "Garantía de 2 años", "desc": "Servicio al cliente reactivo y garantía del fabricante incluida.", "svg": "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" }
     ]
   },
-  "howItWorks": {
-    "badge": "Simplicité",
-    "title": "INSTALLATION EN 3 ÉTAPES",
-    "subtitle": "Aucun outil requis. Même votre grand-mère peut le faire.",
+
+  "HowItWorks": {
+    "badge": "Simplicidad",
+    "title": "Instalación en 3 pasos.",
+    "subtitle": "Sin herramientas. Listo en 2 minutos.",
     "steps": [
-      { "num": "1", "title": "Branchez", "desc": "Connectez l'écran à l'allume-cigare de votre véhicule." },
-      { "num": "2", "title": "Connectez", "desc": "Appairez votre iPhone ou Android en Wi-Fi/Bluetooth." },
-      { "num": "3", "title": "Profitez", "desc": "CarPlay et Android Auto s'affichent. Bonne route !" }
+      { "num": "01", "title": "Conecta", "desc": "Conecta la pantalla al encendedor de tu vehículo.", "svg": "M13 10V3L4 14h7v7l9-11h-7z" },
+      { "num": "02", "title": "Vincula", "desc": "Activa el Bluetooth en tu teléfono y vincúlalo.", "svg": "M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.858 15.355-5.858 21.213 0" },
+      { "num": "03", "title": "Disfruta", "desc": "CarPlay y Android Auto aparecen. ¡Buen viaje!", "svg": "M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" }
     ]
   },
-  "testimonials": {
-    "badge": "Social Proof",
-    "title": "TÉMOIGNAGES CLIENTS",
-    "subtitle": "Découvrez ce que nos clients pensent de leur OxaPlay"
+
+  "Testimonials": {
+    "badge": "Testimonios",
+    "title": "Ya lo han adoptado.",
+    "subtitle": "Descubre las opiniones en vídeo de nuestros clientes."
   },
-  "faq": {
-    "title": "QUESTIONS FRÉQUENTES",
-    "subtitle": "Tout ce que vous devez savoir avant de commander"
+
+  "Reviews": {
+    "badge": "+2.500 opiniones",
+    "title": "Lo que nuestros conductores piensan de OxaPlay.",
+    "subtitle": "Miles de clientes satisfechos en la carretera.",
+    "basedOn": "Basado en",
+    "verifiedReviews": "opiniones verificadas",
+    "videoTestimonials": "Testimonios en vídeo",
+    "customerReviews": "Opiniones de clientes",
+    "verifiedBuyer": "Comprador verificado",
+    "joinCustomers": "Únete a +2.500 clientes satisfechos",
+    "items": [
+      { "name": "Laurent M.", "stars": 5, "text": "¡Increíble! Instalé la pantalla en 3 minutos en mi BMW E90. El sonido pasa por el Bluetooth de mi coche, perfecto. CarPlay inalámbrico, nada que objetar." },
+      { "name": "Sophie D.", "stars": 5, "text": "Dudaba por el precio, pero sinceramente es la mejor compra de coche que he hecho. La pantalla es preciosa y Waze funciona genial." },
+      { "name": "Karim B.", "stars": 5, "text": "Entrega recibida en 48h como prometido. La instalación es realmente plug & play. Mi viejo Clio ahora tiene CarPlay, estoy impresionado." },
+      { "name": "Marie-Claire T.", "stars": 4, "text": "Muy buen producto. El único pequeño inconveniente es que la pantalla tarda 10 segundos en arrancar, pero una vez iniciada es fluida y reactiva." },
+      { "name": "Thomas R.", "stars": 5, "text": "Compré la versión moto para mi Yamaha MT-07. Impermeable, sólida y el GPS funciona perfectamente incluso a pleno sol. ¡Top!" },
+      { "name": "Émilie V.", "stars": 5, "text": "El servicio al cliente es excelente. Tuve un problema de Bluetooth, respondieron en 2h y resolvieron el problema. Producto + servicio 5 estrellas." },
+      { "name": "Nicolas P.", "stars": 5, "text": "Comprado como regalo para mi padre. Tiene 65 años y logró instalarlo solo. Si eso no es plug & play... ¡Gracias OxaPlay!" },
+      { "name": "Amina K.", "stars": 5, "text": "Spotify, Apple Maps, llamadas... todo funciona sin cables. Ya no necesito el soporte del teléfono en el parabrisas. Recomiendo al 100%." }
+    ]
   },
-  "footer": {
-    "description": "L'écran CarPlay & Android Auto premium pour votre véhicule.",
-    "navTitle": "Navigation",
-    "legalTitle": "Légal",
-    "contactTitle": "Contact",
-    "contactText": "Une question ? Notre équipe vous répond en moins de 24h.",
-    "copyright": "© 2025 OxaPlay. Tous droits réservés.",
-    "legal": {
-      "mentions": "Mentions Légales",
-      "privacy": "Politique de Confidentialité",
-      "cgv": "CGV",
-      "returns": "Retours & Remboursements"
+
+  "FAQ": {
+    "badge": "FAQ",
+    "title": "Preguntas frecuentes",
+    "subtitle": "Todo lo que necesitas saber antes de hacer tu pedido",
+    "items": [
+      { "q": "¿Es compatible con mi iPhone 15 / 16?", "a": "¡Sí! OxaPlay es compatible con todos los iPhones desde el iPhone 6 en adelante, incluyendo iPhone 15 y 16. La conexión es inalámbrica vía Bluetooth y Wi-Fi." },
+      { "q": "¿Cómo sale el sonido por los altavoces del coche?", "a": "El sonido se transmite vía conexión FM, Bluetooth o AUX (cable jack de 3,5mm incluido). Puedes elegir el método que mejor se adapte a tu vehículo." },
+      { "q": "¿La instalación es realmente fácil?", "a": "Absolutamente. Solo tienes que conectar la pantalla al encendedor de tu coche, activar el Bluetooth en tu teléfono, y listo. Sin herramientas, sin cableado complejo. Instalación en menos de 5 minutos." },
+      { "q": "¿Puedo devolverlo si no me gusta?", "a": "Por supuesto. Tienes un período de devolución de 14 días. Si el producto no te conviene, contáctanos en support@oxaplay.com y organizaremos la devolución y el reembolso completo." },
+      { "q": "¿También funciona con Android?", "a": "Sí, OxaPlay es compatible con Android Auto además de Apple CarPlay. Todos los smartphones Android recientes (Android 10+) son compatibles." }
+    ],
+    "notFound": "¿No encuentras tu respuesta?",
+    "contactUs": "Contáctanos"
+  },
+
+  "FAQPage": {
+    "badge": "Soporte",
+    "title": "Preguntas Frecuentes.",
+    "subtitle": "Encuentra rápidamente respuestas a tus preguntas sobre OxaPlay.",
+    "items": [
+      { "q": "¿Mi vehículo es compatible?", "a": "¡Sí! OxaPlay es compatible con el 99% de los vehículos con encendedor de 12V. Ya sea un coche nuevo o antiguo, nuestra pantalla se adapta a tu salpicadero en segundos." },
+      { "q": "¿Cómo sale el sonido por los altavoces del coche?", "a": "Tienes tres opciones: vía frecuencia FM (integrada en la pantalla), vía cable AUX (jack de 3,5mm incluido), o vía Bluetooth nativo de tu radio. Elige el método que mejor te convenga." },
+      { "q": "¿La instalación es complicada?", "a": "Para nada. Es verdadero plug & play: conecta la pantalla al encendedor, activa el Bluetooth en tu teléfono, y está listo en menos de 2 minutos. Sin herramientas, sin cableado." },
+      { "q": "¿Cuáles son los plazos de entrega?", "a": "Enviamos en 24h. La entrega es de 48h a 72h para España peninsular, y de 5 a 10 días laborables para internacional. Se te enviará un número de seguimiento por email." },
+      { "q": "¿Es compatible tanto con Apple CarPlay COMO con Android Auto?", "a": "¡Sí, ambos! OxaPlay soporta Apple CarPlay (inalámbrico) para todos los iPhones desde el 6, y Android Auto para smartphones Android 10+. La conexión es automática después del primer emparejamiento." },
+      { "q": "¿Puedo devolver el producto si no me conviene?", "a": "Absolutamente. Tienes 14 días después de la recepción para devolver el producto y recibir un reembolso completo. Contáctanos en support@oxaplay.com para iniciar la devolución." },
+      { "q": "¿Cuál es el tamaño de la pantalla?", "a": "La pantalla CarPlay Coche mide 10,26 pulgadas (formato panorámico HD). La pantalla CarPlay Moto mide 5 pulgadas, especialmente diseñada para ser compacta y resistente a la intemperie." },
+      { "q": "¿Hay garantía?", "a": "Sí, todos nuestros productos están cubiertos por una garantía de 2 años. En caso de defecto de fabricación, reemplazamos o reembolsamos el producto. Nuestro equipo de soporte está disponible en support@oxaplay.com." }
+    ]
+  },
+
+  "Contact": {
+    "badge": "Soporte",
+    "title": "Contáctanos.",
+    "subtitle": "¿Tienes una pregunta? Nuestro equipo responde en 24h.",
+    "info": {
+      "title": "Nuestros datos",
+      "email": { "label": "Email", "value": "support@oxaplay.com" },
+      "hours": { "label": "Horario", "value": "Lun – Vie, 9:00 – 18:00" },
+      "address": { "label": "Dirección", "value": "42 Rue du Faubourg Saint-Honoré, 75008 París" },
+      "response": { "label": "Tiempo de respuesta", "value": "Menos de 24h en días laborables" }
+    },
+    "seeAlso": "Consulta también:",
+    "form": {
+      "title": "Envíanos un mensaje",
+      "name": "Nombre",
+      "namePlaceholder": "Tu nombre completo",
+      "email": "Email",
+      "emailPlaceholder": "tu@email.com",
+      "subject": "Asunto",
+      "subjectPlaceholder": "Ej: Pregunta sobre compatibilidad",
+      "message": "Mensaje",
+      "messagePlaceholder": "Describe tu consulta en detalle...",
+      "submit": "Enviar mensaje",
+      "responseTime": "Normalmente respondemos en 24h en días laborables."
     }
   },
-  "languageSwitcher": {
-    "fr": "Français",
-    "en": "English",
-    "de": "Deutsch",
-    "es": "Español",
-    "it": "Italiano"
+
+  "CarplayVoiture": {
+    "edition": "Edición Coche",
+    "title": "Pantalla CarPlay &<br />Android Auto",
+    "subtitle": "La pantalla HD inalámbrica de 10,26\" para transformar cualquier coche en un vehículo conectado. Instalación en 2 minutos.",
+    "reviews": "2.000+ opiniones",
+    "buyNow": "Pedir ahora",
+    "deliverySecure": "Envío gratis en 48h · Pago seguro",
+    "brandMarquee": "Compatible con más del 99% de los vehículos",
+    "focus": {
+      "badge": "Tecnología y Detalles",
+      "title": "Una pantalla diseñada<br />para tu conducción.",
+      "desc1": "Disfruta de una pantalla IPS de alta definición de 10,26 pulgadas con resolución cristalina de 1600×600 píxeles. Cada detalle es nítido, incluso bajo la luz del sol. El multitáctil responde a tu dedo como tu smartphone.",
+      "desc2": "Conecta, vincula y conduce. La pantalla se conecta de forma inalámbrica a tu iPhone o Android en segundos. Waze, Spotify, Apple Music, llamadas manos libres — todas tus apps favoritas, directamente en tu salpicadero."
+    },
+    "details": {
+      "title": "Detalles",
+      "subtitle": "Especificaciones técnicas y contenido."
+    },
+    "features": {
+      "title": "Funcionalidades",
+      "subtitle": "Todo lo que necesitas.",
+      "items": [
+        { "title": "Sonido de alta calidad", "desc": "Altavoz integrado, transmisión vía cable AUX o FM directamente a los altavoces de tu coche.", "svg": "M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z", "span": "sm:col-span-1 sm:row-span-1" },
+        { "title": "Seguridad y marcha atrás", "desc": "Compatible con cámara de marcha atrás. Cambio automático de pantalla al meter la marcha atrás.", "svg": "M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z", "span": "sm:col-span-1 sm:row-span-1" },
+        { "title": "Pantalla IPS Premium", "desc": "Pantalla IPS a color de 10,26 pulgadas con detalles vivos y brillo adaptativo, incluso bajo luz solar intensa.", "svg": "M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z", "span": "sm:col-span-2 sm:row-span-1" },
+        { "title": "Conectividad total", "desc": "CarPlay inalámbrico, Android Auto, reproducción multimedia vía tarjeta de memoria o Bluetooth. Todo conectado, sin cables.", "svg": "M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.858 15.355-5.858 21.213 0", "span": "sm:col-span-2 sm:row-span-1" },
+        { "title": "Instalación fácil", "desc": "Soporte universal incluido, alimentación por encendedor. Sin cableado complejo, listo en 2 minutos.", "svg": "M13 10V3L4 14h7v7l9-11h-7z", "span": "sm:col-span-1 sm:row-span-1" },
+        { "title": "Control por voz", "desc": "Control manos libres inteligente. Activa Siri o Google Assistant sin apartar la vista de la carretera.", "svg": "M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z", "span": "sm:col-span-1 sm:row-span-1" }
+      ]
+    },
+    "specs": {
+      "title": "Especificaciones técnicas",
+      "items": [
+        { "label": "Tamaño de pantalla", "value": "10,26\" IPS HD" },
+        { "label": "Resolución", "value": "1600 × 600 px" },
+        { "label": "Alimentación", "value": "DC 7-32V / 6W" },
+        { "label": "Cámara", "value": "Soporta 1 cámara (líneas ajustables)" },
+        { "label": "Temperatura", "value": "-30°C ~ 80°C (-22°F ~ 176°F)" },
+        { "label": "Funciones", "value": "Espejo, Ahorro de energía, Control por voz" },
+        { "label": "Posición", "value": "Conducción izquierda / derecha" },
+        { "label": "Idiomas", "value": "ES, EN, FR, DE, IT, PT, NL + 20" },
+        { "label": "Actualizaciones", "value": "Reset y Firmware OTA" },
+        { "label": "Garantía", "value": "2 años del fabricante" }
+      ]
+    },
+    "box": {
+      "title": "Lo que recibes",
+      "items": [
+        "1× Pantalla CarPlay coche de 10,26\"",
+        "1× Soporte universal ajustable",
+        "1× Enchufe encendedor 12V",
+        "1× Cable AUX (jack 3,5mm)",
+        "1× Manual de usuario ES/EN",
+        "1× Kit de accesorios de montaje"
+      ],
+      "note": "Todos los accesorios incluidos — Nada más que comprar"
+    },
+    "faq": {
+      "badge": "Soporte",
+      "title": "Preguntas frecuentes.",
+      "items": [
+        { "q": "¿Mi vehículo es compatible?", "a": "Sí, la pantalla funciona con el 99% de los vehículos con encendedor de 12V, ya sean nuevos o antiguos." },
+        { "q": "¿Cómo sale el sonido por los altavoces?", "a": "Tres opciones: frecuencia FM integrada, cable AUX (jack 3,5mm incluido), o Bluetooth nativo de tu radio." },
+        { "q": "¿La instalación es complicada?", "a": "Para nada. Conecta al encendedor, activa el Bluetooth en tu teléfono, listo en 2 minutos." },
+        { "q": "¿Puedo devolverlo?", "a": "Sí, tienes 14 días para devolver el producto y recibir un reembolso completo. Contacta support@oxaplay.com." }
+      ]
+    }
+  },
+
+  "CarplayMoto": {
+    "edition": "Edición Moto",
+    "title": "Pantalla Conectada<br />CarPlay & Android Auto",
+    "subtitle": "La pantalla de 5\" resistente al agua IP67 para transformar tu moto en un vehículo de dos ruedas conectado. GPS, música y llamadas manos libres.",
+    "reviews": "800+ opiniones",
+    "buyNow": "Pedir ahora",
+    "deliverySecure": "Envío gratis en 48h · Pago seguro",
+    "brandMarquee": "Compatible con el 99% de las motos",
+    "focus": {
+      "badge": "Tecnología y Detalles",
+      "title": "Diseñada para resistir<br />cualquier carretera.",
+      "desc1": "Una pantalla táctil LCD de 5 pulgadas con resolución de 1024×480 píxeles, optimizada para una legibilidad perfecta incluso bajo luz solar directa. El revestimiento antirreflejos y el brillo adaptativo garantizan comodidad visual en todas las condiciones.",
+      "desc2": "Certificada IP67, esta pantalla resiste la lluvia, el polvo y las vibraciones. Conéctate vía Wi-Fi y Bluetooth 5.0 para disfrutar de Waze, Spotify y llamadas manos libres — directamente desde tu manillar."
+    },
+    "details": {
+      "title": "Detalles",
+      "subtitle": "Especificaciones técnicas y contenido."
+    },
+    "features": {
+      "title": "Funcionalidades",
+      "subtitle": "Diseñada para moteros.",
+      "items": [
+        { "title": "Navegación y música", "desc": "Wi-Fi integrado y Bluetooth 5.0 para GPS (Waze/Maps), llamadas y música inalámbrica. Mantente conectado en la carretera.", "svg": "M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.858 15.355-5.858 21.213 0", "span": "sm:col-span-2 sm:row-span-1" },
+        { "title": "Control táctil", "desc": "Pantalla táctil LCD de 5 pulgadas (1024×480), brillo adaptativo para legibilidad perfecta incluso bajo luz solar intensa.", "svg": "M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z", "span": "sm:col-span-1 sm:row-span-1" },
+        { "title": "Durabilidad extrema", "desc": "Construida para exteriores: materiales LCD, plástico y metal. Resistente a la intemperie, vibraciones y UV. Certificada IP67.", "svg": "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z", "span": "sm:col-span-1 sm:row-span-1" },
+        { "title": "Conectividad universal", "desc": "Soporte completo para iPhone (CarPlay) y Android (Android Auto). Cambia entre ellos sin configuración.", "svg": "M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z", "span": "sm:col-span-2 sm:row-span-1" }
+      ]
+    },
+    "specs": {
+      "title": "Especificaciones técnicas",
+      "items": [
+        { "label": "Marca / Modelo", "value": "Leshida Q5S" },
+        { "label": "Tipo", "value": "Navegación GPS portátil para moto" },
+        { "label": "Conectividad", "value": "Wi-Fi integrado, Bluetooth 5.0" },
+        { "label": "Pantalla", "value": "Táctil LCD 5\", 1024×480" },
+        { "label": "Compatibilidad", "value": "CarPlay & Android Auto" },
+        { "label": "Ubicación", "value": "Frontal (Manillar)" },
+        { "label": "Resistencia al agua", "value": "IP67" },
+        { "label": "Materiales", "value": "LCD, Plástico, Metal" },
+        { "label": "Certificaciones", "value": "CE, FCC, RoHS" },
+        { "label": "Garantía", "value": "1 año del fabricante" }
+      ]
+    },
+    "box": {
+      "title": "Lo que recibes",
+      "items": [
+        "1× Pantalla conectada moto (Leshida Q5S)",
+        "1× Soporte robusto para manillar",
+        "1× Kit de cableado de alimentación (batería)",
+        "1× Material de montaje (Plástico/Metal)",
+        "1× Manual de usuario"
+      ],
+      "note": "Todos los accesorios incluidos — Lista para rodar"
+    },
+    "faq": {
+      "badge": "Soporte",
+      "title": "Preguntas frecuentes.",
+      "items": [
+        { "q": "¿Mi moto es compatible?", "a": "Sí, la pantalla se adapta a cualquier manillar estándar (22mm o 28mm). El kit de montaje universal se adapta al 99% de las motos del mercado." },
+        { "q": "¿Es realmente resistente al agua?", "a": "Sí, la pantalla está certificada IP67: resistente a la lluvia, salpicaduras y polvo. Está diseñada para rodar con cualquier clima." },
+        { "q": "¿Cómo se alimenta la pantalla?", "a": "Mediante cableado conectado a la batería de tu moto (kit incluido). La instalación es sencilla y no requiere modificación del circuito eléctrico." },
+        { "q": "¿Puedo devolverla?", "a": "Sí, tienes 14 días para devolver el producto y recibir un reembolso completo. Contacta support@oxaplay.com." }
+      ]
+    }
+  },
+
+  "Checkout": {
+    "title": "Completar tu pedido",
+    "step1": "Información",
+    "step2": "Pago",
+    "contact": "Contacto",
+    "shipping": "Envío",
+    "expressPayment": "Pago exprés",
+    "orPayByCard": "o pagar con tarjeta",
+    "continueToPayment": "Continuar al pago",
+    "back": "Volver",
+    "payNow": "Pagar ahora",
+    "processing": "Procesando...",
+    "loading": "Cargando...",
+    "freeShipping": "Envío gratis",
+    "guarantee30days": "Garantía 30 días",
+    "securePayment": "Pago 100% seguro",
+    "viaStripe": "vía Stripe",
+    "form": {
+      "firstName": "Nombre *",
+      "lastName": "Apellidos *",
+      "email": "Email *",
+      "phone": "Teléfono (opcional)",
+      "address": "Dirección *",
+      "addressComplement": "Complemento de dirección (opcional)",
+      "postalCode": "Código postal *",
+      "city": "Ciudad *",
+      "country": "País"
+    },
+    "countries": {
+      "FR": "Francia",
+      "BE": "Bélgica",
+      "CH": "Suiza",
+      "DE": "Alemania",
+      "ES": "España",
+      "IT": "Italia",
+      "GB": "Reino Unido",
+      "US": "Estados Unidos"
+    },
+    "Errors": {
+      "emailInvalid": "Email inválido",
+      "firstNameRequired": "Nombre requerido",
+      "lastNameRequired": "Apellidos requeridos",
+      "addressRequired": "Dirección requerida",
+      "cityRequired": "Ciudad requerida",
+      "postalCodeRequired": "Código postal requerido",
+      "countryRequired": "País requerido",
+      "paymentError": "Error de pago",
+      "expressPaymentError": "Error de pago exprés"
+    }
+  },
+
+  "Success": {
+    "title": "¡Pago exitoso!",
+    "subtitle": "Tu pedido está confirmado.",
+    "orderNotFound": "Pedido no encontrado.",
+    "verificationError": "Se produjo un error durante la verificación.",
+    "orderSummary": "Resumen del pedido",
+    "orderNumber": "Nº Pedido",
+    "product": "Producto",
+    "totalPaid": "Total pagado",
+    "status": "Estado",
+    "confirmationSent": "Confirmación enviada",
+    "confirmationEmail": "Se te ha enviado un email de confirmación",
+    "shippingIn48h": "Envío en 48h.",
+    "estimatedDelivery": "Entrega estimada",
+    "deliveryInfo": "Entrega gratuita en 48h laborables por Colissimo.",
+    "backToHome": "Volver al inicio"
+  },
+
+  "Footer": {
+    "description": "La pantalla CarPlay & Android Auto premium para tu vehículo.",
+    "navTitle": "Navegación",
+    "legalTitle": "Legal",
+    "contactTitle": "Contacto",
+    "copyright": "© 2025 OxaPlay. Todos los derechos reservados.",
+    "nav": [
+      { "label": "Inicio", "href": "/" },
+      { "label": "CarPlay Coche", "href": "/carplay-voiture" },
+      { "label": "CarPlay Moto", "href": "/carplay-moto" },
+      { "label": "Opiniones", "href": "/avis" },
+      { "label": "FAQ", "href": "/faq" },
+      { "label": "Contacto", "href": "/contact" }
+    ],
+    "legal": [
+      { "label": "Aviso Legal", "href": "/mentions-legales" },
+      { "label": "Política de Privacidad", "href": "/politique-de-confidentialite" },
+      { "label": "Términos y Condiciones", "href": "/cgv" },
+      { "label": "Devoluciones y Reembolsos", "href": "/politique-de-retour" }
+    ],
+    "legalLinks": {
+      "legalNotice": "Aviso Legal",
+      "terms": "T&C",
+      "privacy": "Privacidad",
+      "returns": "Devoluciones"
+    }
+  },
+
+  "Common": {
+    "buyNow": "Pedir ahora",
+    "discover": "Descubrir",
+    "learnMore": "Saber más",
+    "seeMore": "Ver más",
+    "close": "Cerrar",
+    "loading": "Cargando...",
+    "error": "Error",
+    "success": "Éxito"
+  },
+
+  "Chat": {
+    "supportTitle": "Soporte OxaPlay",
+    "online": "En línea",
+    "greeting": "¡Hola! 👋 ¿Cómo puedo ayudarte?",
+    "beforeStart": "Antes de empezar",
+    "enterEmail": "Introduce tu email para que podamos responderte.",
+    "emailPlaceholder": "tu@email.com",
+    "invalidEmail": "Email inválido",
+    "startChat": "Iniciar chat",
+    "messagePlaceholder": "Tu mensaje...",
+    "messageSent": "Mensaje enviado ✓",
+    "connectionError": "Error de conexión. Inténtalo de nuevo."
+  },
+
+  "LegalNotice": {
+    "title": "Aviso Legal",
+    "section1": {
+      "title": "1. Editor del sitio",
+      "intro": "El sitio oxaplay.com es editado por:",
+      "companyName": "Razón social:",
+      "address": "Domicilio social:",
+      "email": "Email:",
+      "capital": "Capital social:",
+      "rcs": "Registro Mercantil:",
+      "vat": "NIF-IVA:"
+    },
+    "section2": {
+      "title": "2. Director de publicación",
+      "content": "El director de publicación es el representante legal de OxaPlay SAS."
+    },
+    "section3": {
+      "title": "3. Proveedor de hosting",
+      "content": "El sitio está alojado por Vercel Inc., 340 S Lemon Ave #4133, Walnut, CA 91789, Estados Unidos."
+    },
+    "section4": {
+      "title": "4. Propiedad intelectual",
+      "content": "Todo el contenido del sitio (textos, imágenes, vídeos, logotipos, gráficos) está protegido por derechos de autor y marcas registradas. Queda prohibida cualquier reproducción, representación, modificación, publicación o adaptación de todo o parte de los elementos del sitio sin la autorización escrita previa de OxaPlay SAS."
+    },
+    "section5": {
+      "title": "5. Datos personales",
+      "content": "De conformidad con el Reglamento General de Protección de Datos (RGPD), usted tiene derecho de acceso, rectificación, supresión y portabilidad de sus datos personales. Para ejercer estos derechos, contáctenos en:",
+      "moreInfo": "Para más información, consulte nuestra"
+    },
+    "section6": {
+      "title": "6. Cookies",
+      "content": "El sitio utiliza cookies para mejorar la experiencia del usuario y realizar estadísticas de visitas. Puede configurar su navegador para rechazar las cookies."
+    },
+    "section7": {
+      "title": "7. Litigios",
+      "content": "Este aviso legal se rige por la ley francesa. En caso de litigio, los tribunales de París serán los únicos competentes."
+    }
+  },
+
+  "PrivacyPolicy": {
+    "title": "Política de Privacidad",
+    "section1": {
+      "title": "1. Responsable del tratamiento",
+      "content": "OxaPlay SAS, con domicilio social en 42 Rue du Faubourg Saint-Honoré, 75008 París, Francia, es responsable del tratamiento de sus datos personales.",
+      "contact": "Contacto:"
+    },
+    "section2": {
+      "title": "2. Datos recopilados",
+      "intro": "Recopilamos los siguientes datos:",
+      "items": ["Nombre y apellidos", "Dirección de email", "Dirección de envío y facturación", "Número de teléfono", "Datos de navegación (cookies, dirección IP)", "Historial de pedidos"]
+    },
+    "section3": {
+      "title": "3. Finalidad del tratamiento",
+      "intro": "Sus datos se recopilan para:",
+      "items": ["Gestión y seguimiento de sus pedidos", "Entrega de sus productos", "Gestión de la relación con el cliente y servicio postventa", "Envío de comunicaciones comerciales (con su consentimiento)", "Mejora de nuestros servicios y sitio web", "Cumplimiento de nuestras obligaciones legales y reglamentarias"]
+    },
+    "section4": {
+      "title": "4. Base legal",
+      "content": "El tratamiento de sus datos se basa en: la ejecución del contrato de venta, su consentimiento, nuestro interés legítimo y el cumplimiento de nuestras obligaciones legales."
+    },
+    "section5": {
+      "title": "5. Duración de conservación",
+      "content": "Sus datos personales se conservan durante el tiempo necesario para la finalidad del tratamiento, y como máximo 3 años después de su última interacción con nuestro servicio. Los datos relativos a las transacciones se conservan 10 años conforme a las obligaciones contables."
+    },
+    "section6": {
+      "title": "6. Compartición de datos",
+      "intro": "Sus datos pueden compartirse con:",
+      "items": ["Nuestros proveedores de entrega", "Nuestros proveedores de pago seguro", "Nuestras herramientas de análisis (Google Analytics)"],
+      "noSale": "Nunca vendemos sus datos a terceros."
+    },
+    "section7": {
+      "title": "7. Sus derechos",
+      "intro": "De conformidad con el RGPD, usted tiene los siguientes derechos:",
+      "items": ["Derecho de acceso a sus datos", "Derecho de rectificación", "Derecho de supresión", "Derecho a la portabilidad", "Derecho de oposición", "Derecho a la limitación del tratamiento"],
+      "exercise": "Para ejercer estos derechos:"
+    },
+    "section8": {
+      "title": "8. Cookies",
+      "content": "Nuestro sitio utiliza cookies esenciales para el funcionamiento del sitio y cookies analíticas. Puede gestionar sus preferencias a través de la configuración de su navegador."
+    },
+    "section9": {
+      "title": "9. Reclamaciones",
+      "content": "Si considera que el tratamiento de sus datos no cumple con la normativa, puede presentar una reclamación ante la CNIL (Autoridad Francesa de Protección de Datos)."
+    }
+  },
+
+  "ReturnPolicy": {
+    "title": "Política de Devolución y Reembolso",
+    "section1": {
+      "title": "1. Derecho de desistimiento",
+      "content": "De conformidad con la legislación francesa, dispone de {days} días desde la recepción de su pedido para ejercer su derecho de desistimiento, sin tener que justificar motivos ni pagar penalizaciones.",
+      "days": "14"
+    },
+    "section2": {
+      "title": "2. Condiciones de devolución",
+      "intro": "Para ser aceptada, la devolución debe cumplir las siguientes condiciones:",
+      "items": ["El producto debe estar en su embalaje original, completo y sin daños", "El producto no debe haber sido instalado o utilizado extensamente", "Todos los accesorios y documentación proporcionados deben estar incluidos", "El producto debe devolverse en un embalaje adecuado para evitar daños durante el transporte"]
+    },
+    "section3": {
+      "title": "3. Procedimiento de devolución",
+      "intro": "Para iniciar una devolución:",
+      "items": ["Contáctenos en support@oxaplay.com indicando su número de pedido", "Nuestro equipo le enviará un formulario de devolución e instrucciones de envío", "Envíe el producto a la dirección indicada en las instrucciones", "Una vez recibido e inspeccionado el paquete, procederemos al reembolso"]
+    },
+    "section4": {
+      "title": "4. Gastos de devolución",
+      "content": "Los gastos de devolución corren a cargo del cliente, excepto en caso de producto defectuoso o error por nuestra parte. En este caso, OxaPlay cubre todos los gastos de devolución."
+    },
+    "section5": {
+      "title": "5. Reembolso",
+      "content": "El reembolso se efectuará en un plazo máximo de {days} días tras la recepción del producto devuelto. El reembolso se realizará mediante el mismo método de pago utilizado para el pedido inicial.",
+      "days": "14"
+    },
+    "section6": {
+      "title": "6. Productos defectuosos",
+      "content": "Si recibe un producto defectuoso o dañado, contáctenos inmediatamente en support@oxaplay.com con fotos del producto. Le ofreceremos un reemplazo o reembolso completo, incluyendo gastos de devolución."
+    },
+    "section7": {
+      "title": "7. Garantía comercial",
+      "content": "Todos los productos OxaPlay tienen una garantía de {years} años que cubre defectos de fabricación. Esta garantía no cubre daños resultantes de mal uso, instalación incorrecta o desgaste normal.",
+      "years": "2"
+    },
+    "section8": {
+      "title": "8. Contacto",
+      "intro": "Para cualquier pregunta sobre devoluciones y reembolsos:",
+      "email": "Email:",
+      "address": "Dirección:"
+    }
   }
 }

@@ -15,6 +15,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import Image from "next/image";
 import { usePostHog } from "posthog-js/react";
 import type { PricingVariant } from "@/lib/pricing";
+import { useTranslations } from "next-intl";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
@@ -75,20 +76,30 @@ const STRIPE_APPEARANCE = {
   },
 };
 
-/* ─── Zod Schema ─── */
-const contactSchema = z.object({
-  email: z.string().email("Email invalide"),
-  firstName: z.string().min(1, "Prénom requis"),
-  lastName: z.string().min(1, "Nom requis"),
+/* ─── Zod Schema Factory ─── */
+const createContactSchema = (t: (key: string) => string) => z.object({
+  email: z.string().email(t('Checkout.Errors.emailInvalid')),
+  firstName: z.string().min(1, t('Checkout.Errors.firstNameRequired')),
+  lastName: z.string().min(1, t('Checkout.Errors.lastNameRequired')),
   phone: z.string().optional(),
-  line1: z.string().min(1, "Adresse requise"),
+  line1: z.string().min(1, t('Checkout.Errors.addressRequired')),
   line2: z.string().optional(),
-  city: z.string().min(1, "Ville requise"),
-  postalCode: z.string().min(1, "Code postal requis"),
-  country: z.string().min(1, "Pays requis"),
+  city: z.string().min(1, t('Checkout.Errors.cityRequired')),
+  postalCode: z.string().min(1, t('Checkout.Errors.postalCodeRequired')),
+  country: z.string().min(1, t('Checkout.Errors.countryRequired')),
 });
 
-type ContactForm = z.infer<typeof contactSchema>;
+type ContactForm = {
+  email: string;
+  firstName: string;
+  lastName: string;
+  phone?: string;
+  line1: string;
+  line2?: string;
+  city: string;
+  postalCode: string;
+  country: string;
+};
 
 /* ─── Props ─── */
 interface CheckoutModalProps {
@@ -101,7 +112,7 @@ interface CheckoutModalProps {
 }
 
 /* ─── Reassurance Badges (reused in both steps) ─── */
-function ReassuranceBadges() {
+function ReassuranceBadges({ t }: { t: (key: string) => string }) {
   return (
     <div className="space-y-3 pt-4">
       {/* Security + payment badges */}
@@ -110,10 +121,10 @@ function ReassuranceBadges() {
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
           </svg>
-          <span className="text-[11px] font-medium">Paiement 100% s&eacute;curis&eacute;</span>
+          <span className="text-[11px] font-medium">{t('Checkout.securePayment')}</span>
         </div>
         <span className="w-px h-3 bg-zinc-800" />
-        <span className="text-[11px] text-zinc-600 font-medium">via Stripe</span>
+        <span className="text-[11px] text-zinc-600 font-medium">{t('Checkout.viaStripe')}</span>
       </div>
 
       {/* Card logos */}
@@ -125,7 +136,7 @@ function ReassuranceBadges() {
 }
 
 /* ─── Product Summary Card ─── */
-function ProductSummary({ productSlug, productName, price }: { productSlug: string; productName: string; price: string }) {
+function ProductSummary({ productSlug, productName, price, t }: { productSlug: string; productName: string; price: string; t: (key: string) => string }) {
   return (
     <div className="flex items-center gap-4 p-4 rounded-xl bg-zinc-800/40 border border-zinc-800">
       {/* Product thumbnail */}
@@ -152,13 +163,13 @@ function ProductSummary({ productSlug, productName, price }: { productSlug: stri
             <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
             </svg>
-            Livraison gratuite
+            {t('Checkout.freeShipping')}
           </span>
           <span className="inline-flex items-center gap-1 text-[11px] text-zinc-500 font-medium">
             <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
             </svg>
-            Garantie 30 jours
+            {t('Checkout.guarantee30days')}
           </span>
         </div>
       </div>
@@ -173,12 +184,14 @@ function PaymentStep({
   productSlug,
   productName,
   price,
+  t,
 }: {
   onSuccess: () => void;
   onBack: () => void;
   productSlug: string;
   productName: string;
   price: string;
+  t: (key: string) => string;
 }) {
   const stripe = useStripe();
   const elements = useElements();
@@ -200,7 +213,7 @@ function PaymentStep({
     });
 
     if (result.error) {
-      setError(result.error.message || "Erreur de paiement");
+      setError(result.error.message || t('Checkout.Errors.paymentError'));
       setLoading(false);
     }
   };
@@ -216,7 +229,7 @@ function PaymentStep({
         redirect: "if_required",
       });
       if (error) {
-        setError(error.message || "Erreur de paiement express");
+        setError(error.message || t('Checkout.Errors.expressPaymentError'));
       } else {
         onSuccess();
       }
@@ -227,12 +240,12 @@ function PaymentStep({
   return (
     <div className="space-y-5 pt-4">
       {/* Product summary */}
-      <ProductSummary productSlug={productSlug} productName={productName} price={price} />
+      <ProductSummary productSlug={productSlug} productName={productName} price={price} t={t} />
 
       {/* Express Checkout — Apple Pay / Google Pay / PayPal */}
       <div className="min-h-[60px]">
         <p className="text-[11px] font-medium text-zinc-500 uppercase tracking-[0.25em] mb-3">
-          Paiement express
+          {t('Checkout.expressPayment')}
         </p>
         <ExpressCheckoutElement
           onConfirm={handleExpressCheckoutConfirm}
@@ -253,7 +266,7 @@ function PaymentStep({
         </div>
         <div className="relative flex justify-center">
           <span className="bg-zinc-900 px-4 text-xs text-zinc-600">
-            ou payer par carte
+            {t('Checkout.orPayByCard')}
           </span>
         </div>
       </div>
@@ -285,7 +298,7 @@ function PaymentStep({
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
-            Retour
+            {t('Checkout.back')}
           </button>
           <button
             type="submit"
@@ -298,21 +311,21 @@ function PaymentStep({
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                 </svg>
-                Traitement...
+                {t('Checkout.processing')}
               </>
             ) : (
               <>
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                 </svg>
-                Payer maintenant
+                {t('Checkout.payNow')}
               </>
             )}
           </button>
         </div>
 
         {/* Reassurance */}
-        <ReassuranceBadges />
+        <ReassuranceBadges t={t} />
       </form>
     </div>
   );
@@ -331,6 +344,9 @@ export default function CheckoutModal({
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const posthog = usePostHog();
+  const t = useTranslations();
+  
+  const contactSchema = createContactSchema(t);
 
   const {
     register,
@@ -438,7 +454,7 @@ export default function CheckoutModal({
 
         {/* Header */}
         <div className="relative px-5 sm:px-8 pt-6 sm:pt-8 pb-5 sm:pb-6 border-b border-zinc-800">
-          <h2 className="text-xl font-bold text-white tracking-tight">Finaliser votre commande</h2>
+          <h2 className="text-xl font-bold text-white tracking-tight">{t('Checkout.title')}</h2>
         </div>
 
         {/* Progress Steps */}
@@ -452,7 +468,7 @@ export default function CheckoutModal({
               }`}>
                 {step > 1 ? "✓" : "1"}
               </div>
-              <span className="text-sm font-medium text-white">Informations</span>
+              <span className="text-sm font-medium text-white">{t('Checkout.step1')}</span>
             </div>
             
             <div className="flex-1 h-px bg-zinc-800 overflow-hidden">
@@ -467,7 +483,7 @@ export default function CheckoutModal({
               }`}>
                 2
               </div>
-              <span className="text-sm font-medium text-white">Paiement</span>
+              <span className="text-sm font-medium text-white">{t('Checkout.step2')}</span>
             </div>
           </div>
         </div>
@@ -477,7 +493,7 @@ export default function CheckoutModal({
           {step === 1 && (
             <form onSubmit={handleSubmit(onContactSubmit)} className="space-y-3 pt-4">
               {/* Product summary */}
-              <ProductSummary productSlug={productSlug} productName={productName} price={price} />
+              <ProductSummary productSlug={productSlug} productName={productName} price={price} t={t} />
 
               {/* Contact Section */}
               <div className="space-y-2.5 pt-2">
@@ -485,14 +501,14 @@ export default function CheckoutModal({
                   <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                   </svg>
-                  Contact
+                  {t('Checkout.contact')}
                 </h3>
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
                     <input
                       {...register("firstName")}
-                      placeholder="Prénom *"
+                      placeholder={t('Checkout.form.firstName')}
                       className="w-full px-3 py-2.5 text-sm rounded-xl bg-zinc-800/50 border border-zinc-700 text-white placeholder:text-zinc-600 focus:outline-none focus:border-zinc-500 transition-all duration-300"
                     />
                     {errors.firstName && (
@@ -504,7 +520,7 @@ export default function CheckoutModal({
                   <div>
                     <input
                       {...register("lastName")}
-                      placeholder="Nom *"
+                      placeholder={t('Checkout.form.lastName')}
                       className="w-full px-3 py-2.5 text-sm rounded-xl bg-zinc-800/50 border border-zinc-700 text-white placeholder:text-zinc-600 focus:outline-none focus:border-zinc-500 transition-all duration-300"
                     />
                     {errors.lastName && (
@@ -519,7 +535,7 @@ export default function CheckoutModal({
                   <input
                     {...register("email")}
                     type="email"
-                    placeholder="Email *"
+                    placeholder={t('Checkout.form.email')}
                     className="w-full px-3 py-2.5 text-sm rounded-xl bg-zinc-800/50 border border-zinc-700 text-white placeholder:text-zinc-600 focus:outline-none focus:border-zinc-500 transition-all duration-300"
                   />
                   {errors.email && (
@@ -533,7 +549,7 @@ export default function CheckoutModal({
                   <input
                     {...register("phone")}
                     type="tel"
-                    placeholder="Téléphone (optionnel)"
+                    placeholder={t('Checkout.form.phone')}
                     className="w-full px-3 py-2.5 text-sm rounded-xl bg-zinc-800/50 border border-zinc-700 text-white placeholder:text-zinc-600 focus:outline-none focus:border-zinc-500 transition-all duration-300"
                   />
                 </div>
@@ -545,13 +561,13 @@ export default function CheckoutModal({
                   <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                   </svg>
-                  Livraison
+                  {t('Checkout.shipping')}
                 </h3>
 
                 <div>
                   <input
                     {...register("line1")}
-                    placeholder="Adresse *"
+                    placeholder={t('Checkout.form.address')}
                     className="w-full px-3 py-2.5 text-sm rounded-xl bg-zinc-800/50 border border-zinc-700 text-white placeholder:text-zinc-600 focus:outline-none focus:border-zinc-500 transition-all duration-300"
                   />
                   {errors.line1 && (
@@ -564,7 +580,7 @@ export default function CheckoutModal({
                 <div>
                   <input
                     {...register("line2")}
-                    placeholder="Complément d'adresse (optionnel)"
+                    placeholder={t('Checkout.form.addressComplement')}
                     className="w-full px-3 py-2.5 text-sm rounded-xl bg-zinc-800/50 border border-zinc-700 text-white placeholder:text-zinc-600 focus:outline-none focus:border-zinc-500 transition-all duration-300"
                   />
                 </div>
@@ -573,7 +589,7 @@ export default function CheckoutModal({
                   <div>
                     <input
                       {...register("postalCode")}
-                      placeholder="Code postal *"
+                      placeholder={t('Checkout.form.postalCode')}
                       className="w-full px-3 py-2.5 text-sm rounded-xl bg-zinc-800/50 border border-zinc-700 text-white placeholder:text-zinc-600 focus:outline-none focus:border-zinc-500 transition-all duration-300"
                     />
                     {errors.postalCode && (
@@ -585,7 +601,7 @@ export default function CheckoutModal({
                   <div>
                     <input
                       {...register("city")}
-                      placeholder="Ville *"
+                      placeholder={t('Checkout.form.city')}
                       className="w-full px-3 py-2.5 text-sm rounded-xl bg-zinc-800/50 border border-zinc-700 text-white placeholder:text-zinc-600 focus:outline-none focus:border-zinc-500 transition-all duration-300"
                     />
                     {errors.city && (
@@ -601,14 +617,14 @@ export default function CheckoutModal({
                     {...register("country")}
                     className="w-full px-3 py-2.5 text-sm rounded-xl bg-zinc-800/50 border border-zinc-700 text-white focus:outline-none focus:border-zinc-500 transition-all duration-300 cursor-pointer"
                   >
-                    <option value="FR">France</option>
-                    <option value="BE">Belgique</option>
-                    <option value="CH">Suisse</option>
-                    <option value="DE">Allemagne</option>
-                    <option value="ES">Espagne</option>
-                    <option value="IT">Italie</option>
-                    <option value="GB">Royaume-Uni</option>
-                    <option value="US">&Eacute;tats-Unis</option>
+                    <option value="FR">{t('Checkout.countries.FR')}</option>
+                    <option value="BE">{t('Checkout.countries.BE')}</option>
+                    <option value="CH">{t('Checkout.countries.CH')}</option>
+                    <option value="DE">{t('Checkout.countries.DE')}</option>
+                    <option value="ES">{t('Checkout.countries.ES')}</option>
+                    <option value="IT">{t('Checkout.countries.IT')}</option>
+                    <option value="GB">{t('Checkout.countries.GB')}</option>
+                    <option value="US">{t('Checkout.countries.US')}</option>
                   </select>
                 </div>
               </div>
@@ -626,11 +642,11 @@ export default function CheckoutModal({
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                       </svg>
-                      Chargement...
+                      {t('Checkout.loading')}
                     </span>
                   ) : (
                     <span className="flex items-center justify-center gap-2">
-                      Continuer vers le paiement
+                      {t('Checkout.continueToPayment')}
                       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                       </svg>
@@ -639,7 +655,7 @@ export default function CheckoutModal({
                 </button>
 
                 {/* Reassurance */}
-                <ReassuranceBadges />
+                <ReassuranceBadges t={t} />
               </div>
             </form>
           )}
@@ -658,6 +674,7 @@ export default function CheckoutModal({
                 productSlug={productSlug}
                 productName={productName}
                 price={price}
+                t={t}
               />
             </Elements>
           )}

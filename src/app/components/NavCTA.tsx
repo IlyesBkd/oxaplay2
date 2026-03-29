@@ -1,15 +1,18 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useTranslations } from "next-intl";
 
-const OPTIONS = [
-  { label: "Voiture", href: "/carplay-voiture" },
-  { label: "Moto", href: "/carplay-moto" },
-];
 
 export default function NavCTA() {
   const [active, setActive] = useState(0);
   const [cycling, setCycling] = useState(true);
+  const t = useTranslations('Navigation');
+
+  const OPTIONS = [
+    { label: t('voiture'), href: "/carplay-voiture" },
+    { label: t('moto'), href: "/carplay-moto" },
+  ];
 
   useEffect(() => {
     if (!cycling) return;
@@ -17,7 +20,7 @@ export default function NavCTA() {
       setActive((prev) => (prev + 1) % OPTIONS.length);
     }, 3000);
     return () => clearInterval(interval);
-  }, [cycling]);
+  }, [cycling, OPTIONS.length]);
 
   const current = OPTIONS[active];
 
@@ -52,7 +55,7 @@ export default function NavCTA() {
         href={current.href}
         className="flex items-center gap-1.5 px-5 py-2 bg-white text-zinc-950 text-xs font-semibold tracking-wide rounded-full transition-all duration-300 hover:bg-zinc-200 active:scale-95"
       >
-        Découvrir
+        {t('discover')}
         <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
         </svg>

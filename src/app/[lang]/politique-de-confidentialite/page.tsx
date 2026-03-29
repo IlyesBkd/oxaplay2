@@ -1,89 +1,81 @@
-import Link from "next/link";
+"use client";
+
 import Header from "../../components/Header";
+import { useTranslations } from "next-intl";
 
 export default function PolitiqueConfidentialite() {
+  const t = useTranslations('PrivacyPolicy');
+  
+  const section2Items = t.raw('section2.items') as string[];
+  const section3Items = t.raw('section3.items') as string[];
+  const section6Items = t.raw('section6.items') as string[];
+  const section7Items = t.raw('section7.items') as string[];
+  
   return (
     <main className="w-full min-h-screen bg-black text-white">
       <Header />
       <div className="max-w-3xl mx-auto px-4 py-16 sm:py-24">
-        <h1 className="text-3xl sm:text-4xl font-bold mb-10">Politique de Confidentialité</h1>
+        <h1 className="text-3xl sm:text-4xl font-bold mb-10">{t('title')}</h1>
 
         <div className="space-y-8 text-gray-400 text-sm leading-relaxed">
           <section>
-            <h2 className="text-lg font-semibold text-white mb-3">1. Responsable du traitement</h2>
-            <p>OxaPlay SAS, dont le siège social est situé au 42 Rue du Faubourg Saint-Honoré, 75008 Paris, France, est responsable du traitement de vos données personnelles.</p>
-            <p className="mt-2">Contact : <a href="mailto:support@oxaplay.com" className="text-purple-400 hover:underline">support@oxaplay.com</a></p>
+            <h2 className="text-lg font-semibold text-white mb-3">{t('section1.title')}</h2>
+            <p>{t('section1.content')}</p>
+            <p className="mt-2">{t('section1.contact')} <a href="mailto:support@oxaplay.com" className="text-purple-400 hover:underline">support@oxaplay.com</a></p>
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white mb-3">2. Données collectées</h2>
-            <p>Nous collectons les données suivantes :</p>
+            <h2 className="text-lg font-semibold text-white mb-3">{t('section2.title')}</h2>
+            <p>{t('section2.intro')}</p>
             <ul className="mt-2 list-disc list-inside space-y-1">
-              <li>Nom et prénom</li>
-              <li>Adresse email</li>
-              <li>Adresse de livraison et de facturation</li>
-              <li>Numéro de téléphone</li>
-              <li>Données de navigation (cookies, adresse IP)</li>
-              <li>Historique de commandes</li>
+              {section2Items.map((item, i) => <li key={i}>{item}</li>)}
             </ul>
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white mb-3">3. Finalités du traitement</h2>
-            <p>Vos données sont collectées pour :</p>
+            <h2 className="text-lg font-semibold text-white mb-3">{t('section3.title')}</h2>
+            <p>{t('section3.intro')}</p>
             <ul className="mt-2 list-disc list-inside space-y-1">
-              <li>La gestion et le suivi de vos commandes</li>
-              <li>La livraison de vos produits</li>
-              <li>La gestion de la relation client et du service après-vente</li>
-              <li>L&apos;envoi de communications commerciales (avec votre consentement)</li>
-              <li>L&apos;amélioration de nos services et de notre site</li>
-              <li>Le respect de nos obligations légales et réglementaires</li>
+              {section3Items.map((item, i) => <li key={i}>{item}</li>)}
             </ul>
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white mb-3">4. Base légale</h2>
-            <p>Le traitement de vos données repose sur : l&apos;exécution du contrat de vente, votre consentement, notre intérêt légitime, et le respect de nos obligations légales.</p>
+            <h2 className="text-lg font-semibold text-white mb-3">{t('section4.title')}</h2>
+            <p>{t('section4.content')}</p>
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white mb-3">5. Durée de conservation</h2>
-            <p>Vos données personnelles sont conservées pendant la durée nécessaire à la finalité du traitement, et au maximum 3 ans après votre dernière interaction avec notre service. Les données relatives aux transactions sont conservées 10 ans conformément aux obligations comptables.</p>
+            <h2 className="text-lg font-semibold text-white mb-3">{t('section5.title')}</h2>
+            <p>{t('section5.content')}</p>
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white mb-3">6. Partage des données</h2>
-            <p>Vos données peuvent être partagées avec :</p>
+            <h2 className="text-lg font-semibold text-white mb-3">{t('section6.title')}</h2>
+            <p>{t('section6.intro')}</p>
             <ul className="mt-2 list-disc list-inside space-y-1">
-              <li>Nos prestataires de livraison</li>
-              <li>Nos prestataires de paiement sécurisé</li>
-              <li>Nos outils d&apos;analyse (Google Analytics)</li>
+              {section6Items.map((item, i) => <li key={i}>{item}</li>)}
             </ul>
-            <p className="mt-2">Nous ne vendons jamais vos données à des tiers.</p>
+            <p className="mt-2">{t('section6.noSale')}</p>
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white mb-3">7. Vos droits</h2>
-            <p>Conformément au RGPD, vous disposez des droits suivants :</p>
+            <h2 className="text-lg font-semibold text-white mb-3">{t('section7.title')}</h2>
+            <p>{t('section7.intro')}</p>
             <ul className="mt-2 list-disc list-inside space-y-1">
-              <li>Droit d&apos;accès à vos données</li>
-              <li>Droit de rectification</li>
-              <li>Droit à l&apos;effacement</li>
-              <li>Droit à la portabilité</li>
-              <li>Droit d&apos;opposition</li>
-              <li>Droit à la limitation du traitement</li>
+              {section7Items.map((item, i) => <li key={i}>{item}</li>)}
             </ul>
-            <p className="mt-2">Pour exercer ces droits : <a href="mailto:support@oxaplay.com" className="text-purple-400 hover:underline">support@oxaplay.com</a></p>
+            <p className="mt-2">{t('section7.exercise')} <a href="mailto:support@oxaplay.com" className="text-purple-400 hover:underline">support@oxaplay.com</a></p>
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white mb-3">8. Cookies</h2>
-            <p>Notre site utilise des cookies essentiels au fonctionnement du site et des cookies analytiques. Vous pouvez gérer vos préférences via les paramètres de votre navigateur.</p>
+            <h2 className="text-lg font-semibold text-white mb-3">{t('section8.title')}</h2>
+            <p>{t('section8.content')}</p>
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white mb-3">9. Réclamation</h2>
-            <p>Si vous estimez que le traitement de vos données ne respecte pas la réglementation, vous pouvez introduire une réclamation auprès de la CNIL (Commission Nationale de l&apos;Informatique et des Libertés).</p>
+            <h2 className="text-lg font-semibold text-white mb-3">{t('section9.title')}</h2>
+            <p>{t('section9.content')}</p>
           </section>
         </div>
       </div>

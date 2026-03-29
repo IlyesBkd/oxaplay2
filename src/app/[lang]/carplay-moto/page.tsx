@@ -8,6 +8,7 @@ import CheckoutModal from "@/app/components/CheckoutModal";
 import RatingBadge from "@/app/components/RatingBadge";
 import { usePostHog } from "posthog-js/react";
 import { usePricingVariant } from "@/lib/usePricingVariant";
+import { useTranslations } from "next-intl";
 
 /* ─── Data ─── */
 
@@ -32,53 +33,7 @@ const MOTO_BRANDS = [
   { src: "/logo-car/Automobile_Dacia-Logo.wine.svg", alt: "Dacia" },
 ];
 
-const BENTO_FEATURES = [
-  {
-    title: "Navigation & Musique",
-    desc: "Wi-Fi intégré et Bluetooth 5.0 pour le GPS (Waze/Maps), appels et musique sans fil. Restez connecté sur la route.",
-    svg: "M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.858 15.355-5.858 21.213 0",
-    span: "sm:col-span-2 sm:row-span-1",
-  },
-  {
-    title: "Contrôle tactile",
-    desc: "Écran tactile LCD 5 pouces (1024×480), luminosité adaptée pour une lisibilité parfaite même en plein soleil.",
-    svg: "M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z",
-    span: "sm:col-span-1 sm:row-span-1",
-  },
-  {
-    title: "Robustesse extrême",
-    desc: "Conçu pour l'extérieur : matériaux LCD, plastique et métal. Résistant aux intempéries, vibrations et UV. Certifié IP67.",
-    svg: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z",
-    span: "sm:col-span-1 sm:row-span-1",
-  },
-  {
-    title: "Connectivité universelle",
-    desc: "Support total iPhone (CarPlay) et Android (Android Auto). Passez de l'un à l'autre sans configuration.",
-    svg: "M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z",
-    span: "sm:col-span-2 sm:row-span-1",
-  },
-];
 
-const SPECS_LEFT = [
-  { label: "Marque / Modèle", value: "Leshida Q5S" },
-  { label: "Type", value: "Navigation GPS Moto Portable" },
-  { label: "Connectivité", value: "Wi-Fi intégré, Bluetooth 5.0" },
-  { label: "Écran", value: 'Tactile LCD 5", 1024×480' },
-  { label: "Compatibilité", value: "CarPlay & Android Auto" },
-  { label: "Placement", value: "Avant (Guidon)" },
-  { label: "Étanchéité", value: "IP67" },
-  { label: "Matériaux", value: "LCD, Plastique, Métal" },
-  { label: "Certifications", value: "CE, FCC, RoHS" },
-  { label: "Garantie", value: "1 an constructeur" },
-];
-
-const BOX_ITEMS = [
-  "1× Écran Connecté Moto (Leshida Q5S)",
-  "1× Support de fixation guidon robuste",
-  "1× Kit de câblage d'alimentation (batterie)",
-  "1× Matériel de montage (Plastique/Métal)",
-  "1× Manuel d'utilisation",
-];
 
 const TESTIMONIAL_VIDEOS = [
   "/Voiture/temoignages_clients/8617e897bf7249b88b80b3d27bf0e139.HD-720p-1.6Mbps-55016171.mp4",
@@ -87,12 +42,6 @@ const TESTIMONIAL_VIDEOS = [
   "/Voiture/temoignages_clients/f846a94508024394a8b09956d50115d5.HD-720p-1.6Mbps-55016168.mp4",
 ];
 
-const FAQ_ITEMS = [
-  { q: "Ma moto est-elle compatible ?", a: "Oui, l'écran se fixe sur n'importe quel guidon standard (22mm ou 28mm). Le kit de fixation universel s'adapte à 99% des motos du marché." },
-  { q: "Est-ce vraiment étanche ?", a: "Oui, l'écran est certifié IP67 : résistant à la pluie, aux éclaboussures et à la poussière. Il est conçu pour rouler par tous les temps." },
-  { q: "Comment l'écran est-il alimenté ?", a: "Via un câblage relié à la batterie de votre moto (kit fourni). L'installation est simple et ne nécessite aucune modification du circuit électrique." },
-  { q: "Puis-je le retourner ?", a: "Oui, vous avez 14 jours pour retourner le produit et être remboursé intégralement. Contactez support@oxaplay.com." },
-];
 
 export default function CarPlayMotoPage() {
   const [activeImg, setActiveImg] = useState(0);
@@ -101,6 +50,7 @@ export default function CarPlayMotoPage() {
   const [showSticky, setShowSticky] = useState(false);
   const posthog = usePostHog();
   const pricing = usePricingVariant();
+  const t = useTranslations();
 
   const { loading } = pricing;
   const { formatted: formattedActualPrice, formattedOriginal: formattedOriginalPrice, actual: actualPrice, discount } = pricing.moto;
@@ -196,20 +146,18 @@ export default function CarPlayMotoPage() {
         {/* RIGHT: Product info - sticky on desktop */}
         <div className="w-full lg:w-1/2 lg:sticky lg:top-[72px] lg:h-[calc(100vh-72px)] flex items-center bg-zinc-950">
           <div className="w-full max-w-xl mx-auto px-6 sm:px-10 lg:px-14 py-12 lg:py-0">
-            <p className="text-[11px] font-medium text-zinc-500 uppercase tracking-[0.25em] mb-6">Édition Moto</p>
+            <p className="text-[11px] font-medium text-zinc-500 uppercase tracking-[0.25em] mb-6">{t('CarplayMoto.edition')}</p>
 
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-5 tracking-tight leading-[1.1]">
-              Écran Connecté<br />CarPlay & Android Auto
-            </h1>
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-5 tracking-tight leading-[1.1]" dangerouslySetInnerHTML={{ __html: t('CarplayMoto.title') }} />
 
             <p className="text-zinc-500 text-sm sm:text-base leading-relaxed mb-8 max-w-md">
-              L&apos;écran 5&quot; étanche IP67 pour transformer votre moto en deux-roues connecté. GPS, musique et appels mains libres.
+              {t('CarplayMoto.subtitle')}
             </p>
 
             {/* Rating */}
             <div className="flex items-center gap-3 mb-8">
               <RatingBadge />
-              <span className="text-sm text-zinc-500">800+ avis</span>
+              <span className="text-sm text-zinc-500">{t('CarplayMoto.reviews')}</span>
             </div>
 
             {/* Price - massive and light */}
@@ -236,12 +184,12 @@ export default function CarPlayMotoPage() {
                 onClick={handleCheckoutClick}
                 className="flex items-center justify-center gap-3 w-full py-4.5 rounded-full bg-white text-zinc-950 font-semibold text-base transition-all duration-300 hover:bg-zinc-200 hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
               >
-                Commander maintenant
+                {t('CarplayMoto.buyNow')}
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>
               </button>
-              <p className="text-center text-xs text-zinc-600">Livraison gratuite en 48h · Paiement sécurisé</p>
+              <p className="text-center text-xs text-zinc-600">{t('CarplayMoto.deliverySecure')}</p>
             </div>
 
             {/* Payment */}
@@ -255,7 +203,7 @@ export default function CarPlayMotoPage() {
       {/* ─── BRAND MARQUEE ─── */}
       <section className="w-full border-y border-zinc-800/50 bg-zinc-950 overflow-hidden">
         <div className="py-8">
-          <p className="text-center text-[11px] font-medium text-zinc-500 uppercase tracking-[0.25em] mb-6">Compatible avec 99% des deux-roues</p>
+          <p className="text-center text-[11px] font-medium text-zinc-500 uppercase tracking-[0.25em] mb-6">{t('CarplayMoto.brandMarquee')}</p>
           <div className="flex w-max animate-marquee gap-16">
             {[...MOTO_BRANDS, ...MOTO_BRANDS].map((b, i) => (
               <div key={`${b.alt}-${i}`} className="relative h-16 w-40 shrink-0 opacity-30 hover:opacity-60 transition-opacity duration-500">
@@ -272,15 +220,13 @@ export default function CarPlayMotoPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 sm:gap-16 items-center">
             {/* Left: Text */}
             <div className="border-l border-zinc-800 pl-8">
-              <p className="text-[11px] font-medium text-zinc-500 uppercase tracking-[0.25em] mb-5">Technologie & Détails</p>
-              <h2 className="text-3xl sm:text-4xl font-bold text-white leading-tight mb-8 tracking-tight">
-                Conçu pour résister<br />à toutes les routes.
-              </h2>
+              <p className="text-[11px] font-medium text-zinc-500 uppercase tracking-[0.25em] mb-5">{t('CarplayMoto.focus.badge')}</p>
+              <h2 className="text-3xl sm:text-4xl font-bold text-white leading-tight mb-8 tracking-tight" dangerouslySetInnerHTML={{ __html: t('CarplayMoto.focus.title') }} />
               <p className="text-zinc-500 text-base leading-relaxed mb-6">
-                Un écran tactile LCD 5 pouces avec une résolution de 1024×480 pixels, optimisé pour une lisibilité parfaite même sous le soleil direct. Le revêtement anti-reflet et la luminosité adaptative garantissent un confort visuel en toutes conditions.
+                {t('CarplayMoto.focus.desc1')}
               </p>
               <p className="text-zinc-500 text-base leading-relaxed">
-                Certifié IP67, cet écran résiste à la pluie, la poussière et aux vibrations. Connectez-vous en Wi-Fi et Bluetooth 5.0 pour profiter de Waze, Spotify et vos appels mains libres — directement depuis votre guidon.
+                {t('CarplayMoto.focus.desc2')}
               </p>
             </div>
 
@@ -303,13 +249,13 @@ export default function CarPlayMotoPage() {
       {/* ─── FEATURES BENTO GRID ─── */}
       <section className="w-full bg-zinc-950 py-12 sm:py-28">
         <div className="max-w-7xl mx-auto px-6">
-          <p className="text-center text-[11px] font-medium text-zinc-500 uppercase tracking-[0.25em] mb-4">Fonctionnalités</p>
+          <p className="text-center text-[11px] font-medium text-zinc-500 uppercase tracking-[0.25em] mb-4">{t('CarplayMoto.features.title')}</p>
           <h2 className="text-3xl sm:text-4xl font-bold text-center text-white mb-10 sm:mb-16 tracking-tight">
-            Conçu pour les motards.
+            {t('CarplayMoto.features.subtitle')}
           </h2>
 
           <div className="grid grid-cols-2 gap-3 sm:gap-4">
-            {BENTO_FEATURES.map((f) => (
+            {(t.raw('CarplayMoto.features.items') as any[]).map((f: any) => (
               <div
                 key={f.title}
                 className={`group rounded-xl sm:rounded-2xl bg-zinc-900/50 border border-zinc-800 p-4 sm:p-8 hover:border-zinc-700 hover:bg-zinc-900/80 transition-all duration-500 ${f.span}`}
@@ -330,21 +276,21 @@ export default function CarPlayMotoPage() {
       {/* ─── SPECS & BOX ─── */}
       <section className="w-full bg-zinc-950">
         <div className="max-w-7xl mx-auto px-6 py-12 sm:py-28">
-          <p className="text-center text-[11px] font-medium text-zinc-500 uppercase tracking-[0.25em] mb-4">Détails</p>
+          <p className="text-center text-[11px] font-medium text-zinc-500 uppercase tracking-[0.25em] mb-4">{t('CarplayMoto.details.title')}</p>
           <h2 className="text-3xl sm:text-4xl font-bold text-center text-white mb-10 sm:mb-16 tracking-tight">
-            Fiche technique & Contenu.
+            {t('CarplayMoto.details.subtitle')}
           </h2>
 
           <div className="grid lg:grid-cols-2 gap-6">
             {/* Left: Specs */}
             <div className="rounded-2xl bg-zinc-900/50 border border-zinc-800 overflow-hidden">
               <div className="px-6 py-4 border-b border-zinc-800">
-                <h3 className="text-[11px] font-medium text-zinc-400 uppercase tracking-[0.2em]">Spécifications techniques</h3>
+                <h3 className="text-[11px] font-medium text-zinc-400 uppercase tracking-[0.2em]">{t('CarplayMoto.specs.title')}</h3>
               </div>
-              {SPECS_LEFT.map((s, i) => (
+              {(t.raw('CarplayMoto.specs.items') as any[]).map((s: any, i: number) => (
                 <div
                   key={s.label}
-                  className={`flex items-center justify-between px-6 py-3.5 ${i < SPECS_LEFT.length - 1 ? "border-b border-zinc-800/50" : ""}`}
+                  className={`flex items-center justify-between px-6 py-3.5 ${i < (t.raw('CarplayMoto.specs.items') as any[]).length - 1 ? "border-b border-zinc-800/50" : ""}`}
                 >
                   <span className="text-sm text-zinc-500">{s.label}</span>
                   <span className="text-sm font-medium text-zinc-300 text-right max-w-[55%]">{s.value}</span>
@@ -355,11 +301,11 @@ export default function CarPlayMotoPage() {
             {/* Right: Box contents */}
             <div className="rounded-2xl bg-zinc-900/50 border border-zinc-800 overflow-hidden">
               <div className="px-6 py-4 border-b border-zinc-800">
-                <h3 className="text-[11px] font-medium text-zinc-400 uppercase tracking-[0.2em]">Ce que vous recevez</h3>
+                <h3 className="text-[11px] font-medium text-zinc-400 uppercase tracking-[0.2em]">{t('CarplayMoto.box.title')}</h3>
               </div>
               <div className="p-6 space-y-4">
-                {BOX_ITEMS.map((item) => (
-                  <div key={item} className="flex items-center gap-3">
+                {(t.raw('CarplayMoto.box.items') as string[]).map((item: string, i: number) => (
+                  <div key={i} className="flex items-center gap-3">
                     <div className="w-7 h-7 rounded-lg bg-zinc-800 flex items-center justify-center shrink-0">
                       <svg className="w-3.5 h-3.5 text-zinc-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
@@ -371,7 +317,7 @@ export default function CarPlayMotoPage() {
               </div>
               <div className="px-6 pb-6">
                 <div className="rounded-xl bg-zinc-800/50 p-4 text-center">
-                  <p className="text-xs text-zinc-500">Tous les accessoires inclus — Prêt à rouler</p>
+                  <p className="text-xs text-zinc-500">{t('CarplayMoto.box.note')}</p>
                 </div>
               </div>
             </div>
@@ -382,11 +328,11 @@ export default function CarPlayMotoPage() {
       {/* ─── TESTIMONIALS ─── */}
       <section className="w-full bg-zinc-950 py-12 sm:py-28">
         <div className="max-w-7xl mx-auto px-6">
-          <p className="text-center text-[11px] font-medium text-zinc-500 uppercase tracking-[0.25em] mb-4">Témoignages</p>
+          <p className="text-center text-[11px] font-medium text-zinc-500 uppercase tracking-[0.25em] mb-4">{t('Testimonials.badge')}</p>
           <h2 className="text-3xl sm:text-4xl font-bold text-center text-white mb-4 tracking-tight">
-            Ils roulent avec OxaPlay.
+            {t('Testimonials.title')}
           </h2>
-          <p className="text-center text-zinc-500 text-sm mb-10 sm:mb-14">Découvrez les retours de nos motards en vidéo.</p>
+          <p className="text-center text-zinc-500 text-sm mb-10 sm:mb-14">{t('Testimonials.subtitle')}</p>
 
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             {TESTIMONIAL_VIDEOS.map((src, i) => (
@@ -404,13 +350,13 @@ export default function CarPlayMotoPage() {
       {/* ─── FAQ ─── */}
       <section className="w-full bg-zinc-950 py-12 sm:py-28">
         <div className="max-w-3xl mx-auto px-6">
-          <p className="text-center text-[11px] font-medium text-zinc-500 uppercase tracking-[0.25em] mb-4">Support</p>
+          <p className="text-center text-[11px] font-medium text-zinc-500 uppercase tracking-[0.25em] mb-4">{t('CarplayMoto.faq.badge')}</p>
           <h2 className="text-3xl sm:text-4xl font-bold text-center text-white mb-10 sm:mb-14 tracking-tight">
-            Questions fréquentes.
+            {t('CarplayMoto.faq.title')}
           </h2>
 
           <div className="space-y-3">
-            {FAQ_ITEMS.map((item, i) => (
+            {(t.raw('CarplayMoto.faq.items') as any[]).map((item: any, i: number) => (
               <div
                 key={i}
                 className="rounded-2xl border border-zinc-800 bg-zinc-900/50 overflow-hidden transition-all duration-300 hover:border-zinc-700"
@@ -452,7 +398,7 @@ export default function CarPlayMotoPage() {
                 onClick={handleCheckoutClick}
                 className="w-full py-3.5 min-h-[48px] rounded-full bg-white text-zinc-950 font-semibold text-sm transition-all duration-300 hover:bg-zinc-200 active:scale-[0.98] flex items-center justify-center gap-2"
               >
-                Commander maintenant
+                {t('CarplayMoto.buyNow')}
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>
@@ -476,12 +422,12 @@ export default function CarPlayMotoPage() {
       <footer className="w-full border-t border-zinc-800/50 bg-zinc-950 pb-20 lg:pb-0">
         <div className="max-w-7xl mx-auto px-6 py-12">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-xs text-zinc-700">© 2025 OxaPlay. Tous droits réservés.</p>
+            <p className="text-xs text-zinc-700">{t('Footer.copyright')}</p>
             <div className="flex flex-wrap gap-6 text-xs text-zinc-600">
-              <Link href="/mentions-legales" className="hover:text-white transition-colors duration-300">Mentions Légales</Link>
-              <Link href="/cgv" className="hover:text-white transition-colors duration-300">CGV</Link>
-              <Link href="/politique-de-confidentialite" className="hover:text-white transition-colors duration-300">Confidentialité</Link>
-              <Link href="/politique-de-retour" className="hover:text-white transition-colors duration-300">Retours</Link>
+              <Link href="/mentions-legales" className="hover:text-white transition-colors duration-300">{t('Footer.legalLinks.legalNotice')}</Link>
+              <Link href="/cgv" className="hover:text-white transition-colors duration-300">{t('Footer.legalLinks.terms')}</Link>
+              <Link href="/politique-de-confidentialite" className="hover:text-white transition-colors duration-300">{t('Footer.legalLinks.privacy')}</Link>
+              <Link href="/politique-de-retour" className="hover:text-white transition-colors duration-300">{t('Footer.legalLinks.returns')}</Link>
             </div>
           </div>
         </div>

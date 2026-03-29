@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { useTranslations } from "next-intl";
 
 interface Message {
   from: "bot" | "user";
@@ -8,14 +9,25 @@ interface Message {
 }
 
 export default function ChatWidget() {
+  const t = useTranslations('Chat');
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState<"email" | "chat">("email");
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState(false);
   const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState<Message[]>([
-    { from: "bot", text: "Bonjour ! 👋 Comment puis-je vous aider ?" },
-  ]);
+  const [initialMessage, setInitialMessage] = useState("");
+  
+  useEffect(() => {
+    setInitialMessage(t('greeting'));
+  }, [t]);
+  
+  const [messages, setMessages] = useState<Message[]>([]);
+  
+  useEffect(() => {
+    if (initialMessage && messages.length === 0) {
+      setMessages([{ from: "bot", text: initialMessage }]);
+    }
+  }, [initialMessage, messages.length]);
   const [sending, setSending] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -57,12 +69,12 @@ export default function ChatWidget() {
       // Remove typing indicator and add reply
       setMessages((prev) => [
         ...prev.filter((m) => m.text !== "..."),
-        { from: "bot", text: data.reply || "Message envoyé ✓" },
+        { from: "bot", text: data.reply || t('messageSent') },
       ]);
     } catch {
       setMessages((prev) => [
         ...prev.filter((m) => m.text !== "..."),
-        { from: "bot", text: "Erreur de connexion. Réessayez." },
+        { from: "bot", text: t('connectionError') },
       ]);
     }
 
@@ -99,10 +111,10 @@ export default function ChatWidget() {
                 </svg>
               </div>
               <div>
-                <p className="text-sm font-medium text-white">Support OxaPlay</p>
+                <p className="text-sm font-medium text-white">{t('supportTitle')}</p>
                 <p className="text-xs text-emerald-500 flex items-center gap-1">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block" />
-                  En ligne
+                  {t('online')}
                 </p>
               </div>
             </div>
@@ -116,25 +128,25 @@ export default function ChatWidget() {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
               </div>
-              <p className="text-sm text-white font-medium mb-1">Avant de commencer</p>
-              <p className="text-xs text-zinc-500 mb-5 text-center">Entrez votre email pour que nous puissions vous répondre.</p>
+              <p className="text-sm text-white font-medium mb-1">{t('beforeStart')}</p>
+              <p className="text-xs text-zinc-500 mb-5 text-center">{t('enterEmail')}</p>
               <form onSubmit={handleEmailSubmit} className="w-full space-y-3">
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => { setEmail(e.target.value); setEmailError(false); }}
-                  placeholder="votre@email.com"
+                  placeholder={t('emailPlaceholder')}
                   className={`w-full px-4 py-3 rounded-xl bg-zinc-800/50 border text-white placeholder:text-zinc-600 text-sm focus:outline-none transition-all duration-300 ${
                     emailError ? "border-red-500/50" : "border-zinc-700 focus:border-zinc-500"
                   }`}
                   autoFocus
                 />
-                {emailError && <p className="text-xs text-red-400">Email invalide</p>}
+                {emailError && <p className="text-xs text-red-400">{t('invalidEmail')}</p>}
                 <button
                   type="submit"
                   className="w-full py-3 rounded-full bg-white text-zinc-950 text-sm font-semibold transition-all duration-300 hover:bg-zinc-200 hover:scale-[1.01] active:scale-[0.99]"
                 >
-                  Démarrer le chat
+                  {t('startChat')}
                 </button>
               </form>
             </div>
@@ -173,7 +185,7 @@ export default function ChatWidget() {
                     type="text"
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    placeholder="Votre message..."
+                    placeholder={t('messagePlaceholder')}
                     disabled={sending}
                     className="flex-1 px-4 py-2.5 rounded-xl bg-zinc-800/50 border border-zinc-700 text-white placeholder:text-zinc-600 text-sm focus:outline-none focus:border-zinc-500 transition-all duration-300 disabled:opacity-50"
                   />
